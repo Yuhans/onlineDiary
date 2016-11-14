@@ -30,9 +30,9 @@ public class AuthPageServlet extends HttpServlet {
                  if (req.getParameter("login") != null) {
                      User user = ManagementSystem.getInstance().getUserByLogin(req.getParameter("login"));
                      if (user.getPassword().equals(req.getParameter("password").trim())) {
-                        /* RequestDispatcher requestDispatcher = req.getRequestDispatcher("/MainFrame.jsp");
-                         requestDispatcher.forward(req, resp);*/
-                         resp.sendRedirect("/MainFrame.jsp");
+                         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/main");
+                         requestDispatcher.forward(req, resp);
+                        // resp.sendRedirect("/MainFrame.jsp");
                          //getServletContext().getRequestDispatcher("/MainFrame.jsp").forward(req,resp);
                      }
                  }
