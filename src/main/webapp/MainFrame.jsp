@@ -24,7 +24,6 @@
                     </c:forEach>
                 </select>
             </td>
-            <td><input type="submit" value="Login" name="Login"/></td>
 <%-- <td><input type="submit" name="getList" value="Обновить"/></td>--%>
 </tr>
 </table>

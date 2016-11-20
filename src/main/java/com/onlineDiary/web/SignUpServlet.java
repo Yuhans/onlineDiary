@@ -19,7 +19,6 @@ public class SignUpServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        // ��������� ��������� ��� �������� ����������
         req.setCharacterEncoding("UTF-8");
         int answer = 0;
         try {
@@ -31,12 +30,14 @@ public class SignUpServlet extends HttpServlet {
             try {
                 if (ManagementSystem.getInstance().checkLogin(req.getParameter("login").trim())) {
                     addUser(req);
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("/AuthPage.jsp");
+                   // resp.sendRedirect("/auth");
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("/auth");
                     requestDispatcher.forward(req, resp);
                 }
                 else {
-                   RequestDispatcher requestDispatcher = req.getRequestDispatcher("/SignUpPage.jsp");
+                   RequestDispatcher requestDispatcher = req.getRequestDispatcher("/signup");
                     requestDispatcher.forward(req, resp);
+                    //resp.sendRedirect("/signup");
                 }
             } catch (SQLException sql_e) {
                 throw new IOException(sql_e.getMessage());
@@ -46,11 +47,11 @@ public class SignUpServlet extends HttpServlet {
             //getServletContext().getRequestDispatcher("/AuthPage.jsp").forward(req,resp);
         }
         if (answer == 2) {
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/AuthPage.jsp");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/auth");
             requestDispatcher.forward(req, resp);
+            //resp.sendRedirect("/auth");
         }
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/SignUpPage.jsp");
-        requestDispatcher.forward(req, resp);
+        getServletContext().getRequestDispatcher("/SignUpPage.jsp").forward(req,resp);
         }
 
     private void addUser(HttpServletRequest req) throws SQLException, ParseException {

@@ -30,11 +30,15 @@ public class AuthPageServlet extends HttpServlet {
                  if (req.getParameter("login") != null) {
                      User user = ManagementSystem.getInstance().getUserByLogin(req.getParameter("login"));
                      if (user.getPassword().equals(req.getParameter("password").trim())) {
-                         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/main");
-                         requestDispatcher.forward(req, resp);
-                        // resp.sendRedirect("/MainFrame.jsp");
+                         /*RequestDispatcher requestDispatcher = req.getRequestDispatcher("/main");
+                         requestDispatcher.forward(req, resp);*/
+                         resp.sendRedirect("/main");
                          //getServletContext().getRequestDispatcher("/MainFrame.jsp").forward(req,resp);
                      }
+                 }
+                 else {
+                    // resp.sendRedirect("/signup");
+                     getServletContext().getRequestDispatcher("/signup").forward(req,resp);
                  }
                  return;
              } catch (SQLException sql_e) {
@@ -42,10 +46,9 @@ public class AuthPageServlet extends HttpServlet {
              }
         }
         if (answer == 2) {
-          //  getServletContext().getRequestDispatcher("/SignUpPage.jsp").forward(req,resp);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/SignUpPage.jsp");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/signup");
             requestDispatcher.forward(req, resp);
-          //  getServletContext().getRequestDispatcher("/MainFrame.jsp").forward(req,resp);
+            //resp.sendRedirect("/signup");
         }
         getServletContext().getRequestDispatcher("/AuthPage.jsp").forward(req,resp);
     }
