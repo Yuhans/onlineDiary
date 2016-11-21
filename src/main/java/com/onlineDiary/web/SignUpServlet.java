@@ -20,7 +20,7 @@ public class SignUpServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        int answer = 0;
+        int answer;
         try {
             answer = checkAction(req);
         } catch (SQLException sql_e) {
@@ -30,26 +30,22 @@ public class SignUpServlet extends HttpServlet {
             try {
                 if (ManagementSystem.getInstance().checkLogin(req.getParameter("login").trim())) {
                     addUser(req);
-                   // resp.sendRedirect("/auth");
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("/auth");
-                    requestDispatcher.forward(req, resp);
+                    resp.sendRedirect("/auth");
+                    return;
                 }
                 else {
-                   RequestDispatcher requestDispatcher = req.getRequestDispatcher("/signup");
-                    requestDispatcher.forward(req, resp);
-                    //resp.sendRedirect("/signup");
+                    resp.sendRedirect("/auth");
+                    return;
                 }
             } catch (SQLException sql_e) {
                 throw new IOException(sql_e.getMessage());
             } catch (ParseException p_e) {
             throw new IOException(p_e.getMessage());
-        }
-            //getServletContext().getRequestDispatcher("/AuthPage.jsp").forward(req,resp);
+            }
         }
         if (answer == 2) {
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/auth");
-            requestDispatcher.forward(req, resp);
-            //resp.sendRedirect("/auth");
+            resp.sendRedirect("/auth");
+            return;
         }
         getServletContext().getRequestDispatcher("/SignUpPage.jsp").forward(req,resp);
         }

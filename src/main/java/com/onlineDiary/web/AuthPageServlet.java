@@ -17,7 +17,7 @@ public class AuthPageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        int answer = 0;
+        int answer;
         try {
             answer = checkAction(req);
         } catch (SQLException sql_e) {
@@ -35,8 +35,8 @@ public class AuthPageServlet extends HttpServlet {
                      }
                  }
                  else {
-                    // resp.sendRedirect("/signup");
-                     getServletContext().getRequestDispatcher("/signup").forward(req,resp);
+                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("/auth");
+                     requestDispatcher.forward(req, resp);
                  }
                  return;
              } catch (SQLException sql_e) {
@@ -44,9 +44,8 @@ public class AuthPageServlet extends HttpServlet {
              }
         }
         if (answer == 2) {
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/signup");
-            requestDispatcher.forward(req, resp);
-            //resp.sendRedirect("/signup");
+            resp.sendRedirect("/signup");
+            return;
         }
         getServletContext().getRequestDispatcher("/AuthPage.jsp").forward(req,resp);
     }

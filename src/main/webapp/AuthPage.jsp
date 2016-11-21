@@ -13,7 +13,7 @@
             <td>Login:</td><td><input type="text" name="login" value="${user.login}"/></td>
         </tr>
         <tr>
-            <td>Password:</td><td><input type="text" name="password" value="${user.password}"/></td>
+            <td>Password:</td><td><input type="password" name="password" value="${user.password}"/></td>
         </tr>
     </table>
     <table>
