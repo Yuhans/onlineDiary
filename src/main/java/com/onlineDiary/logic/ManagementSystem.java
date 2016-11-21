@@ -8,9 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ������ on 13.11.2016.
- */
+
 public class ManagementSystem {
     private static Connection con;
     private static ManagementSystem instance;
@@ -21,7 +19,7 @@ public class ManagementSystem {
             try {
                 instance = new ManagementSystem();
                 Context ctx = new InitialContext();
-                instance.dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/Diary");
+                dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/Diary");
                 con = dataSource.getConnection();
             } catch (NamingException e) {
                 e.printStackTrace();
@@ -45,19 +43,19 @@ public class ManagementSystem {
         return user;
     }
 
-    public List getClasses() throws SQLException {
-        List classes = new ArrayList();
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT class_id, study_year, letter FROM classes");
-        while (rs.next()) {
-            SClass cl = new SClass();
-            cl.setClassId(rs.getInt(1));
-            cl.setStudyYear(rs.getInt(2));
-            cl.setLetter(rs.getString(3));
-            classes.add(cl);
+    public List<SClass> getClasses() {
+        ArrayList<SClass> classes = new ArrayList<>();
+        try(PreparedStatement ps = con.prepareStatement("SELECT id, year_id, letter FROM classes");
+            ResultSet resultSet = ps.executeQuery()) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                int year = resultSet.getInt(2);
+                String letter = resultSet.getString(3);
+                classes.add(new SClass(id, year, letter));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        rs.close();
-        stmt.close();
         return classes;
     }
 
@@ -144,5 +142,57 @@ public class ManagementSystem {
         rs_name.close();
         stmt.close();
         return subjectName;
+    }
+
+
+
+    public List<Student> getStudentsByClass(int classId) {
+        ArrayList<Student> students = new ArrayList<>();
+        ResultSet resultSet = null;
+        try(PreparedStatement ps = con.prepareStatement("SELECT surname, name, patronymic, id FROM students" +
+                    " WHERE class_id = ?")) {
+            ps.setInt(1, classId);
+            resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                String surname = resultSet.getString(1);
+                String name = resultSet.getString(2);
+                String patronymic = resultSet.getString(3);
+                int id = resultSet.getInt(4);
+                students.add(new Student(name, surname, patronymic, classId, id));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {}
+            }
+        }
+        return students;
+    }
+
+    public List<Subject> getSubjects(int yearId) {
+        ArrayList<Subject> subjects = new ArrayList<>();
+        ResultSet resultSet = null;
+        try(PreparedStatement ps = con.prepareStatement("SELECT subjects.name, subjects.id FROM subjects_in_classes" +
+                    " INNER JOIN subjects ON subject_id = subjects.id WHERE year_id = ?")) {
+            ps.setInt(1, yearId);
+            resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                String subjectName = resultSet.getString(1);
+                int subjId = resultSet.getInt(2);
+                subjects.add(new Subject(subjectName, subjId));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {}
+            }
+        }
+        return subjects;
     }
 }

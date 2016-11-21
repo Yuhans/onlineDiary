@@ -2,6 +2,7 @@ package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
 import com.onlineDiary.logic.SClass;
+import com.onlineDiary.logic.Student;
 import com.onlineDiary.web.forms.MainFrameForm;
 
 import javax.servlet.ServletException;
@@ -9,41 +10,41 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
-/**
- * Created by Рамиль on 12.11.2016.
- */
+
 public class MainFrameServlet extends HttpServlet {
+    private final ManagementSystem dao = ManagementSystem.getInstance();
 
-    protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        int classId = -1;
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("classes", dao.getClasses());
         MainFrameForm form = new MainFrameForm();
-        try {
-            Collection classes = ManagementSystem.getInstance().getClasses();
-            SClass sClass = new SClass();
-            sClass.setClassId(classId);
-            if (classId == -1) {
-                Iterator i = classes.iterator();
-                sClass = (SClass)i.next();
-            }
-            form.setClassId(sClass.getClassId());
-            form.setsClasses(classes);
-        } catch (SQLException sql_e) {
-            throw new IOException(sql_e.getMessage());
+        int classId;
+        classId = Integer.parseInt(request.getParameter("stClass"));
+        List<SClass> classes = dao.getClasses();
+        SClass schoolClass = new SClass();
+        schoolClass.setClassId(classId);
+        if (classId == -1) {
+            Iterator i = classes.iterator();
+            schoolClass = (SClass) i.next();
         }
-        req.setAttribute("form", form);
-        getServletContext().getRequestDispatcher("/MainFrame.jsp").forward(req, resp);
-    }
-    // Переопределим стандартные методы
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+        List<Student> students = dao.getStudentsByClass(classId);
+        form.setClassId(schoolClass.getClassId());
+        form.setsClasses(classes);
+        form.setStudents(students);
+        request.setAttribute("form", form);
+        if (request.getParameter("stClass") != null) {
+            request.setAttribute("students", dao.getStudentsByClass(classId));
+            schoolClass = dao.getClasses().get(classId - 1);
+            request.setAttribute("subjects", dao.getSubjects(schoolClass.getStudyYear()));
+        }
+
+        request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
     }
 
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("classes", dao.getClasses());
+        request.getRequestDispatcher("MainPage.jsp").forward(request, response);
     }
 }

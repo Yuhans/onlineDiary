@@ -1,12 +1,18 @@
 package com.onlineDiary.logic;
 
-/**
- * Created by Рамиль on 13.11.2016.
- */
 public class SClass {
     private int classId;
     private int studyYear;
     private String letter;
+
+    public SClass() {
+    }
+
+    public SClass(int classId, int studyYear, String letter) {
+        this.classId = classId;
+        this.studyYear = studyYear;
+        this.letter = letter;
+    }
 
     public int getClassId() {
         return classId;

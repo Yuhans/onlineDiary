@@ -3,9 +3,7 @@ package com.onlineDiary.logic;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by Рамиль on 12.11.2016.
- */
+
 public class User implements Comparable{
 
     private String login;
