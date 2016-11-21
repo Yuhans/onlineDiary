@@ -43,21 +43,6 @@ public class ManagementSystem {
         return user;
     }
 
-    public List<SClass> getClasses() {
-        ArrayList<SClass> classes = new ArrayList<>();
-        try(PreparedStatement ps = con.prepareStatement("SELECT id, year_id, letter FROM classes");
-            ResultSet resultSet = ps.executeQuery()) {
-            while (resultSet.next()) {
-                int id = resultSet.getInt(1);
-                int year = resultSet.getInt(2);
-                String letter = resultSet.getString(3);
-                classes.add(new SClass(id, year, letter));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return classes;
-    }
 
     public boolean checkLogin(String login) throws SQLException {
         PreparedStatement stmt = con.prepareStatement("SELECT login FROM users WHERE login = ?");
@@ -145,7 +130,9 @@ public class ManagementSystem {
     }
 
 
-
+    /**
+     * Сделал Тёма
+     * */
     public List<Student> getStudentsByClass(int classId) {
         ArrayList<Student> students = new ArrayList<>();
         ResultSet resultSet = null;
@@ -194,5 +181,21 @@ public class ManagementSystem {
             }
         }
         return subjects;
+    }
+
+    public List<SClass> getClasses() {
+        ArrayList<SClass> classes = new ArrayList<>();
+        try(PreparedStatement ps = con.prepareStatement("SELECT id, year_id, letter FROM classes");
+            ResultSet resultSet = ps.executeQuery()) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                int year = resultSet.getInt(2);
+                String letter = resultSet.getString(3);
+                classes.add(new SClass(id, year, letter));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return classes;
     }
 }
