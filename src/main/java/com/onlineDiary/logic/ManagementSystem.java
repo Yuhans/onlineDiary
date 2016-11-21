@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Рамиль on 13.11.2016.
+ * Created by пїЅпїЅпїЅпїЅпїЅпїЅ on 13.11.2016.
  */
 public class ManagementSystem {
     private static Connection con;
@@ -79,5 +79,70 @@ public class ManagementSystem {
         stmt.setString(2, user.getPassword());
         stmt.setInt(3, user.getRole());
         stmt.execute();
+    }
+
+    public List getMarks(int studId, int subjId) throws SQLException {
+        List marks = new ArrayList();
+        Statement stmt = con.createStatement();
+
+        ResultSet rs_marks = null;
+        PreparedStatement pstmt = null;
+
+        pstmt = con.prepareStatement("SELECT  mark FROM marks\n" +
+                "RIGHT JOIN november on november.day=marks.date\n" +
+                "where (id_teacher=1 and id_student=? and id_subject=?) \n" +
+                "      or id_student IS NULL");
+        pstmt.setInt(1, studId);
+        pstmt.setInt(2, subjId);
+        rs_marks = pstmt.executeQuery();
+        while (rs_marks.next()) {
+            marks.add(rs_marks.getInt(1));
+        }
+
+        rs_marks.close();
+        stmt.close();
+        pstmt.close();
+
+        return marks;
+    }
+
+    public List getDates() throws SQLException {
+        List dates = new ArrayList();
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM NOVEMBER");
+        while (rs.next()) {
+            dates.add(rs.getDate(1));
+        }
+        rs.close();
+        stmt.close();
+        return dates;
+    }
+
+    public List getSubjects() throws SQLException {
+        List subjects = new ArrayList();
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT name FROM SUBJECTS");
+        while (rs.next()) {
+            subjects.add(rs.getString(1));
+        }
+        rs.close();
+        stmt.close();
+        return subjects;
+    }
+
+    public String getSubjectName(int subjId) throws SQLException {
+        String subjectName = "";
+        Statement stmt = con.createStatement();
+        PreparedStatement pstmt = null;
+        pstmt = con.prepareStatement("SELECT name FROM SUBJECTS where id=?");
+        pstmt.setInt(1, subjId);
+        ResultSet rs_name = pstmt.executeQuery();
+        if (rs_name.next()) {
+            subjectName = rs_name.getString(1);
+        }
+        pstmt.close();
+        rs_name.close();
+        stmt.close();
+        return subjectName;
     }
 }
