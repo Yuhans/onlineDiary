@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="MySQL - onlineDiary@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="2.6">
+    <schema id="1" name="onlinediary">
+      <visible>1</visible>
+    </schema>
+    <table id="2" parent="1" name="classes"/>
+    <table id="3" parent="1" name="users"/>
+    <column id="4" parent="2" name="class_id">
+      <mandatory>1</mandatory>
+      <data-type>INT(10)|4</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="5" parent="2" name="study_year">
+      <mandatory>1</mandatory>
+      <data-type>INT(10)|4</data-type>
+    </column>
+    <column id="6" parent="2" name="letter">
+      <mandatory>1</mandatory>
+      <data-type>VARCHAR(45)|12</data-type>
+    </column>
+    <key id="7" parent="2" name="PRIMARY">
+      <columns>class_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="8" parent="3" name="login">
+      <mandatory>1</mandatory>
+      <data-type>VARCHAR(45)|12</data-type>
+    </column>
+    <column id="9" parent="3" name="password">
+      <mandatory>1</mandatory>
+      <data-type>VARCHAR(45)|12</data-type>
+    </column>
+    <column id="10" parent="3" name="role">
+      <data-type>INT(10)|4</data-type>
+    </column>
+    <index id="11" parent="3" name="login_UNIQUE">
+      <columns>login</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+  </database-model>
+</dataSource>
