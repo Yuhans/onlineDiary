@@ -45,6 +45,6 @@ public class MainFrameServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("classes", dao.getClasses());
-        request.getRequestDispatcher("MainPage.jsp").forward(request, response);
+        request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
     }
 }

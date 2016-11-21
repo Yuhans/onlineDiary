@@ -14,19 +14,64 @@
 </head>
 
 <body>
-<form action="<c:url value="/main"/>" method="POST">
+<form action="/main" method="post">
     <table>
         <tr>
             <td>Classes list:
-                <select name="letter">
-                    <c:forEach var="sclass" items="${form.sClasses}">
-                        <option value="${sclass.classId}"><c:out value="${sclass.letter}"/></option>
+                <select name="stClass">
+                    <c:forEach var="stclass" items="${classes}">
+                        <c:choose>
+                            <c:when test="${stclass.classId==form.classId}">
+                                <option value="${stclass.classId}" selected>
+                                    <c:out value="${stclass.studyYear}"/>
+                                    <c:out value="${stclass.letter}"/>
+                                </option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${stclass.classId}">
+                                    <c:out value="${stclass.studyYear}"/>
+                                    <c:out value="${stclass.letter}"/>
+                                </option>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                 </select>
             </td>
-<%-- <td><input type="submit" name="getList" value="Обновить"/></td>--%>
-</tr>
-</table>
+            <td>
+                <input type="submit" value="Ok" name="Ok"/>
+            </td>
+        </tr>
+    </table>
+</form>
+<form action=
+      <c:url value="/marks"/> method="post">
+    <table>
+        <tr>
+            <td>Students:
+                <select name="studentId">
+                    <c:forEach var="student" items="${students}">
+                        <option value="${student.studentId}">
+                            <c:out value="${student.surname}"/>
+                            <c:out value="${student.name}"/>
+                            <c:out value="${student.patronymic}"/>
+                        </option>
+                    </c:forEach>
+                </select>
+            </td>
+            <td>Subjects:
+                <select name="subjId">
+                    <c:forEach var="subject" items="${subjects}">
+                        <option value="${subject.subjId}">
+                            <c:out value="${subject.subjName}"/>
+                        </option>
+                    </c:forEach>
+                </select>
+            </td>
+            <td>
+                <input type="submit" value="Ok" name="subjOk"/>
+            </td>
+        </tr>
+    </table>
 </form>
 </body>
 </html>
