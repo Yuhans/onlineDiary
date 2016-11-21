@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/**
- * Created by Рамиль on 12.11.2016.
- */
+
 public class AuthPageServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
