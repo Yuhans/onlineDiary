@@ -39,6 +39,10 @@ public class MainFrameServlet extends HttpServlet {
             schoolClass = dao.getClasses().get(classId - 1);
             request.setAttribute("subjects", dao.getSubjects(schoolClass.getStudyYear()));
         }
+        if (request.getParameter("Log out") != null) {
+            response.sendRedirect("/auth");
+            return;
+        }
 
         request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
     }

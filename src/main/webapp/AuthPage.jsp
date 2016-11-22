@@ -8,7 +8,7 @@
 
 <body>
 <form action="<c:url value="/auth"/>" method="POST">
-    <table>
+    <table align="center">
         <tr>
             <td>Login:</td><td><input type="text" name="login" value="${user.login}"/></td>
         </tr>
@@ -25,8 +25,9 @@
             </td>
         </tr>
     </table>
-    <table>
+    <table align="center">
         <tr>
+            <td width="115"></td>
             <td><input type="submit" value="Login" name="Login"/></td>
             <td><input type="submit" value="Sign up" name="Sign up"/></td>
         </tr>

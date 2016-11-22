@@ -38,8 +38,9 @@
                 </select>
             </td>
             <td>
-                <input type="submit" value="Ok" name="Ok"/>
+                <input type="submit" value="OK" name="Ok"/>
             </td>
+            <td width="65%" align="right"> <input type="submit" value="Log out" name="Log out"/></td>
         </tr>
     </table>
 </form>
@@ -68,7 +69,7 @@
                 </select>
             </td>
             <td>
-                <input type="submit" value="Ok" name="subjOk"/>
+                <input type="submit" value="OK" name="subjOk"/>
             </td>
         </tr>
     </table>
