@@ -18,6 +18,15 @@
     </table>
     <table>
         <tr>
+            <td>
+                <c:if test="${not empty errorMessage}">
+                    <c:out value="${errorMessage}"/>
+                </c:if>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
             <td><input type="submit" value="Login" name="Login"/></td>
             <td><input type="submit" value="Sign up" name="Sign up"/></td>
         </tr>
