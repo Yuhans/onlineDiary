@@ -34,6 +34,7 @@ public class AuthPageServlet extends HttpServlet {
                      }
                      if (user.getPassword().equals(req.getParameter("password").trim())) {
                          resp.sendRedirect("/main");
+                         return;
                      }
                      else {
                          req.setAttribute("errorMessage", "Invalid user or password");

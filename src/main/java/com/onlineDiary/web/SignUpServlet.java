@@ -29,12 +29,21 @@ public class SignUpServlet extends HttpServlet {
         if (answer == 1) {
             try {
                 if (ManagementSystem.getInstance().checkLogin(req.getParameter("login").trim())) {
-                    addUser(req);
-                    resp.sendRedirect("/auth");
-                    return;
+                    if (req.getParameter("password").trim().equals(req.getParameter("confPassword").trim())) {
+                        addUser(req);
+                        resp.sendRedirect("/auth");
+                        return;
+                    }
+                    else {
+                        req.setAttribute("errorMessage", "Passwords don't match");
+                        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/SignUpPage.jsp");
+                        requestDispatcher.forward(req, resp);
+                    }
                 }
                 else {
-                    resp.sendRedirect("/auth");
+                    req.setAttribute("errorMessage", "User with this login already exists");
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("/SignUpPage.jsp");
+                    requestDispatcher.forward(req, resp);
                     return;
                 }
             } catch (SQLException sql_e) {
