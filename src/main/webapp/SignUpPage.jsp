@@ -69,18 +69,17 @@
             cursor: pointer;
             margin: 1px;
             position: relative;
+            right: -100px;
             bottom: -10px;
-            right: -130px;
         }
-
         .Button:hover {
             background-color: #3D6CB8
         }
 
         .Frame {
             border: 1px solid #2a2a2a;
-            width: 15%;
-            position: absolute;
+            width: 230px;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);

@@ -58,8 +58,8 @@
             cursor: pointer;
             margin: 5px;
             position: relative;
-            bottom: -10px;
-            right: -125px;
+            right: -95px;
+            bottom: -10px
         }
 
         .loginButton span {
@@ -75,7 +75,7 @@
             opacity: 0;
             top: 0;
             right: -20px;
-            transition: 0.5s;
+            /*transition: 0.5s;*/
         }
 
         .loginButton:hover span {
@@ -101,8 +101,8 @@
             cursor: pointer;
             margin: 5px;
             position: relative;
+            right: -88px;
             bottom: -10px;
-            right: -118px;
         }
 
         .signUpButton:hover {
@@ -111,8 +111,8 @@
 
         .Frame {
             border: 1px solid #2a2a2a;
-            width: 15%;
-            position: absolute;
+            width: 230px;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
