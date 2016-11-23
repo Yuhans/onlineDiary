@@ -13,18 +13,15 @@
 </head>
 <body>
 <table border="2">
-    <tr>
-        <td>Subject</td>
-        <c:forEach items="${days}" var="day">
-            <td>${day}</td>
-        </c:forEach>
-    </tr>
-    <tr>
-        <td>${subjectName}</td>
-    <c:forEach items="${marks}" var="mark" varStatus="status">
-            <td>${mark}</td>
+
+    <c:forEach items="${marks}" var="mark" >
+        <tr>
+            <td>${mark.subject}</td>
+            <td>${mark.date}</td>
+            <td>${mark.mark}</td>
+        </tr>
     </c:forEach>
-    </tr>
+
     <%--<td><input type="submit" value="Login" name="Login"/></td>--%>
     <%-- <td><input type="submit" name="getList" value="Обновить"/></td>--%>
 </table>
