@@ -77,9 +77,14 @@
             background-color: #3D6CB8
         }
 
-        div {
+        .Frame {
             border: 1px solid #2a2a2a;
             width: 15%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
             border-radius: 5px;
             background-color: #EBEBEA;
             padding: 10px;
@@ -89,7 +94,7 @@
 </head>
 
 <body>
-<div>
+<div class="Frame">
 <form action="<c:url value="/signup"/>" method="POST">
     <input type="text" name="login" placeholder="Login" class="loginInput" value="${user.login}"/>
     <c:if test="${errorMessage == 'Incorrect filling'}">
