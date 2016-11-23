@@ -35,18 +35,15 @@ public class SignUpServlet extends HttpServlet {
                             return;
                         } else {
                             req.setAttribute("errorMessage", "Passwords don't match");
-                            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/SignUpPage.jsp");
-                            requestDispatcher.forward(req, resp);
+                            req.getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
                         }
                     } else {
                         req.setAttribute("errorMessage", "User with this login already exists");
-                        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/SignUpPage.jsp");
-                        requestDispatcher.forward(req, resp);
+                        req.getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
                     }
                 } else {
                     req.setAttribute("errorMessage", "Incorrect filling");
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("/SignUpPage.jsp");
-                    requestDispatcher.forward(req, resp);
+                    req.getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
                 }
             } catch (SQLException sql_e) {
                 throw new IOException(sql_e.getMessage());

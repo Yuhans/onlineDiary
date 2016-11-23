@@ -6,12 +6,12 @@
     <title>Online diary</title>
     <style>
 
-        p {
+        p.errText {
             color: red;
-            font-family: Arial, Helvetica, sans-serif;
             font-weight: lighter;
-            margin-top: 5px;
-            margin-bottom: 0;
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
             padding: 0;
             border: 0;
         }
@@ -131,7 +131,7 @@
     <input type="text" name="login" placeholder="Login" class="loginInput" value="${user.login}"/>
     <input type="password" name="password" placeholder="Password" class="passwordInput" value="${user.password}"/>
     <c:if test="${not empty errorMessage}">
-        <p><c:out value="${errorMessage}"/></p>
+        <p class="errText"><c:out value="${errorMessage}"/></p>
     </c:if>
    <button type="submit" value="Login" name="Login" class="loginButton"><span>Login</span></button>
     <button type="submit" value="Sign up" name="Sign up" class="signUpButton"><span>Sign up</span></button>

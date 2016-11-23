@@ -29,8 +29,7 @@ public class AuthPageServlet extends HttpServlet {
                      User user = ManagementSystem.getInstance().getUserByLogin(req.getParameter("login"));
                      if (user == null) {
                          req.setAttribute("errorMessage", "Invalid user or password");
-                         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/AuthPage.jsp");
-                         requestDispatcher.forward(req, resp);
+                         req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
                      }
                      if (user.getPassword().equals(req.getParameter("password").trim())) {
                          resp.sendRedirect("/main");
@@ -38,14 +37,12 @@ public class AuthPageServlet extends HttpServlet {
                      }
                      else {
                          req.setAttribute("errorMessage", "Invalid user or password");
-                         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/AuthPage.jsp");
-                         requestDispatcher.forward(req, resp);
+                         req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
                      }
                  }
                  else {
                      req.setAttribute("errorMessage", "Invalid user or password");
-                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("/AuthPage.jsp");
-                     requestDispatcher.forward(req, resp);
+                     req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
                  }
                  return;
              } catch (SQLException sql_e) {
