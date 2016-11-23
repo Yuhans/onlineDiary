@@ -8,17 +8,40 @@
 
         p {
             color: red;
-            width: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: lighter;
+            margin-top: 5px;
+            margin-bottom: 0;
+            padding: 0;
+            border: 0;
         }
 
-        input[type=text],[type=password] {
-            width: 180px;
-            padding: 5px;
+        .loginInput {
+            width: 100%;
+            padding: 5px 5px 5px 23px;
             margin: 5px 0;
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            background-color: white;
+            background-position: 4px 5px;
+            background-repeat: no-repeat;
+            background-image: url("img/icon-user.png");
+        }
+
+        .passwordInput {
+            width: 100%;
+            padding: 5px 5px 5px 23px;
+            margin: 5px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: white;
+            background-position: 4px 4px;
+            background-repeat: no-repeat;
+            background-image: url("img/icon-password.png");
         }
 
         .loginButton {
@@ -34,6 +57,9 @@
             transition: all 0.5s;
             cursor: pointer;
             margin: 5px;
+            position: relative;
+            bottom: -10px;
+            right: -125px;
         }
 
         .loginButton span {
@@ -74,6 +100,9 @@
             transition: all 0.5s;
             cursor: pointer;
             margin: 5px;
+            position: relative;
+            bottom: -10px;
+            right: -118px;
         }
 
         .signUpButton:hover {
@@ -85,10 +114,7 @@
             width: 15%;
             border-radius: 5px;
             background-color: #EBEBEA;
-            padding-top: 15px;
-            padding-bottom: 2px;
-            padding-left: 10px;
-            padding-right: 8px;
+            padding: 10px;
         }
 
     </style>
@@ -97,27 +123,13 @@
 <body>
 <div>
 <form action="<c:url value="/auth"/>" method="POST">
-    <table>
-        <tr>
-            <td>Login:</td><td><input type="text" name="login" value="${user.login}"/></td>
-        </tr>
-        <tr>
-            <td>Password:</td><td><input type="password" name="password" value="${user.password}"/></td>
-        </tr>
-        <tr width="100%"> //TODO Normal width
-            <td width="100%">
-                <c:if test="${not empty errorMessage}">
-                  <p><c:out value="${errorMessage}"/></p>
-                </c:if>
-            </td>
-        </tr>
-        <table>
-        <tr width="120">
-            <td><button type="submit" value="Login" name="Login" class="loginButton"><span>Login</span></button></td>
-            <td><button type="submit" value="Sign up" name="Sign up" class="signUpButton"><span>Sign up</span></button></td>
-        </tr>
-        </table>
-    </table>
+    <input type="text" name="login" placeholder="Login" class="loginInput" value="${user.login}"/>
+    <input type="password" name="password" placeholder="Password" class="passwordInput" value="${user.password}"/>
+    <c:if test="${not empty errorMessage}">
+        <p><c:out value="${errorMessage}"/></p>
+    </c:if>
+   <button type="submit" value="Login" name="Login" class="loginButton"><span>Login</span></button>
+    <button type="submit" value="Sign up" name="Sign up" class="signUpButton"><span>Sign up</span></button>
 </form>
 </div>
 </body>

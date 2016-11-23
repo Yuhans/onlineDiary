@@ -2,6 +2,8 @@ package com.onlineDiary.logic;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class User implements Comparable{
@@ -18,6 +20,18 @@ public class User implements Comparable{
         setLogin(rs.getString(1));
         setPassword(rs.getString(2));
         setRole(rs.getInt(3));
+    }
+
+    public static boolean isLoginCorrect(String login) {
+        Pattern p = Pattern.compile("^[a-z0-9_-]{4,16}$", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(login);
+        return m.matches();
+    }
+
+    public static boolean isPasswordCorrect(String password) {
+        Pattern p = Pattern.compile("^[a-z0-9_-]{6,16}$", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(password);
+        return m.matches();
     }
 
     public String getLogin() {

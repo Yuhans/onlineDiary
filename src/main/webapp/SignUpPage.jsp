@@ -8,16 +8,50 @@
 
         p {
             color: red;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: lighter;
+            margin-top: 5px;
+            margin-bottom: 0;
+            padding: 0;
+            border: 0;
         }
 
-        input[type=text],[type=password] {
-            width: 180px;
-            padding: 5px;
+        p.corFilText {
+            color: red;
+            font-weight: lighter;
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .loginInput {
+            width: 100%;
+            padding: 5px 5px 5px 23px;
             margin: 5px 0;
             display: inline-block;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            background-color: white;
+            background-position: 4px 5px;
+            background-repeat: no-repeat;
+            background-image: url("img/icon-user.png");
+        }
+
+        .passwordInput {
+            width: 100%;
+            padding: 5px 5px 5px 23px;
+            margin: 5px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: white;
+            background-position: 4px 4px;
+            background-repeat: no-repeat;
+            background-image: url("img/icon-password.png");
         }
 
 
@@ -33,7 +67,10 @@
             width: 60px;
             transition: all 0.5s;
             cursor: pointer;
-            margin: 5px;
+            margin: 1px;
+            position: relative;
+            bottom: -10px;
+            right: -130px;
         }
 
         .Button:hover {
@@ -45,10 +82,7 @@
             width: 15%;
             border-radius: 5px;
             background-color: #EBEBEA;
-            padding-top: 15px;
-            padding-bottom: 2px;
-            padding-left: 10px;
-            padding-right: 8px;
+            padding: 10px;
         }
 
     </style>
@@ -57,29 +91,22 @@
 <body>
 <div>
 <form action="<c:url value="/signup"/>" method="POST">
-    <table>
-        <tr>
-            <td>Login:</td><td><input type="text" name="login" value="${user.login}"/></td>
-        </tr>
-        <tr>
-            <td>Password:</td><td><input type="password" name="password" value="${user.password}"/></td>
-        </tr>
-        <tr>
-            <td>Confirm password:</td><td><input type="password" name="confPassword" value="${user.password}"/></td>
-        </tr>
-        <td width="100">
-            <c:if test="${not empty errorMessage}">
-                <p><c:out value="${errorMessage}"/></p>
-            </c:if>
-        </td>
-    <table>
-        <tr>
-            <td width="120"></td>
-            <td><button type="submit" value="Register" name="Register" class="Button"><span>Register</span></button></td>
-            <td><button type="submit" value="Cancel" name="Cancel" class="Button"><span>Cancel</span></button></td>
-        </tr>
-    </table>
-    </table>
+    <input type="text" name="login" placeholder="Login" class="loginInput" value="${user.login}"/>
+    <c:if test="${errorMessage == 'Incorrect filling'}">
+        <p class="corFilText">Login should be at least 3 characters long.</p>  <%--a-z0-9_---%>
+    </c:if>
+    <input type="password" name="password" placeholder="Password" class="passwordInput" value="${user.password}"/>
+    <c:if test="${errorMessage == 'Incorrect filling'}">
+        <p class="corFilText">Password should be at least 6 characters long.</p>
+    </c:if>
+    <input type="password" name="confPassword" placeholder="Confirm password" class="passwordInput" value="${user.password}"/>
+    <c:if test="${errorMessage != 'Incorrect filling'}">
+        <c:if test="${not empty errorMessage}">
+            <p><c:out value="${errorMessage}"/></p>
+        </c:if>
+    </c:if>
+    <button type="submit" value="Register" name="Register" class="Button"><span>Register</span></button>
+    <button type="submit" value="Cancel" name="Cancel" class="Button"><span>Cancel</span></button>
 </form>
 </div>
 </body>

@@ -28,23 +28,25 @@ public class SignUpServlet extends HttpServlet {
         }
         if (answer == 1) {
             try {
-                if (ManagementSystem.getInstance().checkLogin(req.getParameter("login").trim())) {
-                    if (req.getParameter("password").trim().equals(req.getParameter("confPassword").trim())) {
-                        addUser(req);
-                        resp.sendRedirect("/auth");
-                        return;
-                    }
-                    else {
-                        req.setAttribute("errorMessage", "Passwords don't match");
+                if (User.isLoginCorrect(req.getParameter("login")) && User.isPasswordCorrect(req.getParameter("password"))) {
+                    if (ManagementSystem.getInstance().checkLogin(req.getParameter("login").trim())) {
+                        if (req.getParameter("password").trim().equals(req.getParameter("confPassword").trim())) {
+                            addUser(req);resp.sendRedirect("/auth");
+                            return;
+                        } else {
+                            req.setAttribute("errorMessage", "Passwords don't match");
+                            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/SignUpPage.jsp");
+                            requestDispatcher.forward(req, resp);
+                        }
+                    } else {
+                        req.setAttribute("errorMessage", "User with this login already exists");
                         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/SignUpPage.jsp");
                         requestDispatcher.forward(req, resp);
                     }
-                }
-                else {
-                    req.setAttribute("errorMessage", "User with this login already exists");
+                } else {
+                    req.setAttribute("errorMessage", "Incorrect filling");
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("/SignUpPage.jsp");
                     requestDispatcher.forward(req, resp);
-                    return;
                 }
             } catch (SQLException sql_e) {
                 throw new IOException(sql_e.getMessage());
