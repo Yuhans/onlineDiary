@@ -6,7 +6,9 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ManagementSystem {
@@ -65,27 +67,30 @@ public class ManagementSystem {
     }
 
     public List getMarks(int studId, int subjId) throws SQLException {
-        List marks = new ArrayList();
+        List marks = new ArrayList<>();
         Statement stmt = con.createStatement();
 
         ResultSet rs_marks = null;
         PreparedStatement pstmt = null;
 
-        pstmt = con.prepareStatement("SELECT  mark FROM marks\n" +
-                "RIGHT JOIN november on november.day=marks.date\n" +
-                "where (id_teacher=1 and id_student=? and id_subject=?) \n" +
-                "      or id_student IS NULL");
+        String subjectName = getSubjectName(subjId);
+
+        pstmt = con.prepareStatement("SELECT  date, mark FROM marks\n" +
+                "LEFT JOIN november on november.day=marks.date\n" +
+                "where (id_teacher=1 and id_student=? and id_subject=?)\n");
         pstmt.setInt(1, studId);
         pstmt.setInt(2, subjId);
         rs_marks = pstmt.executeQuery();
         while (rs_marks.next()) {
-            marks.add(rs_marks.getInt(1));
+            Date date= rs_marks.getDate(1);
+            int mark=rs_marks.getInt(2);
+
+            marks.add(new Mark(subjectName,date,mark));
         }
 
         rs_marks.close();
         stmt.close();
         pstmt.close();
-
         return marks;
     }
 
