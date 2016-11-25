@@ -45,7 +45,6 @@ public class MainFrameServlet extends HttpServlet {
             response.sendRedirect("/auth");
             return;
         }
-
         request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
     }
 
