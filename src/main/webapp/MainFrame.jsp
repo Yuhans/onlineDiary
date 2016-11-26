@@ -11,7 +11,7 @@
 <html>
 <head>
     <title>Main Frame</title>
-
+    <link rel="icon" type="image/png" href="img/favicon.png">
     <style>
 
         .Frame {
@@ -113,6 +113,7 @@
 
         .img {
             position: relative;
+            opacity: 0.75;
             bottom: -280px;
             right: -860px;
         }

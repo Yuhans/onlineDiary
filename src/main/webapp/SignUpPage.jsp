@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Online diary sign up</title>
+    <link rel="icon" type="image/png" href="img/favicon.png">
     <style>
 
         p.errText {
