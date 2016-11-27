@@ -118,6 +118,37 @@
             right: -860px;
         }
 
+        table {
+            border-collapse: collapse;
+            margin: 5px;
+            width: 30%;
+
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+        }
+
+        th:first-child {
+            border-radius: 6px 0 0 0;
+        }
+
+        th:last-child {
+            border-radius: 0 6px 0 0;
+        }
+
+        th:only-child{
+            border-radius: 6px 6px 0 0;
+        }
+
+        tr:nth-child(even){background-color: #f2f2f2}
+
+        th {
+            background-color: #4580DE;
+            color: white;
+        }
+
     </style>
 
 </head>
@@ -126,8 +157,10 @@
     <form action="<c:url value="/main"/>" method="POST">
         <ul>
             <li><a href="/main">Home</a></li>
-            <li style="float:right"> <a><input type="submit" class="logOutButton" value="Log out" name="Log out"/></a></li>
+            <li style="float:right"><a><input type="submit" class="logOutButton" value="Log out" name="Log out"/></a>
+            </li>
         </ul>
+
         <select id="stClass" name="stClass">
             <option value="" disabled selected>Select class</option>
             <c:forEach var="stclass" items="${classes}">
@@ -149,7 +182,8 @@
         </select>
         <button type="submit" value="OK" name="Ok" class="okButton"><span>OK</span></button>
     </form>
-    <form action="<c:url value="/marks"/>" method="POST">
+
+    <form action="<c:url value="/main"/>" method="POST">
         <select id="studentId" name="studentId">
             <option value="" disabled selected>Select student</option>
             <c:forEach var="student" items="${students}">
@@ -171,6 +205,27 @@
         </select>
         <button type="submit" value="OK" name="subjOk" class="okButton"><span>OK</span></button>
     </form>
+
+    <form action="<c:url value="/main"/>" method="POST">
+        <br/>
+        <br/>
+        <table>
+
+            <tr>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Mark</th>
+            </tr>
+            <c:forEach items="${marks}" var="mark">
+                <tr>
+                    <td>${mark.subject}</td>
+                    <td>${mark.date}</td>
+                    <td>${mark.mark}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </form>
+
     <img class="img" src="img/icon-diary.png" alt="icon-diary">
 </div>
 </body>
