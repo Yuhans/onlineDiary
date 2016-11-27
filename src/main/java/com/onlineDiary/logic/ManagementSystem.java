@@ -50,7 +50,7 @@ public class ManagementSystem {
         PreparedStatement stmt = con.prepareStatement("SELECT login FROM users WHERE login = ?");
         stmt.setString(1, login);
         ResultSet rs = stmt.executeQuery();
-        if  (rs.next())
+        if (rs.next())
             return false;
         rs.close();
         stmt.close();
@@ -82,10 +82,10 @@ public class ManagementSystem {
         pstmt.setInt(2, subjId);
         rs_marks = pstmt.executeQuery();
         while (rs_marks.next()) {
-            Date date= rs_marks.getDate(1);
-            int mark=rs_marks.getInt(2);
+            Date date = rs_marks.getDate(1);
+            int mark = rs_marks.getInt(2);
 
-            marks.add(new Mark(subjectName,date,mark));
+            marks.add(new Mark(subjectName, date, mark));
         }
 
         rs_marks.close();
@@ -137,12 +137,12 @@ public class ManagementSystem {
 
     /**
      * Сделал Тёма
-     * */
+     */
     public List<Student> getStudentsByClass(int classId) {
         ArrayList<Student> students = new ArrayList<>();
         ResultSet resultSet = null;
-        try(PreparedStatement ps = con.prepareStatement("SELECT surname, name, patronymic, id FROM students" +
-                    " WHERE class_id = ?")) {
+        try (PreparedStatement ps = con.prepareStatement("SELECT surname, name, patronymic, id FROM students" +
+                " WHERE class_id = ?")) {
             ps.setInt(1, classId);
             resultSet = ps.executeQuery();
             while (resultSet.next()) {
@@ -158,7 +158,8 @@ public class ManagementSystem {
             if (resultSet != null) {
                 try {
                     resultSet.close();
-                } catch (SQLException e) {}
+                } catch (SQLException e) {
+                }
             }
         }
         return students;
@@ -167,8 +168,8 @@ public class ManagementSystem {
     public List<Subject> getSubjects(int yearId) {
         ArrayList<Subject> subjects = new ArrayList<>();
         ResultSet resultSet = null;
-        try(PreparedStatement ps = con.prepareStatement("SELECT subjects.name, subjects.id FROM subjects_in_classes" +
-                    " INNER JOIN subjects ON subject_id = subjects.id WHERE year_id = ?")) {
+        try (PreparedStatement ps = con.prepareStatement("SELECT subjects.name, subjects.id FROM subjects_in_classes" +
+                " INNER JOIN subjects ON subject_id = subjects.id WHERE year_id = ?")) {
             ps.setInt(1, yearId);
             resultSet = ps.executeQuery();
             while (resultSet.next()) {
@@ -182,7 +183,8 @@ public class ManagementSystem {
             if (resultSet != null) {
                 try {
                     resultSet.close();
-                } catch (SQLException e) {}
+                } catch (SQLException e) {
+                }
             }
         }
         return subjects;
@@ -190,8 +192,8 @@ public class ManagementSystem {
 
     public List<SClass> getClasses() {
         ArrayList<SClass> classes = new ArrayList<>();
-        try(PreparedStatement ps = con.prepareStatement("SELECT id, year_id, letter FROM classes");
-            ResultSet resultSet = ps.executeQuery()) {
+        try (PreparedStatement ps = con.prepareStatement("SELECT id, year_id, letter FROM classes");
+             ResultSet resultSet = ps.executeQuery()) {
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
                 int year = resultSet.getInt(2);
@@ -202,5 +204,21 @@ public class ManagementSystem {
             e.printStackTrace();
         }
         return classes;
+    }
+
+    public void addMark(int studId, int subjId, Date date, int mark) throws SQLException {
+        Statement stmt = con.createStatement();
+
+        try {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO marks " +
+                    "(id_teacher, id_subject, id_student, date, mark) VALUE (1,1,1,'2016-11-24',5)");
+            ps.setInt(1, studId);
+            ps.setInt(2, subjId);
+            ps.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
-  User: Рамиль
-  Date: 04.11.2016
-  Time: 14:58
+  User: Tatyana
+  Date: 27.11.2016
+  Time: 21:35
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=utf-8" %>
@@ -10,70 +10,21 @@
 
 <html>
 <head>
-    <title>Main Frame</title>
-
+    <title>Add mark</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link href="/css/defaultStyle.css" rel="stylesheet" type="text/css">
     <style>
-
-        .Frame {
-            /*border: 1px solid #2a2a2a;*/
-            width: 950px;
-            height: 600px;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            border-radius: 8px;
-            background-color: #EBEBEA;
-            padding: 0px;
-        }
-
         .okButton {
-            display: inline-block;
-            border-radius: 10px;
-            background-color: #4580DE;
-            border: none;
-            color: #FFFFFF;
-            text-align: center;
-            font-size: 10px;
-            padding: 5px;
-            width: 60px;
-            height: 30px;
-            transition: all 0.5s;
-            cursor: pointer;
-            margin: 0px;
-            position: relative;
-            bottom: -50px;
+            position: fixed;
+            top: 75%;
+            left: 5px;
         }
-
-        .okButton:hover {
-            background-color: #3D6CB8
-        }
-
-        .logOutButton {
-            display: inline-block;
-            background-color: Transparent;
-            border: none;
-            color: #FFFFFF;
-            text-align: center;
-            width: 50px;
-            height: 18px;
-            transition: all 0.5s;
-            cursor: pointer;
-            margin: 0;
-            padding: 0;
-            border: 0;
-        }
-
-
     </style>
-
 </head>
 <body>
 <div class="Frame">
-    <form action="<c:url value="/main"/>" method="POST">
+    <form action="<c:url value="/addmark"/>" method="POST">
+
         <ul>
             <li><a href="/main">Home</a></li>
             <li><a href="/addmark">Add mark</a></li>
@@ -100,11 +51,10 @@
                 </c:choose>
             </c:forEach>
         </select>
-        <!--<button type="submit" value="OK" name="Ok" class="okButton"><span>OK</span></button><-->
     </form>
 
-    <form action="<c:url value="/main"/>" method="POST">
-        <select id="studentId" name="studentId" >
+    <form action="<c:url value="/addmark"/>" method="POST">
+        <select id="studentId" name="studentId">
             <option value="" disabled selected>Select student</option>
             <c:forEach var="student" items="${students}">
                 <option value="${student.studentId}">
@@ -115,37 +65,27 @@
             </c:forEach>
         </select>
         <br/>
-        <select id="subjId" name="subjId"  >
+        <select id="subjId" name="subjId">
             <option value="" disabled selected>Select subject</option>
-            <c:forEach var="subject" items="${subjects}" >
+            <c:forEach var="subject" items="${subjects}">
                 <option value="${subject.subjId}">
                     <c:out value="${subject.subjName}"/>
                 </option>
             </c:forEach>
         </select>
-         <button type="submit" value="OK" name="subjOk" class="okButton"><span>OK</span></button>
-    </form>
 
-    <form action="<c:url value="/main"/>" method="POST">
+    </form>
+    <form action="<c:url value="/addmark"/>" method="POST">
         <br/>
         <br/>
-        <table>
-
-            <tr>
-                <th>Subject</th>
-                <th>Date</th>
-                <th>Mark</th>
-            </tr>
-            <c:forEach items="${marks}" var="mark">
-                <tr>
-                    <td>${mark.subject}</td>
-                    <td>${mark.date}</td>
-                    <td>${mark.mark}</td>
-                </tr>
-            </c:forEach>
-        </table>
+        <label for="mark">Mark</label>
+        <input type="text" name="mark" id="mark" value="5">
+        <br/>
+        <label for="date">Date</label>
+        <input type="date" name="date" id="date" value="2016-11-13">
+        <br/>
+        <button type="submit" value="OK" name="OkB" class="okButton"><span>OK</span></button>
     </form>
-
     <img class="img" src="img/icon-diary.png" alt="icon-diary">
 </div>
 </body>

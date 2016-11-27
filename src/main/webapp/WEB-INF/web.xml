@@ -42,6 +42,15 @@
         <url-pattern>/marks</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AddMarkServlet</servlet-name>
+        <servlet-class>com.onlineDiary.web.AddMarkServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddMarkServlet</servlet-name>
+        <url-pattern>/addmark</url-pattern>
+    </servlet-mapping>
+
     <resource-ref>
         <description>DB Connection</description>
         <res-ref-name>jdbc/Diary</res-ref-name>

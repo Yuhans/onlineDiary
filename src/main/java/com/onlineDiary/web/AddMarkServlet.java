@@ -1,29 +1,25 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
-import com.onlineDiary.logic.Mark;
 import com.onlineDiary.logic.SClass;
 import com.onlineDiary.logic.Student;
 import com.onlineDiary.web.forms.MainFrameForm;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
-import static java.io.FileDescriptor.out;
-
-
-public class MainFrameServlet extends HttpServlet {
-    private final ManagementSystem dao = ManagementSystem.getInstance();
-
+/**
+ * Created by Tatyana on 27.11.2016.
+ */
+public class AddMarkServlet extends HttpServlet {
+    ManagementSystem dao = ManagementSystem.getInstance();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("classes", dao.getClasses());
         MainFrameForm form = new MainFrameForm();
@@ -53,21 +49,26 @@ public class MainFrameServlet extends HttpServlet {
             return;
         }
 
-        if ((request.getParameter("studentId") != null)&(request.getParameter("subjId") != null)) {
+
+        if (request.getParameter("OkB") != null) {
             int studId = Integer.parseInt(request.getParameter("studentId"));
             int subjId = Integer.parseInt(request.getParameter("subjId"));
+            Date date = Date.valueOf(request.getParameter("date"));
+            int mark = Integer.parseInt(request.getParameter("mark"));
+            //add mark to DB
             try {
-                form.setMarks(dao.getMarks(studId, subjId));
-                request.setAttribute("marks", form.getMarks());
-            } catch (SQLException sql_e) {
-                throw new IOException(sql_e.getMessage());
+                dao.addMark(studId, subjId, date, mark);
+                request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
+
         }
-        request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
+        request.getRequestDispatcher("AddMark.jsp").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("classes", dao.getClasses());
-        request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
+        request.getRequestDispatcher("AddMark.jsp").forward(request, response);
     }
 }
