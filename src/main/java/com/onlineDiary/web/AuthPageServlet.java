@@ -3,8 +3,8 @@ package com.onlineDiary.web;
 import com.onlineDiary.logic.ManagementSystem;
 import com.onlineDiary.logic.User;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,12 +26,15 @@ public class AuthPageServlet extends HttpServlet {
         if (answer == 1) {
              try {
                  if (req.getParameter("login") != null) {
-                     User user = ManagementSystem.getInstance().getUserByLogin(req.getParameter("login"));
+                     String login = req.getParameter("login");
+                     User user = ManagementSystem.getInstance().getUserByLogin(login);
                      if (user == null) {
                          req.setAttribute("errorMessage", "Invalid user or password");
                          req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
                      }
                      if (user.getPassword().equals(req.getParameter("password").trim())) {
+                         Cookie cookie = new Cookie("user", login);
+                         resp.addCookie(cookie);
                          resp.sendRedirect("/main");
                          return;
                      }

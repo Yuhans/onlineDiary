@@ -123,11 +123,15 @@
 </head>
 <body>
 <div class="Frame">
+    <ul>
+        <li><a href="/main">Home</a></li>
+        <li style="float:right">
+            <a href="/logout">
+                <input type="submit" class="logOutButton" value="Log out" name="Log out"/>
+            </a>
+        </li>
+    </ul>
     <form action="<c:url value="/main"/>" method="POST">
-        <ul>
-            <li><a href="/main">Home</a></li>
-            <li style="float:right"> <a><input type="submit" class="logOutButton" value="Log out" name="Log out"/></a></li>
-        </ul>
         <select id="stClass" name="stClass">
             <option value="" disabled selected>Select class</option>
             <c:forEach var="stclass" items="${classes}">
