@@ -37,11 +37,11 @@
             text-align: center;
             font-size: 10px;
             padding: 5px;
-            width: 60px;
+            width: 30%;
             height: 30px;
             transition: all 0.5s;
             cursor: pointer;
-            margin: 0;
+            margin: 5px;
             position: relative;
             bottom: -50px;
         }
@@ -114,6 +114,7 @@
                 </option>
             </c:forEach>
         </select>
+        <br/>
         <button type="submit" value="OK" name="subjOk" class="okButton"><span>OK</span></button>
         <br/>
         <br/>
