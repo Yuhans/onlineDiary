@@ -66,8 +66,8 @@ public class ManagementSystem {
         stmt.execute();
     }
 
-    public List getMarks(int studId, int subjId) throws SQLException {
-        List marks = new ArrayList<>();
+    public List<Mark> getMarks(int studId, int subjId) throws SQLException {
+        List<Mark> marks = new ArrayList<>();
         Statement stmt = con.createStatement();
 
         ResultSet rs_marks = null;
@@ -84,7 +84,6 @@ public class ManagementSystem {
         while (rs_marks.next()) {
             Date date = rs_marks.getDate(1);
             int mark = rs_marks.getInt(2);
-
             marks.add(new Mark(subjectName, date, mark));
         }
 
@@ -107,7 +106,7 @@ public class ManagementSystem {
     }
 
     public List getSubjects() throws SQLException {
-        List subjects = new ArrayList();
+        List<String> subjects = new ArrayList();
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT name FROM SUBJECTS");
         while (rs.next()) {

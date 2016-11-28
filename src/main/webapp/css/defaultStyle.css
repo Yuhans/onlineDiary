@@ -9,7 +9,7 @@
     -ms-transform: translate(-50%, -50%);
     border-radius: 8px;
     background-color: #EBEBEA;
-    padding: 0px;
+    padding: 0;
 }
 
 
@@ -98,10 +98,11 @@ li a:hover:not(.active) {
 }
 
 .img {
-    position: relative;
+    position: absolute;
     opacity: 0.75;
-    bottom: -280px;
-    right: -860px;
+   /* bottom: -280px;*/
+    right: 1%;
+    bottom: 1%;
 }
 
 table {

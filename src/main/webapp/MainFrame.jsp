@@ -11,9 +11,10 @@
 <html>
 <head>
     <title>Main Frame</title>
-    <link rel="icon" type="image/png" href="img/favicon.png">
-    <style>
 
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link href="/css/defaultStyle.css" rel="stylesheet" type="text/css">
+    <style>
         .Frame {
             /*border: 1px solid #2a2a2a;*/
             width: 950px;
@@ -25,55 +26,8 @@
             -ms-transform: translate(-50%, -50%);
             border-radius: 8px;
             background-color: #EBEBEA;
-            padding: 0px;
-        }
-
-        select {
-            width: 30%;
-            position: relative;
-            bottom: -50px;
-            padding: 16px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 4px;
-            background-color: #BFD7ED;
-        }
-
-        ul {
-            position: fixed;
-            top: 4%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            width: 950px;
-            list-style-type: none;
-            margin: 0;
             padding: 0;
-            overflow: hidden;
-            background-color: #4580DE;
-            border-radius: 8px;
         }
-
-        li {
-            float: left;
-        }
-
-        li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        li a:hover:not(.active) {
-            background-color: #3D6CB8;
-        }
-
-        .active {
-            background-color: #3D6CB8;
-        }
-
         .okButton {
             display: inline-block;
             border-radius: 10px;
@@ -91,11 +45,9 @@
             position: relative;
             bottom: -50px;
         }
-
         .okButton:hover {
             background-color: #3D6CB8
         }
-
         .logOutButton {
             display: inline-block;
             background-color: Transparent;
@@ -110,25 +62,19 @@
             padding: 0;
             border: 0;
         }
-
-        .img {
-            position: relative;
-            opacity: 0.75;
-            bottom: -280px;
-            right: -860px;
-        }
-
     </style>
 
 </head>
 <body>
 <div class="Frame">
-    <ul>
-        <li><a href="/main">Home</a></li>
-        <li style="float:right"><a href="/logout">Log out</a></li>
-    </ul>
+    <img class="img" src="img/icon-diary.png" alt="icon-diary">
     <form action="<c:url value="/main"/>" method="POST">
-        <select id="stClass" name="stClass">
+        <ul>
+            <li><a href="/main">Home</a></li>
+            <li><a href="/addmark">Add mark</a></li>
+            <li style="float:right"><a href="/logout">Log out</a></li>
+        </ul>
+        <select id="stClass" name="stClass" onchange="this.form.submit()">
             <option value="" disabled selected>Select class</option>
             <c:forEach var="stclass" items="${classes}">
                 <c:choose>
@@ -147,9 +93,8 @@
                 </c:choose>
             </c:forEach>
         </select>
-        <button type="submit" value="OK" name="Ok" class="okButton"><span>OK</span></button>
-    </form>
-    <form action="<c:url value="/marks"/>" method="POST">
+        <br/>
+        <!--<button type="submit" value="OK" name="Ok" class="okButton"><span>OK</span></button><-->
         <select id="studentId" name="studentId">
             <option value="" disabled selected>Select student</option>
             <c:forEach var="student" items="${students}">
@@ -163,15 +108,32 @@
         <br/>
         <select id="subjId" name="subjId">
             <option value="" disabled selected>Select subject</option>
-            <c:forEach var="subject" items="${subjects}">
+            <c:forEach var="subject" items="${subjects}" >
                 <option value="${subject.subjId}">
                     <c:out value="${subject.subjName}"/>
                 </option>
             </c:forEach>
         </select>
         <button type="submit" value="OK" name="subjOk" class="okButton"><span>OK</span></button>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <table>
+            <tr>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Mark</th>
+            </tr>
+            <c:forEach items="${marks}" var="mark">
+                <tr>
+                    <td>${mark.subject}</td>
+                    <td>${mark.date}</td>
+                    <td>${mark.mark}</td>
+                </tr>
+            </c:forEach>
+        </table>
     </form>
-    <img class="img" src="img/icon-diary.png" alt="icon-diary">
 </div>
 </body>
 </html>
