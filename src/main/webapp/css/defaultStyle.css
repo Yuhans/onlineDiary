@@ -1,0 +1,152 @@
+.Frame {
+    /*border: 1px solid #2a2a2a;*/
+    width: 950px;
+    height: 600px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    border-radius: 8px;
+    background-color: #EBEBEA;
+    padding: 0px;
+}
+
+
+
+select {
+    width: 30%;
+    position: relative;
+    bottom: -50px;
+    padding: 16px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    background-color: #BFD7ED;
+}
+
+ul {
+    position: fixed;
+    top: 4%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    width: 950px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #4580DE;
+    border-radius: 8px;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #3D6CB8;
+}
+
+.active {
+    background-color: #3D6CB8;
+}
+
+.okButton {
+    display: inline-block;
+    border-radius: 10px;
+    background-color: #4580DE;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 10px;
+    padding: 5px;
+    width: 60px;
+    height: 30px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 0px;
+    position: relative;
+    bottom: -50px;
+}
+
+.okButton:hover {
+    background-color: #3D6CB8
+}
+
+.logOutButton {
+    display: inline-block;
+    background-color: Transparent;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    width: 50px;
+    height: 18px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.img {
+    position: relative;
+    opacity: 0.75;
+    bottom: -280px;
+    right: -860px;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 5px;
+    width: 30%;
+
+}
+
+th, td {
+    text-align: left;
+    padding: 12px;
+}
+
+th:first-child {
+    border-radius: 6px 0 0 0;
+}
+
+th:last-child {
+    border-radius: 0 6px 0 0;
+}
+
+th:only-child {
+    border-radius: 6px 6px 0 0;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+th {
+    background-color: #4580DE;
+    color: white;
+}
+
+input {
+    margin-left: 5px;
+    width: 30%;
+    height:40px;
+    border-radius: 6px;
+}
+
+label {
+    margin: 5px;
+    width: 100px;
+    display: block;
+    left: 5px;
+}

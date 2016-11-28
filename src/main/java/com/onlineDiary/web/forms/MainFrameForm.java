@@ -1,6 +1,7 @@
 package com.onlineDiary.web.forms;
 
 
+import com.onlineDiary.logic.Mark;
 import com.onlineDiary.logic.SClass;
 import com.onlineDiary.logic.Student;
 import com.onlineDiary.logic.Subject;
@@ -13,6 +14,13 @@ public class MainFrameForm {
     private List<SClass> sClasses;
     private List<Student> students;
     private List<Subject> subjects;
+    private List<Mark> marks;
+
+
+    public List<Mark> getMarks() { return marks; }
+
+    public void setMarks(List<Mark> marks) { this.marks = marks; }
+
 
     public List<Subject> getSubjects() {
         return subjects;
