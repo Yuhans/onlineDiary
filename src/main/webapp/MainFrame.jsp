@@ -87,7 +87,7 @@
             height: 30px;
             transition: all 0.5s;
             cursor: pointer;
-            margin: 0px;
+            margin: 0;
             position: relative;
             bottom: -50px;
         }
@@ -125,11 +125,7 @@
 <div class="Frame">
     <ul>
         <li><a href="/main">Home</a></li>
-        <li style="float:right">
-            <a href="/logout">
-                <input type="submit" class="logOutButton" value="Log out" name="Log out"/>
-            </a>
-        </li>
+        <li style="float:right"><a href="/logout">Log out</a></li>
     </ul>
     <form action="<c:url value="/main"/>" method="POST">
         <select id="stClass" name="stClass">
