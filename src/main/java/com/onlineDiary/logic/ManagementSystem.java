@@ -5,6 +5,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,73 +24,110 @@ public class ManagementSystem {
                 Context ctx = new InitialContext();
                 dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/Diary");
                 con = dataSource.getConnection();
-            } catch (NamingException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
+            } catch (NamingException | SQLException e) {
                 e.printStackTrace();
             }
         }
         return instance;
     }
 
-    public User getUserByLogin(String login) throws SQLException {
+    public User getUserByLogin(String login) {
         User user = null;
-        PreparedStatement stmt = con.prepareStatement("SELECT login, password, role FROM users WHERE login = ?");
-        stmt.setString(1, login);
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            user = new User(rs);
+        ResultSet rs = null;
+        try (PreparedStatement stmt = con.prepareStatement("SELECT login, password, role FROM users WHERE login = ?")) {
+            stmt.setString(1, login);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                user = new User(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        rs.close();
-        stmt.close();
         return user;
     }
 
 
-    public boolean checkLogin(String login) throws SQLException {
-        PreparedStatement stmt = con.prepareStatement("SELECT login FROM users WHERE login = ?");
-        stmt.setString(1, login);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next())
-            return false;
-        rs.close();
-        stmt.close();
+    public boolean checkLogin(String login) {
+        ResultSet rs = null;
+        try (PreparedStatement stmt = con.prepareStatement("SELECT login FROM users WHERE login = ?")) {
+            stmt.setString(1, login);
+            rs = stmt.executeQuery();
+            if (rs.next())
+                return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return true;
 
     }
 
-    public void addUser(User user) throws SQLException {
-        PreparedStatement stmt = con.prepareStatement("INSERT INTO users (login, password, role) VALUES (?,  ?,  ?)");
-        stmt.setString(1, user.getLogin());
-        stmt.setString(2, user.getPassword());
-        stmt.setInt(3, user.getRole());
-        stmt.execute();
+    public void addUser(User user) {
+        PreparedStatement stmt = null;
+       try {
+           stmt = con.prepareStatement("INSERT INTO users (login, password, role) VALUES (?,  ?,  ?)");
+           stmt.setString(1, user.getLogin());
+           stmt.setString(2, user.getPassword());
+           stmt.setInt(3, user.getRole());
+           stmt.execute();
+       } catch (SQLException e) {
+           e.printStackTrace();
+       } finally {
+           try {
+               if (stmt != null) {
+                   stmt.close();
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+           }
+       }
     }
 
-    public List<Mark> getMarks(int studId, int subjId) throws SQLException {
+    public List<Mark> getMarks(int studId, int subjId) {
         List<Mark> marks = new ArrayList<>();
-        Statement stmt = con.createStatement();
-
+       // Statement stmt = con.createStatement();
         ResultSet rs_marks = null;
-        PreparedStatement pstmt = null;
-
-        String subjectName = getSubjectName(subjId);
-
-        pstmt = con.prepareStatement("SELECT  date, mark FROM marks\n" +
+        try ( PreparedStatement pstmt = con.prepareStatement("SELECT  date, mark FROM marks\n" +
                 "LEFT JOIN november on november.day=marks.date\n" +
-                "where (id_teacher=1 and id_student=? and id_subject=?)\n");
-        pstmt.setInt(1, studId);
-        pstmt.setInt(2, subjId);
-        rs_marks = pstmt.executeQuery();
-        while (rs_marks.next()) {
-            Date date = rs_marks.getDate(1);
-            int mark = rs_marks.getInt(2);
-            marks.add(new Mark(subjectName, date, mark));
+                "where (id_teacher=1 and id_student=? and id_subject=?)\n")){
+            String subjectName = getSubjectName(subjId);
+            pstmt.setInt(1, studId);
+            pstmt.setInt(2, subjId);
+            rs_marks = pstmt.executeQuery();
+            while (rs_marks.next()) {
+                Date date = rs_marks.getDate(1);
+                int mark = rs_marks.getInt(2);
+                marks.add(new Mark(subjectName, date, mark));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs_marks != null) {
+                    rs_marks.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-
-        rs_marks.close();
-        stmt.close();
-        pstmt.close();
+       // stmt.close();
+        //pstmt.close();
         return marks;
     }
 
@@ -105,31 +143,49 @@ public class ManagementSystem {
         return dates;
     }
 
-    public List getSubjects() throws SQLException {
-        List<String> subjects = new ArrayList();
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT name FROM SUBJECTS");
-        while (rs.next()) {
-            subjects.add(rs.getString(1));
+    public List getSubjects() {
+        List<String> subjects = new ArrayList<>();
+        ResultSet rs = null;
+        try (Statement stmt = con.createStatement()) {
+            rs = stmt.executeQuery("SELECT name FROM SUBJECTS");
+            while (rs.next()) {
+                subjects.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        rs.close();
-        stmt.close();
         return subjects;
     }
 
-    public String getSubjectName(int subjId) throws SQLException {
+    public String getSubjectName(int subjId) {
         String subjectName = "";
-        Statement stmt = con.createStatement();
-        PreparedStatement pstmt = null;
-        pstmt = con.prepareStatement("SELECT name FROM SUBJECTS where id=?");
-        pstmt.setInt(1, subjId);
-        ResultSet rs_name = pstmt.executeQuery();
-        if (rs_name.next()) {
-            subjectName = rs_name.getString(1);
+        //Statement stmt = con.createStatement();
+        ResultSet rs_name = null;
+        try (PreparedStatement pstmt = con.prepareStatement("SELECT name FROM SUBJECTS where id=?")) {
+            pstmt.setInt(1, subjId);
+            rs_name = pstmt.executeQuery();
+            if (rs_name.next()) {
+                subjectName = rs_name.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs_name != null) {
+                    rs_name.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        pstmt.close();
-        rs_name.close();
-        stmt.close();
         return subjectName;
     }
 
@@ -158,6 +214,7 @@ public class ManagementSystem {
                 try {
                     resultSet.close();
                 } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -183,6 +240,7 @@ public class ManagementSystem {
                 try {
                     resultSet.close();
                 } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         }

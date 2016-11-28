@@ -22,8 +22,8 @@ public class MainFrameServlet extends HttpServlet {
     private final ManagementSystem dao = ManagementSystem.getInstance();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") != null) {
             request.setAttribute("classes", dao.getClasses());
             MainFrameForm form = new MainFrameForm();
             int classId = 0;
@@ -55,12 +55,12 @@ public class MainFrameServlet extends HttpServlet {
             if ((request.getParameter("studentId") != null) & (request.getParameter("subjId") != null)) {
                 int studId = Integer.parseInt(request.getParameter("studentId"));
                 int subjId = Integer.parseInt(request.getParameter("subjId"));
-                try {
+                //try {
                     form.setMarks(dao.getMarks(studId, subjId));
                     request.setAttribute("marks", form.getMarks());
-                } catch (SQLException sql_e) {
-                    throw new IOException(sql_e.getMessage());
-                }
+                //} catch (SQLException sql_e) {
+                  //  throw new IOException(sql_e.getMessage());
+               // }
             }
             request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
         } else {
@@ -69,8 +69,8 @@ public class MainFrameServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") != null) {
             request.setAttribute("classes", dao.getClasses());
             request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
         } else {

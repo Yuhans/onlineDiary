@@ -27,11 +27,11 @@ public class SignUpServlet extends HttpServlet {
             throw new IOException(sql_e.getMessage());
         }
         if (answer == 1) {
-            try {
                 if (User.isLoginCorrect(req.getParameter("login")) && User.isPasswordCorrect(req.getParameter("password"))) {
                     if (ManagementSystem.getInstance().checkLogin(req.getParameter("login").trim())) {
                         if (req.getParameter("password").trim().equals(req.getParameter("confPassword").trim())) {
-                            addUser(req);resp.sendRedirect("/auth");
+                            addUser(req);
+                            resp.sendRedirect("/auth");
                             return;
                         } else {
                             req.setAttribute("errorMessage", "Passwords don't match");
@@ -45,22 +45,22 @@ public class SignUpServlet extends HttpServlet {
                     req.setAttribute("errorMessage", "Incorrect filling");
                     req.getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
                 }
-            } catch (SQLException sql_e) {
-                throw new IOException(sql_e.getMessage());
-            } catch (ParseException p_e) {
-            throw new IOException(p_e.getMessage());
-            }
         }
         if (answer == 2) {
             resp.sendRedirect("/auth");
             return;
         }
-        getServletContext().getRequestDispatcher("/SignUpPage.jsp").forward(req,resp);
+        getServletContext().getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
         }
 
-    private void addUser(HttpServletRequest req) throws SQLException, ParseException {
-        User user = prepareUser(req);
-        ManagementSystem.getInstance().addUser(user);
+    private void addUser(HttpServletRequest req) {
+        try {
+            User user = prepareUser(req);
+            ManagementSystem.getInstance().addUser(user);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private int checkAction(HttpServletRequest req) throws SQLException {

@@ -4,10 +4,7 @@ import com.onlineDiary.logic.ManagementSystem;
 import com.onlineDiary.logic.User;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -24,34 +21,27 @@ public class AuthPageServlet extends HttpServlet {
             throw new IOException(sql_e.getMessage());
         }
         if (answer == 1) {
-             try {
                  if (req.getParameter("login") != null) {
                      String login = req.getParameter("login");
                      User user = ManagementSystem.getInstance().getUserByLogin(login);
                      if (user == null) {
                          req.setAttribute("errorMessage", "Invalid user or password");
                          req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
-                     }
-                     if (user.getPassword().equals(req.getParameter("password").trim())) {
-                         Cookie cookie = new Cookie("user", login);
-                         resp.addCookie(cookie);
+                     } else if (user.getPassword().equals(req.getParameter("password").trim())) {
+                         HttpSession session = req.getSession();
+                         session.setAttribute("user", login);
                          resp.sendRedirect("/main");
                          return;
-                     }
-                     else {
+                     } else {
                          req.setAttribute("errorMessage", "Invalid user or password");
                          req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
                      }
-                 }
-                 else {
+                 } else {
                      req.setAttribute("errorMessage", "Invalid user or password");
                      req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
                  }
                  return;
-             } catch (SQLException sql_e) {
-                 throw  new IOException(sql_e.getMessage());
              }
-        }
         if (answer == 2) {
             resp.sendRedirect("/signup");
             return;

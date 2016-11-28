@@ -68,12 +68,13 @@
 <body>
 <div class="Frame">
     <img class="img" src="img/icon-diary.png" alt="icon-diary">
+    <ul>
+        <li><a href="/main">Home</a></li>
+        <li><a href="/addmark">Add mark</a></li>
+        <li style="float:right"><a href="/logout">Log out</a></li>
+    </ul>
     <form action="<c:url value="/main"/>" method="POST">
-        <ul>
-            <li><a href="/main">Home</a></li>
-            <li><a href="/addmark">Add mark</a></li>
-            <li style="float:right"><a href="/logout">Log out</a></li>
-        </ul>
+
         <select id="stClass" name="stClass" onchange="this.form.submit()">
             <option value="" disabled selected>Select class</option>
             <c:forEach var="stclass" items="${classes}">

@@ -25,15 +25,13 @@ public class MarksServlet extends HttpServlet {
             throws ServletException, IOException {
         int studId= Integer.parseInt(req.getParameter("studentId"));
         int subjId= Integer.parseInt(req.getParameter("subjId"));
-        try {
+       // try {
             List<Mark> marks= dao.getMarks(studId, subjId);
             req.setAttribute("marks", marks);
             getServletContext().getRequestDispatcher("/MarksPage.jsp").forward(req, resp);
-        } catch (SQLException sql_e) {
-            throw new IOException(sql_e.getMessage());
-        }
-
-
+        //} catch (SQLException sql_e) {
+          //  throw new IOException(sql_e.getMessage());
+        //}
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
