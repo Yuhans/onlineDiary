@@ -15,23 +15,38 @@
     <link href="/css/defaultStyle.css" rel="stylesheet" type="text/css">
     <style>
         .okButton {
-            position: fixed;
-            top: 75%;
-            left: 5px;
+            display: inline-block;
+            border-radius: 10px;
+            background-color: #4580DE;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 10px;
+            padding: 5px;
+            width: 30%;
+            height: 30px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+            position: relative;
+            bottom: -12px;
+        }
+
+        .okButton:hover {
+            background-color: #3D6CB8
         }
     </style>
 </head>
 <body>
 <div class="Frame">
+    <img class="img" src="img/icon-diary.png" alt="icon-diary">
+    <ul>
+        <li><a href="/main">Home</a></li>
+        <li><a href="/addmark">Add mark</a></li>
+        <li style="float:right"><a href="/logout">Log out</a></li>
+        </li>
+    </ul>
     <form action="<c:url value="/addmark"/>" method="POST">
-
-        <ul>
-            <li><a href="/main">Home</a></li>
-            <li><a href="/addmark">Add mark</a></li>
-            <li style="float:right"><a><input type="submit" class="logOutButton" value="Log out" name="Log out"/></a>
-            </li>
-        </ul>
-
         <select id="stClass" name="stClass" onchange="this.form.submit()">
             <option value="" disabled selected>Select class</option>
             <c:forEach var="stclass" items="${classes}">
@@ -51,9 +66,7 @@
                 </c:choose>
             </c:forEach>
         </select>
-    </form>
-
-    <form action="<c:url value="/addmark"/>" method="POST">
+        <br/>
         <select id="studentId" name="studentId">
             <option value="" disabled selected>Select student</option>
             <c:forEach var="student" items="${students}">
@@ -73,9 +86,8 @@
                 </option>
             </c:forEach>
         </select>
-
-    </form>
-    <form action="<c:url value="/addmark"/>" method="POST">
+        <br/>
+        <br/>
         <br/>
         <br/>
         <label for="mark">Mark</label>
@@ -86,7 +98,6 @@
         <br/>
         <button type="submit" value="OK" name="OkB" class="okButton"><span>OK</span></button>
     </form>
-    <img class="img" src="img/icon-diary.png" alt="icon-diary">
 </div>
 </body>
 </html>

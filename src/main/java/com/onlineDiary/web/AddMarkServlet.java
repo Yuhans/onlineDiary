@@ -44,11 +44,6 @@ public class AddMarkServlet extends HttpServlet {
             schoolClass = dao.getClasses().get(classId - 1);
             request.setAttribute("subjects", dao.getSubjects(schoolClass.getStudyYear()));
         }
-        if (request.getParameter("Log out") != null) {
-            response.sendRedirect("/auth");
-            return;
-        }
-
 
         if (request.getParameter("OkB") != null) {
             int studId = Integer.parseInt(request.getParameter("studentId"));
