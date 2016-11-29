@@ -5,11 +5,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class ManagementSystem {
@@ -60,7 +57,7 @@ public class ManagementSystem {
         try (PreparedStatement stmt = con.prepareStatement("SELECT login FROM users WHERE login = ?")) {
             stmt.setString(1, login);
             rs = stmt.executeQuery();
-            if (rs.next())
+            if (rs.wasNull())
                 return false;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,43 +70,30 @@ public class ManagementSystem {
                 e.printStackTrace();
             }
         }
-
         return true;
 
     }
 
     public void addUser(User user) {
-        PreparedStatement stmt = null;
-       try {
-           stmt = con.prepareStatement("INSERT INTO users (login, password, role) VALUES (?,  ?,  ?)");
+       try (PreparedStatement stmt = con.prepareStatement("INSERT INTO users (login, password, role) VALUES (?,  ?,  ?)")){
            stmt.setString(1, user.getLogin());
            stmt.setString(2, user.getPassword());
            stmt.setInt(3, user.getRole());
            stmt.execute();
        } catch (SQLException e) {
            e.printStackTrace();
-       } finally {
-           try {
-               if (stmt != null) {
-                   stmt.close();
-               }
-           } catch (SQLException e) {
-               e.printStackTrace();
-           }
        }
     }
 
     public List<Mark> getMarks(int studId, int subjId) {
         List<Mark> marks = new ArrayList<>();
-       // Statement stmt = con.createStatement();
-        ResultSet rs_marks = null;
-        try ( PreparedStatement pstmt = con.prepareStatement("SELECT  date, mark FROM marks\n" +
+        try (PreparedStatement pstmt = con.prepareStatement("SELECT  date, mark FROM marks\n" +
                 "LEFT JOIN november on november.day=marks.date\n" +
                 "where (id_teacher=1 and id_student=? and id_subject=?)\n")){
             String subjectName = getSubjectName(subjId);
             pstmt.setInt(1, studId);
             pstmt.setInt(2, subjId);
-            rs_marks = pstmt.executeQuery();
+            ResultSet rs_marks = pstmt.executeQuery();
             while (rs_marks.next()) {
                 Date date = rs_marks.getDate(1);
                 int mark = rs_marks.getInt(2);
@@ -117,17 +101,7 @@ public class ManagementSystem {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (rs_marks != null) {
-                    rs_marks.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-       // stmt.close();
-        //pstmt.close();
         return marks;
     }
 
@@ -165,7 +139,7 @@ public class ManagementSystem {
         return subjects;
     }
 
-    public String getSubjectName(int subjId) {
+    private String getSubjectName(int subjId) {
         String subjectName = "";
         //Statement stmt = con.createStatement();
         ResultSet rs_name = null;
@@ -190,9 +164,7 @@ public class ManagementSystem {
     }
 
 
-    /**
-     * Сделал Тёма
-     */
+
     public List<Student> getStudentsByClass(int classId) {
         ArrayList<Student> students = new ArrayList<>();
         ResultSet resultSet = null;
