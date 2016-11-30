@@ -43,15 +43,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>MarksServlet</servlet-name>
-        <servlet-class>com.onlineDiary.web.MarksServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MarksServlet</servlet-name>
-        <url-pattern>/marks</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>AddMarkServlet</servlet-name>
         <servlet-class>com.onlineDiary.web.AddMarkServlet</servlet-class>
     </servlet>
