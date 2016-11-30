@@ -10,15 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-
-/**
- * Created by Tatyana on 16.11.2016.
- */
-
 public class MarksServlet extends HttpServlet {
     ManagementSystem dao = ManagementSystem.getInstance();
 
-    protected void setMarks(HttpServletRequest req, HttpServletResponse resp)
+    private void setMarks(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         int studId = Integer.parseInt(req.getParameter("studentId"));
         int subjId = Integer.parseInt(req.getParameter("subjId"));

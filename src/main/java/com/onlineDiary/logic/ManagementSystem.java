@@ -235,19 +235,17 @@ public class ManagementSystem {
         return classes;
     }
 
-    public void addMark(int studId, int subjId, Date date, int mark) throws SQLException {
-        Statement stmt = con.createStatement();
-
-        try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO marks " +
-                    "(id_teacher, id_subject, id_student, date, mark) VALUE (1,1,1,'2016-11-24',5)");
-            ps.setInt(1, studId);
-            ps.setInt(2, subjId);
-            ps.executeQuery();
-
+    public void addMark(int studId, int subjId, Date date, int mark) {
+        try (PreparedStatement ps = con.prepareStatement("INSERT INTO marks" +
+                "(id_teacher, id_subject, id_student, date, mark) VALUE (1,?,?,?,?)")) {
+            ps.setInt(1, subjId);
+            ps.setInt(2, studId);
+            ps.setDate(3, date);
+            ps.setInt(4, mark);
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
+
 }
