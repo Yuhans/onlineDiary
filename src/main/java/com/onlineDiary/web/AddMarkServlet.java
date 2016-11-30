@@ -11,15 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Tatyana on 27.11.2016.
- */
 public class AddMarkServlet extends HttpServlet {
+
     ManagementSystem dao = ManagementSystem.getInstance();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("classes", dao.getClasses());
         MainFrameForm form = new MainFrameForm();
@@ -51,13 +49,8 @@ public class AddMarkServlet extends HttpServlet {
             Date date = Date.valueOf(request.getParameter("date"));
             int mark = Integer.parseInt(request.getParameter("mark"));
             //add mark to DB
-            try {
-                dao.addMark(studId, subjId, date, mark);
-                request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
+            dao.addMark(studId, subjId, date, mark);
+            request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
         }
         request.getRequestDispatcher("AddMark.jsp").forward(request, response);
     }
