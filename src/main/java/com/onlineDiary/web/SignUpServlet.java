@@ -8,30 +8,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.ParseException;
 
-/**
- * Created by ������ on 12.11.2016.
- */
+
 public class SignUpServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        int answer;
-        try {
-            answer = checkAction(req);
-        } catch (SQLException sql_e) {
-            throw new IOException(sql_e.getMessage());
-        }
-        if (answer == 1) {
+        int answer = checkAction(req);
+
+        switch (answer) {
+            case 1:
                 if (User.isLoginCorrect(req.getParameter("login")) && User.isPasswordCorrect(req.getParameter("password"))) {
                     if (ManagementSystem.getInstance().checkLogin(req.getParameter("login").trim())) {
                         if (req.getParameter("password").trim().equals(req.getParameter("confPassword").trim())) {
                             addUser(req);
                             resp.sendRedirect("/auth");
-                            return;
                         } else {
                             req.setAttribute("errorMessage", "Passwords don't match");
                             req.getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
@@ -44,13 +37,16 @@ public class SignUpServlet extends HttpServlet {
                     req.setAttribute("errorMessage", "Incorrect filling");
                     req.getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
                 }
+                break;
+            case 2:
+                resp.sendRedirect("/auth");
+                break;
+            default:
+                getServletContext().getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
         }
-        if (answer == 2) {
-            resp.sendRedirect("/auth");
-            return;
-        }
-        getServletContext().getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
-        }
+
+
+    }
 
     private void addUser(HttpServletRequest req) {
         try {
@@ -62,7 +58,7 @@ public class SignUpServlet extends HttpServlet {
 
     }
 
-    private int checkAction(HttpServletRequest req) throws SQLException {
+    private int checkAction(HttpServletRequest req) {
         if (req.getParameter("Register") != null) {
             return 1;
         }
