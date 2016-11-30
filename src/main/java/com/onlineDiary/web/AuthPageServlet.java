@@ -25,12 +25,14 @@ public class AuthPageServlet extends HttpServlet {
 
                     User user = managementSystem.getUserByLogin(login);
 
+
                     if (user == null) {
                         req.setAttribute("errorMessage", "Invalid user or password");
                         req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
                     } else if (user.getPassword().equals(req.getParameter("password").trim())) {
                         HttpSession session = req.getSession();
                         session.setAttribute("user", login);
+                        session.setAttribute("role",user.getRole() );
                         resp.sendRedirect("/main");
                         return;
                     } else {
