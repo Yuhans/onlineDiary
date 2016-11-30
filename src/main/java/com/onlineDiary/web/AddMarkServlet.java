@@ -50,7 +50,9 @@ public class AddMarkServlet extends HttpServlet {
             int mark = Integer.parseInt(request.getParameter("mark"));
             //add mark to DB
             dao.addMark(studId, subjId, date, mark);
-            request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
+            request.setAttribute("submitDone","done");
+            //request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
+
         }
         request.getRequestDispatcher("AddMark.jsp").forward(request, response);
     }

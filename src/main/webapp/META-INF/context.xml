@@ -7,9 +7,9 @@
             maxWait="5000"
             name="jdbc/Diary"
             username="root"
-            password="titanus1994"
+            password="root"
             type="javax.sql.DataSource"
-            url="jdbc:mysql://localhost:3306/diary"
+            url="jdbc:mysql://localhost:3306/onlinediary"
             validationQuery="SELECT 1">
     </Resource>
 </Context>

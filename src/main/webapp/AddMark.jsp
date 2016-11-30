@@ -13,6 +13,7 @@
     <title>Add mark</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link href="/css/defaultStyle.css" rel="stylesheet" type="text/css">
+
     <style>
         .okButton {
             display: inline-block;
@@ -97,6 +98,11 @@
         <input type="date" name="date" id="date" value="2016-11-13">
         <br/>
         <button type="submit" value="OK" name="OkB" class="okButton"><span>OK</span></button>
+        <c:if test="${not empty submitDone}">
+            <script>alert("Mark was added!");
+            </script>
+        </c:if>
+
     </form>
 </div>
 </body>
