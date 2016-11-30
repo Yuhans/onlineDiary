@@ -43,6 +43,7 @@ public class SignUpServlet extends HttpServlet {
                 break;
             default:
                 getServletContext().getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
+                break;
         }
 
 
