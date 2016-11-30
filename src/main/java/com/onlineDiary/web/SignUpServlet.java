@@ -8,30 +8,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.text.ParseException;
 
-/**
- * Created by ������ on 12.11.2016.
- */
+
 public class SignUpServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        int answer;
-        try {
-            answer = checkAction(req);
-        } catch (SQLException sql_e) {
-            throw new IOException(sql_e.getMessage());
-        }
-        if (answer == 1) {
-                if (User.isLoginCorrect(req.getParameter("login")) && User.isPasswordCorrect(req.getParameter("password"))) {
-                    if (ManagementSystem.getInstance().checkLogin(req.getParameter("login").trim())) {
+
+        int answer = checkAction(req);
+        switch (answer) {
+            case 1:
+                if (isLoginAndPasswordCorrect(req)) {
+                    if (isUserAlreadyExist(req)) {
                         if (req.getParameter("password").trim().equals(req.getParameter("confPassword").trim())) {
                             addUser(req);
                             resp.sendRedirect("/auth");
-                            return;
                         } else {
                             req.setAttribute("errorMessage", "Passwords don't match");
                             req.getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
@@ -44,25 +36,32 @@ public class SignUpServlet extends HttpServlet {
                     req.setAttribute("errorMessage", "Incorrect filling");
                     req.getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
                 }
-        }
-        if (answer == 2) {
-            resp.sendRedirect("/auth");
-            return;
-        }
-        getServletContext().getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
+                break;
+            case 2:
+                resp.sendRedirect("/auth");
+                break;
+            default:
+                getServletContext().getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
+                break;
         }
 
-    private void addUser(HttpServletRequest req) {
-        try {
-            User user = prepareUser(req);
-            ManagementSystem.getInstance().addUser(user);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
     }
 
-    private int checkAction(HttpServletRequest req) throws SQLException {
+    private boolean isLoginAndPasswordCorrect(HttpServletRequest request) {
+        return User.isLoginCorrect(request.getParameter("login")) && User.isPasswordCorrect(request.getParameter("password"));
+    }
+
+    private boolean isUserAlreadyExist(HttpServletRequest request) {
+        return ManagementSystem.getInstance().checkLogin(request.getParameter("login").trim());
+    }
+
+    private void addUser(HttpServletRequest req) {
+            User user = prepareUser(req);
+            ManagementSystem.getInstance().addUser(user);
+    }
+
+    private int checkAction(HttpServletRequest req) {
         if (req.getParameter("Register") != null) {
             return 1;
         }
@@ -72,7 +71,7 @@ public class SignUpServlet extends HttpServlet {
         return 0;
     }
 
-    private User prepareUser(HttpServletRequest req) throws ParseException {
+    private User prepareUser(HttpServletRequest req) {
         User user = new User();
         user.setLogin(req.getParameter("login").trim());
         user.setPassword(req.getParameter("password").trim());
