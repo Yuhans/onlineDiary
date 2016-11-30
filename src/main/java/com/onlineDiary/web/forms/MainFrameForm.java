@@ -1,10 +1,10 @@
 package com.onlineDiary.web.forms;
 
 
-import com.onlineDiary.logic.Mark;
-import com.onlineDiary.logic.SClass;
-import com.onlineDiary.logic.Student;
-import com.onlineDiary.logic.Subject;
+import com.onlineDiary.logic.beans.Mark;
+import com.onlineDiary.logic.beans.SClass;
+import com.onlineDiary.logic.beans.Student;
+import com.onlineDiary.logic.beans.Subject;
 
 import java.util.List;
 

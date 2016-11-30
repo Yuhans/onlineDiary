@@ -1,4 +1,4 @@
-package com.onlineDiary.logic;
+package com.onlineDiary.logic.beans;
 
 public class SClass {
     private int classId;

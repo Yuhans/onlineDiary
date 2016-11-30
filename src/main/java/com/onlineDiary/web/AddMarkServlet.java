@@ -1,8 +1,8 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
-import com.onlineDiary.logic.SClass;
-import com.onlineDiary.logic.Student;
+import com.onlineDiary.logic.beans.SClass;
+import com.onlineDiary.logic.beans.Student;
 import com.onlineDiary.web.forms.MainFrameForm;
 
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class AddMarkServlet extends HttpServlet {
 
-    ManagementSystem dao = ManagementSystem.getInstance();
+    private ManagementSystem dao = new ManagementSystem();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("classes", dao.getClasses());

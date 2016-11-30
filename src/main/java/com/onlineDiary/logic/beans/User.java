@@ -1,4 +1,4 @@
-package com.onlineDiary.logic;
+package com.onlineDiary.logic.beans;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +15,13 @@ public class User implements Comparable{
 
     }
 
-    public User(ResultSet rs) throws SQLException {
+    public User (String login, String password, int role) {
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
 
+    public User(ResultSet rs) throws SQLException {
         setLogin(rs.getString(1));
         setPassword(rs.getString(2));
         setRole(rs.getInt(3));

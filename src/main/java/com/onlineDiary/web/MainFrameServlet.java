@@ -1,7 +1,7 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
-import com.onlineDiary.logic.SClass;
+import com.onlineDiary.logic.beans.SClass;
 import com.onlineDiary.web.forms.MainFrameForm;
 
 import javax.servlet.ServletException;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 
 public class MainFrameServlet extends HttpServlet {
-    private final ManagementSystem dao = ManagementSystem.getInstance();
+    private final ManagementSystem dao = new ManagementSystem();
     private final MainFrameForm form = new MainFrameForm();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

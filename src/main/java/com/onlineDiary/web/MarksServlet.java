@@ -1,7 +1,7 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
-import com.onlineDiary.logic.Mark;
+import com.onlineDiary.logic.beans.Mark;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MarksServlet extends HttpServlet {
-    ManagementSystem dao = ManagementSystem.getInstance();
+    private ManagementSystem dao = new ManagementSystem();
 
     private void setMarks(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
