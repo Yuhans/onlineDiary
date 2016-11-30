@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class SignUpServlet extends HttpServlet {
+    private ManagementSystem dao = new ManagementSystem();
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -52,12 +53,12 @@ public class SignUpServlet extends HttpServlet {
     }
 
     private boolean isUserAlreadyExist(HttpServletRequest request) {
-        return ManagementSystem.getInstance().checkLogin(request.getParameter("login").trim());
+        return dao.checkLogin(request.getParameter("login").trim());
     }
 
     private void addUser(HttpServletRequest req) {
         User user = prepareUser(req);
-        ManagementSystem.getInstance().addUser(user);
+        dao.addUser(user);
     }
 
     private int checkAction(HttpServletRequest req) {

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MarksServlet extends HttpServlet {
-    ManagementSystem dao = ManagementSystem.getInstance();
+    private ManagementSystem dao = new ManagementSystem();
 
     private void setMarks(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

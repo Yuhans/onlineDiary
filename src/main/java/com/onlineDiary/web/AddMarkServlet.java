@@ -16,7 +16,7 @@ import java.util.List;
 
 public class AddMarkServlet extends HttpServlet {
 
-    ManagementSystem dao = ManagementSystem.getInstance();
+    private ManagementSystem dao = new ManagementSystem();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("classes", dao.getClasses());

@@ -15,32 +15,16 @@ import java.util.List;
 
 public class ManagementSystem {
     private static Connection con;
-    private static ManagementSystem instance;
-    private static DataSource dataSource;
 
     public ManagementSystem() {
         con = getConnection();
-    }
-
-    public static synchronized ManagementSystem getInstance() {
-        if (instance == null) {
-            try {
-                instance = new ManagementSystem();
-                Context ctx = new InitialContext();
-                dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/Diary");
-                con = dataSource.getConnection();
-            } catch (NamingException | SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return instance;
     }
 
     private Connection getConnection() {
         if (con == null) {
             try {
                 Context ctx = new InitialContext();
-                dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/Diary");
+                DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/Diary");
                 con = dataSource.getConnection();
             } catch (NamingException | SQLException e) {
                 e.printStackTrace();
@@ -52,7 +36,6 @@ public class ManagementSystem {
     public User getUserByLogin(String login) {
         return (new UserDAO(con).getUser(login));
     }
-
 
     public boolean checkLogin(String login) {
         return (new UserDAO(con).isLoginExist(login));
