@@ -1,17 +1,15 @@
 package com.onlineDiary.logic;
 
 import com.onlineDiary.logic.beans.*;
-import com.onlineDiary.logic.dao.SClassDAO;
-import com.onlineDiary.logic.dao.StudentDAO;
-import com.onlineDiary.logic.dao.SubjectDAO;
-import com.onlineDiary.logic.dao.UserDAO;
+import com.onlineDiary.logic.dao.*;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -65,29 +63,8 @@ public class ManagementSystem {
     }
 
     public List<Mark> getMarks(int studId, int subjId) {
-        List<Mark> marks = new ArrayList<>();
-        try (PreparedStatement pstmt = con.prepareStatement("SELECT  date, mark FROM marks\n" +
-                "LEFT JOIN november ON november.day=marks.date\n" +
-                "WHERE (id_teacher=1 AND id_student=? AND id_subject=?)\n")) {
-            String subjectName = getSubjectName(subjId);
-            pstmt.setInt(1, studId);
-            pstmt.setInt(2, subjId);
-            ResultSet rs_marks = pstmt.executeQuery();
-            while (rs_marks.next()) {
-                Date date = rs_marks.getDate(1);
-                int mark = rs_marks.getInt(2);
-                marks.add(new Mark(subjectName, date, mark));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return marks;
+        return (new MarkDAO(con).getMarksBySubject(studId, subjId));
     }
-
-    private String getSubjectName(int subjId) {
-        return (new SubjectDAO(con).getSubjectNameById(subjId));
-    }
-
 
     public List<Student> getStudentsByClass(int classId) {
         return (new StudentDAO(con).getStudents(classId));
@@ -102,16 +79,7 @@ public class ManagementSystem {
     }
 
     public void addMark(int studId, int subjId, Date date, int mark) {
-        try (PreparedStatement ps = con.prepareStatement("INSERT INTO marks" +
-                "(id_teacher, id_subject, id_student, date, mark) VALUE (1,?,?,?,?)")) {
-            ps.setInt(1, subjId);
-            ps.setInt(2, studId);
-            ps.setDate(3, date);
-            ps.setInt(4, mark);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        new MarkDAO(con).addMark(studId, subjId, date, mark);
     }
 
 }
