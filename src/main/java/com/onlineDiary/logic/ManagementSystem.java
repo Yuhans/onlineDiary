@@ -1,5 +1,8 @@
 package com.onlineDiary.logic;
 
+import com.onlineDiary.logic.beans.*;
+import com.onlineDiary.logic.dao.UserDAO;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -13,6 +16,10 @@ public class ManagementSystem {
     private static Connection con;
     private static ManagementSystem instance;
     private static DataSource dataSource;
+
+    public ManagementSystem() {
+        con = getConnection();
+    }
 
     public static synchronized ManagementSystem getInstance() {
         if (instance == null) {
@@ -28,68 +35,40 @@ public class ManagementSystem {
         return instance;
     }
 
-    public User getUserByLogin(String login) {
-        User user = null;
-        ResultSet rs = null;
-        try (PreparedStatement stmt = con.prepareStatement("SELECT login, password, role FROM users WHERE login = ?")) {
-            stmt.setString(1, login);
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                user = new User(rs);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+    private Connection getConnection() {
+        if (con == null) {
             try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
+                Context ctx = new InitialContext();
+                dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/Diary");
+                con = dataSource.getConnection();
+            } catch (NamingException | SQLException e) {
                 e.printStackTrace();
             }
         }
-        return user;
+        return con;
+    }
+
+    public User getUserByLogin(String login) {
+        UserDAO userDAO = new UserDAO(con);
+        return userDAO.getUser(login);
     }
 
 
     public boolean checkLogin(String login) {
-        ResultSet rs = null;
-        try (PreparedStatement stmt = con.prepareStatement("SELECT login FROM users WHERE login = ?")) {
-            stmt.setString(1, login);
-            rs = stmt.executeQuery();
-            if (rs.wasNull())
-                return false;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return true;
-
+        UserDAO userDAO = new UserDAO(con);
+        return userDAO.isLoginExist(login);
     }
 
     public void addUser(User user) {
-       try (PreparedStatement stmt = con.prepareStatement("INSERT INTO users (login, password, role) VALUES (?,  ?,  ?)")){
-           stmt.setString(1, user.getLogin());
-           stmt.setString(2, user.getPassword());
-           stmt.setInt(3, user.getRole());
-           stmt.execute();
-       } catch (SQLException e) {
-           e.printStackTrace();
-       }
+        UserDAO userDAO = new UserDAO(con);
+        userDAO.insertUser(user);
     }
 
     public List<Mark> getMarks(int studId, int subjId) {
         List<Mark> marks = new ArrayList<>();
         try (PreparedStatement pstmt = con.prepareStatement("SELECT  date, mark FROM marks\n" +
-                "LEFT JOIN november on november.day=marks.date\n" +
-                "where (id_teacher=1 and id_student=? and id_subject=?)\n")){
+                "LEFT JOIN november ON november.day=marks.date\n" +
+                "WHERE (id_teacher=1 AND id_student=? AND id_subject=?)\n")) {
             String subjectName = getSubjectName(subjId);
             pstmt.setInt(1, studId);
             pstmt.setInt(2, subjId);
@@ -143,7 +122,7 @@ public class ManagementSystem {
         String subjectName = "";
         //Statement stmt = con.createStatement();
         ResultSet rs_name = null;
-        try (PreparedStatement pstmt = con.prepareStatement("SELECT name FROM SUBJECTS where id=?")) {
+        try (PreparedStatement pstmt = con.prepareStatement("SELECT name FROM SUBJECTS WHERE id=?")) {
             pstmt.setInt(1, subjId);
             rs_name = pstmt.executeQuery();
             if (rs_name.next()) {
@@ -162,7 +141,6 @@ public class ManagementSystem {
         }
         return subjectName;
     }
-
 
 
     public List<Student> getStudentsByClass(int classId) {

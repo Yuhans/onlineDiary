@@ -1,7 +1,7 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
-import com.onlineDiary.logic.SClass;
+import com.onlineDiary.logic.beans.SClass;
 import com.onlineDiary.web.forms.MainFrameForm;
 
 import javax.servlet.ServletException;

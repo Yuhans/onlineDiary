@@ -1,4 +1,4 @@
-package com.onlineDiary.logic;
+package com.onlineDiary.logic.beans;
 
 import java.sql.Date;
 

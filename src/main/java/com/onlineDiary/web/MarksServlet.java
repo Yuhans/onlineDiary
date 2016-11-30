@@ -1,7 +1,7 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
-import com.onlineDiary.logic.Mark;
+import com.onlineDiary.logic.beans.Mark;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

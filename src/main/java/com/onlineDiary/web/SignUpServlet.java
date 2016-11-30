@@ -1,7 +1,7 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
-import com.onlineDiary.logic.User;
+import com.onlineDiary.logic.beans.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -56,8 +56,8 @@ public class SignUpServlet extends HttpServlet {
     }
 
     private void addUser(HttpServletRequest req) {
-            User user = prepareUser(req);
-            ManagementSystem.getInstance().addUser(user);
+        User user = prepareUser(req);
+        ManagementSystem.getInstance().addUser(user);
     }
 
     private int checkAction(HttpServletRequest req) {
