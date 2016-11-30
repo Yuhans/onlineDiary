@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
 
 
 public class SignUpServlet extends HttpServlet {
@@ -16,12 +15,12 @@ public class SignUpServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        int answer = checkAction(req);
 
+        int answer = checkAction(req);
         switch (answer) {
             case 1:
-                if (User.isLoginCorrect(req.getParameter("login")) && User.isPasswordCorrect(req.getParameter("password"))) {
-                    if (ManagementSystem.getInstance().checkLogin(req.getParameter("login").trim())) {
+                if (isLoginAndPasswordCorrect(req)) {
+                    if (isUserAlreadyExist(req)) {
                         if (req.getParameter("password").trim().equals(req.getParameter("confPassword").trim())) {
                             addUser(req);
                             resp.sendRedirect("/auth");
@@ -49,14 +48,17 @@ public class SignUpServlet extends HttpServlet {
 
     }
 
+    private boolean isLoginAndPasswordCorrect(HttpServletRequest request) {
+        return User.isLoginCorrect(request.getParameter("login")) && User.isPasswordCorrect(request.getParameter("password"));
+    }
+
+    private boolean isUserAlreadyExist(HttpServletRequest request) {
+        return ManagementSystem.getInstance().checkLogin(request.getParameter("login").trim());
+    }
+
     private void addUser(HttpServletRequest req) {
-        try {
             User user = prepareUser(req);
             ManagementSystem.getInstance().addUser(user);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private int checkAction(HttpServletRequest req) {
@@ -69,7 +71,7 @@ public class SignUpServlet extends HttpServlet {
         return 0;
     }
 
-    private User prepareUser(HttpServletRequest req) throws ParseException {
+    private User prepareUser(HttpServletRequest req) {
         User user = new User();
         user.setLogin(req.getParameter("login").trim());
         user.setPassword(req.getParameter("password").trim());
