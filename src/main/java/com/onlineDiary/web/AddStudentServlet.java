@@ -18,6 +18,7 @@ import java.util.List;
 public class AddStudentServlet extends HttpServlet {
     private ManagementSystem dao = new ManagementSystem();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         request.setAttribute("classes", dao.getClasses());
         MainFrameForm form = new MainFrameForm();
         int classId = 0;
