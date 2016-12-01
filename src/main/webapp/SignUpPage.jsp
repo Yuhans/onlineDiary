@@ -25,10 +25,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            background-color: white;
-            background-position: 4px 5px;
-            background-repeat: no-repeat;
-            background-image: url("img/icon-user.png");
+            background: white url("img/icon-user.png") no-repeat 4px 5px;
         }
 
         .passwordInput {
@@ -39,10 +36,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            background-color: white;
-            background-position: 4px 4px;
-            background-repeat: no-repeat;
-            background-image: url("img/icon-password.png");
+            background: white url("img/icon-password.png") no-repeat 4px 4px;
         }
 
 
