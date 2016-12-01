@@ -1,12 +1,12 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
-  User: Золотце
+  User: Tatyana
   Date: 01.12.2016
   Time: 11:24
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Add Student</title>
@@ -76,7 +76,7 @@
         <label for="name">Name</label>
         <input type="text" name="name" id="name" value="Петр">
         <br/>
-        <label for="patronymic">Surname</label>
+        <label for="patronymic">Patronymic</label>
         <input type="text" name="patronymic" id="patronymic" value="Петрович">
         <br/>
         <button type="submit" value="OK" name="OkB" class="okButton"><span>OK</span></button>

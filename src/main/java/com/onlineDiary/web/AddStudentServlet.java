@@ -2,6 +2,7 @@ package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
 import com.onlineDiary.logic.beans.SClass;
+import com.onlineDiary.logic.beans.Student;
 import com.onlineDiary.web.forms.MainFrameForm;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import java.util.List;
 public class AddStudentServlet extends HttpServlet {
     private ManagementSystem dao = new ManagementSystem();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         request.setAttribute("classes", dao.getClasses());
         MainFrameForm form = new MainFrameForm();
         int classId = 0;
@@ -33,7 +35,8 @@ public class AddStudentServlet extends HttpServlet {
                 String name = request.getParameter("name");
                 String surname = request.getParameter("surname");
                 String patronymic = request.getParameter("patronymic");
-                dao.addStudent(classId, name, surname, patronymic);
+                Student s = new Student(name, surname, patronymic, classId, 0);
+                dao.addStudent(s);
                 request.setAttribute("submitDone", "yes");
             }
             request.getRequestDispatcher("AddStudent.jsp").forward(request, response);
