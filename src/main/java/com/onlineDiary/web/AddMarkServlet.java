@@ -43,14 +43,13 @@ public class AddMarkServlet extends HttpServlet {
             request.setAttribute("subjects", dao.getSubjects(schoolClass.getStudyYear()));
         }
         request.setAttribute("submitDone", null);
-        if (request.getParameter("OkB") != null) {
 
+        if (request.getParameter("OkB") != null) {
             String tmp = request.getParameter("studentId");
             String tmp2 = request.getParameter("subjId");
-            if(tmp==null && tmp2==null){
+            if (tmp == null && tmp2 == null) {
                 request.setAttribute("submitDone", "no");
-            }
-            else {
+            } else {
                 int studId = Integer.parseInt(request.getParameter("studentId"));
                 int subjId = Integer.parseInt(request.getParameter("subjId"));
                 Date date = Date.valueOf(request.getParameter("date"));
