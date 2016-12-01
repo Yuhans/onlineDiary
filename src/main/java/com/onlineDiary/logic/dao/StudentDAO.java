@@ -35,4 +35,18 @@ public class StudentDAO {
         }
         return students;
     }
+
+    public void addStudent(int classId, String name, String surname, String patronymic){
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO students " +
+                "(id, surname, name, patronymic, class_id) VALUE () (?, ?,?,?,?)")) {
+            ps.setString(1, null);
+            ps.setString(2, surname);
+            ps.setString(3, name);
+            ps.setString(4, patronymic);
+            ps.setInt(5, classId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -71,6 +71,7 @@
     <ul>
         <li><a href="/main">Home</a></li>
         <li><a href="/addmark">Add mark</a></li>
+        <li><a href="/addstudent">Add Student</a></li>
         <li style="float:right"><a href="/logout">Log out</a></li>
     </ul>
     <form action="<c:url value="/main"/>" method="POST">
