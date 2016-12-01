@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO {
-    private Connection connection;
     private Executor executor;
 
     public StudentDAO(Connection connection) {
-        this.connection = connection;
         executor = new Executor(connection);
     }
 
