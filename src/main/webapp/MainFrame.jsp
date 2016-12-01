@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Рамиль
-  Date: 04.11.2016
-  Time: 14:58
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -16,7 +9,6 @@
     <link href="/css/defaultStyle.css" rel="stylesheet" type="text/css">
     <style>
         .Frame {
-            /*border: 1px solid #2a2a2a;*/
             width: 950px;
             height: 600px;
             position: fixed;
@@ -28,6 +20,7 @@
             background-color: #EBEBEA;
             padding: 0;
         }
+
         .okButton {
             display: inline-block;
             border-radius: 10px;
@@ -45,22 +38,9 @@
             position: relative;
             bottom: -50px;
         }
+
         .okButton:hover {
             background-color: #3D6CB8
-        }
-        .logOutButton {
-            display: inline-block;
-            background-color: Transparent;
-            border: none;
-            color: #FFFFFF;
-            text-align: center;
-            width: 50px;
-            height: 18px;
-            transition: all 0.5s;
-            cursor: pointer;
-            margin: 0;
-            padding: 0;
-            border: 0;
         }
     </style>
 
@@ -79,61 +59,31 @@
         <select id="stClass" name="stClass" onchange="this.form.submit()">
             <option value="" disabled selected>Select class</option>
             <c:forEach var="stclass" items="${classes}">
-                <c:choose>
-                    <c:when test="${stclass.classId==form.classId}">
-                        <option value="${stclass.classId}" selected>
-                            <c:out value="${stclass.studyYear}"/>
-                            <c:out value="${stclass.letter}"/>
-                        </option>
-                    </c:when>
-                    <c:otherwise>
-                        <option value="${stclass.classId}">
-                            <c:out value="${stclass.studyYear}"/>
-                            <c:out value="${stclass.letter}"/>
-                        </option>
-                    </c:otherwise>
-                </c:choose>
+                <option value="${stclass.classId}" ${stclass.classId==form.classId ? 'selected' : ''}>
+                    <c:out value="${stclass.studyYear}"/>
+                    <c:out value="${stclass.letter}"/>
+                </option>
             </c:forEach>
         </select>
         <br/>
-        <!--<button type="submit" value="OK" name="Ok" class="okButton"><span>OK</span></button><-->
         <select id="studentId" name="studentId">
             <option value="" disabled selected>Select student</option>
             <c:forEach var="student" items="${students}">
-                <c:choose>
-                    <c:when test="${student.studentId == form.selStudentId}">
-                        <option value="${student.studentId}" selected>
-                            <c:out value="${student.surname}"/>
-                            <c:out value="${student.name}"/>
-                            <c:out value="${student.patronymic}"/>
-                        </option>
-                    </c:when>
-                    <c:otherwise>
-                <option value="${student.studentId}">
+                <option value="${student.studentId}" ${student.studentId == form.selStudentId ? 'selected' : ''}>
                     <c:out value="${student.surname}"/>
                     <c:out value="${student.name}"/>
                     <c:out value="${student.patronymic}"/>
                 </option>
-                    </c:otherwise>
-                </c:choose>
             </c:forEach>
         </select>
         <br/>
         <select id="subjId" name="subjId">
             <option value="" disabled selected>Select subject</option>
-            <c:forEach var="subject" items="${subjects}" >
-                <c:choose>
-                    <c:when test="${subject.subjId == form.selSubjId}">
-                        <option value="${subject.subjId}" selected>
-                            <c:out value="${subject.subjName}"/>
-                        </option>
-                    </c:when>
-                    <c:otherwise>
-                <option value="${subject.subjId}">
+            <c:forEach var="subject" items="${subjects}">
+                <option value="${subject.subjId}" ${subject.subjId == form.selSubjId ? 'selected' : ''}>
                     <c:out value="${subject.subjName}"/>
                 </option>
-                    </c:otherwise>
-                </c:choose>
+
             </c:forEach>
         </select>
         <br/>
