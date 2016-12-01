@@ -98,8 +98,12 @@
         <input type="date" name="date" id="date" value="2016-11-13">
         <br/>
         <button type="submit" value="OK" name="OkB" class="okButton"><span>OK</span></button>
-        <c:if test="${not empty submitDone}">
+        <c:if test="${submitDone == 'yes'}">
             <script>alert("Mark was added!");
+            </script>
+        </c:if>
+        <c:if test="${submitDone == 'no'}">
+            <script>alert("Fill all fields!");
             </script>
         </c:if>
 

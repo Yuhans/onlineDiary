@@ -42,16 +42,24 @@ public class AddMarkServlet extends HttpServlet {
             schoolClass = dao.getClasses().get(classId - 1);
             request.setAttribute("subjects", dao.getSubjects(schoolClass.getStudyYear()));
         }
-
+        request.setAttribute("submitDone", null);
         if (request.getParameter("OkB") != null) {
-            int studId = Integer.parseInt(request.getParameter("studentId"));
-            int subjId = Integer.parseInt(request.getParameter("subjId"));
-            Date date = Date.valueOf(request.getParameter("date"));
-            int mark = Integer.parseInt(request.getParameter("mark"));
-            //add mark to DB
-            dao.addMark(studId, subjId, date, mark);
-            request.setAttribute("submitDone","done");
-            //request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
+
+            String tmp = request.getParameter("studentId");
+            String tmp2 = request.getParameter("subjId");
+            if(tmp==null && tmp2==null){
+                request.setAttribute("submitDone", "no");
+            }
+            else {
+                int studId = Integer.parseInt(request.getParameter("studentId"));
+                int subjId = Integer.parseInt(request.getParameter("subjId"));
+                Date date = Date.valueOf(request.getParameter("date"));
+                int mark = Integer.parseInt(request.getParameter("mark"));
+                //add mark to DB
+                dao.addMark(studId, subjId, date, mark);
+                request.setAttribute("submitDone", "yes");
+
+            }
 
         }
         request.getRequestDispatcher("AddMark.jsp").forward(request, response);
