@@ -14,7 +14,7 @@ import java.util.List;
 
 
 public class ManagementSystem {
-    private static Connection con;
+    private Connection con;
 
     public ManagementSystem() {
         con = getConnection();
