@@ -25,7 +25,7 @@ public class Executor {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(query);
             ResultSet result = stmt.getResultSet();
-            value = handler.handle(result);
+            return handler.handle(result);
         } catch (SQLException e) {
             e.printStackTrace();
         }
