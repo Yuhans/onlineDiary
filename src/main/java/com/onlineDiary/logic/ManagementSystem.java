@@ -65,8 +65,8 @@ public class ManagementSystem {
         new MarkDAO(con).addMark(studId, subjId, date, mark);
     }
 
-    public void addStudent(int classId, String name, String surname, String patronymic){
-        new StudentDAO(con).addStudent(classId, name, surname, patronymic);
+    public void addStudent(Student s){
+        new StudentDAO(con).addStudent(s.getClassId(), s.getName(), s.getSurname(),s.getPatronymic());
     }
 
 }

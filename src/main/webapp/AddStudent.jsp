@@ -76,7 +76,7 @@
         <label for="name">Name</label>
         <input type="text" name="name" id="name" value="Петр">
         <br/>
-        <label for="patronymic">Surname</label>
+        <label for="patronymic">Patronymic</label>
         <input type="text" name="patronymic" id="patronymic" value="Петрович">
         <br/>
         <button type="submit" value="OK" name="OkB" class="okButton"><span>OK</span></button>
