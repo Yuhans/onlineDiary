@@ -5,8 +5,6 @@ import com.onlineDiary.logic.beans.Student;
 import com.onlineDiary.logic.executor.Executor;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,17 +32,10 @@ public class StudentDAO {
         });
     }
 
-    public void addStudent(int classId, String name, String surname, String patronymic){
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO students " +
-                "(surname, name, patronymic, class_id) VALUE (?,?,?,?)")) {
-            ps.setString(1, surname);
-            ps.setString(2, name);
-            ps.setString(3, patronymic);
-            ps.setInt(4, classId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
+    public void addStudent(int classId, String name, String surname, String patronymic) {
+        String query = "INSERT INTO students (surname, name, patronymic, class_id) VALUE " +
+                "(" + "\"" + surname + "\""+"," + "\"" + name +"\"" + "," + "\"" +patronymic +"\""+ "," +
+                "\"" +classId + "\"" +")";
+        executor.execUpdate(query);
     }
 }
