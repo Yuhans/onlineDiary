@@ -11,6 +11,8 @@ import java.util.List;
 public class MainFrameForm {
 
     private int classId;
+    private int selStudentId;
+    private int selSubjId;
     private List<SClass> sClasses;
     private List<Student> students;
     private List<Subject> subjects;
@@ -52,5 +54,21 @@ public class MainFrameForm {
 
     public void setClassId(int classId) {
         this.classId = classId;
+    }
+
+    public int getSelStudentId() {
+        return selStudentId;
+    }
+
+    public void setSelStudentId(int selStudentId) {
+        this.selStudentId = selStudentId;
+    }
+
+    public int getSelSubjId() {
+        return selSubjId;
+    }
+
+    public void setSelSubjId(int selSubjId) {
+        this.selSubjId = selSubjId;
     }
 }

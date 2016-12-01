@@ -48,7 +48,10 @@ public class MainFrameServlet extends HttpServlet {
             int studId = Integer.parseInt(request.getParameter("studentId"));
             int subjId = Integer.parseInt(request.getParameter("subjId"));
             form.setMarks(dao.getMarks(studId, subjId));
+            form.setSelStudentId(studId);
+            form.setSelSubjId(subjId);
             request.setAttribute("marks", form.getMarks());
+            request.setAttribute("form", form);
         }
     }
 

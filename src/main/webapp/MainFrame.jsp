@@ -100,20 +100,40 @@
         <select id="studentId" name="studentId">
             <option value="" disabled selected>Select student</option>
             <c:forEach var="student" items="${students}">
+                <c:choose>
+                    <c:when test="${student.studentId == form.selStudentId}">
+                        <option value="${student.studentId}" selected>
+                            <c:out value="${student.surname}"/>
+                            <c:out value="${student.name}"/>
+                            <c:out value="${student.patronymic}"/>
+                        </option>
+                    </c:when>
+                    <c:otherwise>
                 <option value="${student.studentId}">
                     <c:out value="${student.surname}"/>
                     <c:out value="${student.name}"/>
                     <c:out value="${student.patronymic}"/>
                 </option>
+                    </c:otherwise>
+                </c:choose>
             </c:forEach>
         </select>
         <br/>
         <select id="subjId" name="subjId">
             <option value="" disabled selected>Select subject</option>
             <c:forEach var="subject" items="${subjects}" >
+                <c:choose>
+                    <c:when test="${subject.subjId == form.selSubjId}">
+                        <option value="${subject.subjId}" selected>
+                            <c:out value="${subject.subjName}"/>
+                        </option>
+                    </c:when>
+                    <c:otherwise>
                 <option value="${subject.subjId}">
                     <c:out value="${subject.subjName}"/>
                 </option>
+                    </c:otherwise>
+                </c:choose>
             </c:forEach>
         </select>
         <br/>
