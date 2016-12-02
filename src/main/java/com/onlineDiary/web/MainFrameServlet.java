@@ -1,6 +1,7 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
+import com.onlineDiary.logic.account.AccountService;
 import com.onlineDiary.logic.beans.SClass;
 import com.onlineDiary.web.forms.MainFrameForm;
 
@@ -8,13 +9,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
 public class MainFrameServlet extends HttpServlet {
-    private final ManagementSystem dao = new ManagementSystem();
-    private final MainFrameForm form = new MainFrameForm();
+    private ManagementSystem dao = new ManagementSystem();
+    private MainFrameForm form = new MainFrameForm();
+    private AccountService accountService = AccountService.getInstance();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
@@ -33,8 +34,7 @@ public class MainFrameServlet extends HttpServlet {
     }
 
     private boolean isAuthorized(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        return session.getAttribute("user") != null;
+        return accountService.getUserBySessionId(request.getSession().getId()) != null;
     }
 
     private void setMainForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
