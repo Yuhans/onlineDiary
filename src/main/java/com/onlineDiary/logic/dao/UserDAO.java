@@ -29,7 +29,7 @@ public class UserDAO {
 
     public boolean isLoginExist(String login) {
         String query = "SELECT login FROM users WHERE login = " + "\"" + login + "\"";
-        return executor.execQuery(query, ResultSet::wasNull);
+        return !executor.execQuery(query, ResultSet::wasNull);
     }
 
 }

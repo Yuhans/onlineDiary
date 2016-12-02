@@ -15,57 +15,63 @@ public class AuthPageServlet extends HttpServlet {
     private ManagementSystem managementSystem = new ManagementSystem();
     private AccountService accountService = AccountService.getInstance();
 
-    private void processRequest(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        int answer = checkAction(req);
-        switch (answer) {
-            case 1:
-                if (req.getParameter("login") != null) {
-                    String login = req.getParameter("login");
-
-                    User user = managementSystem.getUserByLogin(login);
-
-
-                    if (user == null) {
-                        req.setAttribute("errorMessage", "Invalid user or password");
-                        req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
-                    } else if (user.getPassword().equals(req.getParameter("password").trim())) {
-                        accountService.addSession(req.getSession().getId(), user);
-                        resp.sendRedirect("/main");
-                        return;
-                    } else {
-                        req.setAttribute("errorMessage", "Invalid user or password");
-                        req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
-                    }
-                } else {
-                    req.setAttribute("errorMessage", "Invalid user or password");
-                    req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
-                }
-                break;
-            case 2:
-                resp.sendRedirect("/signup");
-                break;
-            default:
-                getServletContext().getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
-        }
-    }
-
-    private int checkAction(HttpServletRequest req) {
-        if (req.getParameter("Login") != null) {
-            return 1;
-        }
-        if (req.getParameter("Sign up") != null) {
-            return 2;
-        }
-        return 0;
-    }
-
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
+    }
+
+    private void processRequest(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        String answer = checkAction(req);
+        switch (answer) {
+            case "Sign in":
+                signIn(req, resp);
+                break;
+            case "Sign up":
+                resp.sendRedirect("/signup");
+                break;
+            default:
+                getServletContext().getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
+                break;
+        }
+    }
+
+    private String checkAction(HttpServletRequest req) {
+        if (req.getParameter("Login") != null) {
+            return "Sign in";
+        }
+        if (req.getParameter("Sign up") != null) {
+            return "Sign up";
+        }
+        return "";
+    }
+
+    private void signIn(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String login = request.getParameter("login");
+        String password = request.getParameter("password").trim();
+        if (isRequestCorrect(login, password)) {
+            User user = managementSystem.getUserByLogin(login);
+            if (user == null || !user.getPassword().equals(password)) {
+                doWithBadRequest(request, response);
+            } else {
+                accountService.addSession(request.getSession().getId(), user);
+                response.sendRedirect("/main");
+            }
+        } else {
+            doWithBadRequest(request, response);
+        }
+    }
+
+    private boolean isRequestCorrect(String login, String pass) {
+        return !(login == null || pass == null);
+    }
+
+    private void doWithBadRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("errorMessage", "Invalid user or password");
+        request.getRequestDispatcher("/AuthPage.jsp").forward(request, response);
     }
 }
