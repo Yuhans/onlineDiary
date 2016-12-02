@@ -12,63 +12,80 @@ import java.io.IOException;
 public class SignUpServlet extends HttpServlet {
     private ManagementSystem dao = new ManagementSystem();
 
-    private void processRequest(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        processRequest(req, resp);
+    }
+
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        processRequest(req, resp);
+    }
+
+    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
 
-        int answer = checkAction(req);
+        String answer = checkAction(req);
         switch (answer) {
-            case 1:
-                if (isLoginAndPasswordCorrect(req)) {
-                    if (isUserAlreadyExist(req)) {
-                        if (req.getParameter("password").trim().equals(req.getParameter("confPassword").trim())) {
-                            addUser(req);
-                            resp.sendRedirect("/auth");
-                        } else {
-                            req.setAttribute("errorMessage", "Passwords don't match");
-                            req.getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
-                        }
-                    } else {
-                        req.setAttribute("errorMessage", "User with this login already exists");
-                        req.getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
-                    }
-                } else {
-                    req.setAttribute("errorMessage", "Incorrect filling");
-                    req.getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
-                }
+            case "Register":
+                signUp(req, resp);
                 break;
-            case 2:
+            case "Cancel":
                 resp.sendRedirect("/auth");
                 break;
             default:
                 getServletContext().getRequestDispatcher("/SignUpPage.jsp").forward(req, resp);
                 break;
         }
+    }
 
+    private String checkAction(HttpServletRequest req) {
+        if (req.getParameter("Register") != null) {
+            return "Register";
+        }
+        if (req.getParameter("Cancel") != null) {
+            return "Cancel";
+        }
+        return "";
+    }
 
+    private void signUp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (isLoginAndPasswordCorrect(request)) {
+            signUpUser(request, response);
+        } else {
+            request.setAttribute("errorMessage", "Incorrect filling");
+            request.getRequestDispatcher("/SignUpPage.jsp").forward(request, response);
+        }
     }
 
     private boolean isLoginAndPasswordCorrect(HttpServletRequest request) {
         return User.isLoginCorrect(request.getParameter("login")) && User.isPasswordCorrect(request.getParameter("password"));
     }
 
+    private void signUpUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (isUserAlreadyExist(request)) {
+            request.setAttribute("errorMessage", "User with this login already exists");
+            request.getRequestDispatcher("/SignUpPage.jsp").forward(request, response);
+        } else {
+            addUser(request, response);
+        }
+    }
+
     private boolean isUserAlreadyExist(HttpServletRequest request) {
         return dao.checkLogin(request.getParameter("login").trim());
+    }
+
+    private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getParameter("password").trim().equals(request.getParameter("confPassword").trim())) {
+            addUser(request);
+            response.sendRedirect("/auth");
+        } else {
+            request.setAttribute("errorMessage", "Passwords don't match");
+            request.getRequestDispatcher("/SignUpPage.jsp").forward(request, response);
+        }
     }
 
     private void addUser(HttpServletRequest req) {
         User user = prepareUser(req);
         dao.addUser(user);
-    }
-
-    private int checkAction(HttpServletRequest req) {
-        if (req.getParameter("Register") != null) {
-            return 1;
-        }
-        if (req.getParameter("Cancel") != null) {
-            return 2;
-        }
-        return 0;
     }
 
     private User prepareUser(HttpServletRequest req) {
@@ -79,13 +96,6 @@ public class SignUpServlet extends HttpServlet {
         return user;
     }
 
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        processRequest(req, resp);
-    }
 
-    public void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        processRequest(req, resp);
-    }
+
 }

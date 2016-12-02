@@ -21,13 +21,15 @@ public class Executor {
     }
 
     public <T> T execQuery(String query, ResultHandler<T> handler) {
+        T value = null;
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(query);
             ResultSet result = stmt.getResultSet();
-            return handler.handle(result);
+            value = handler.handle(result);
+            result.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return value;
     }
 }
