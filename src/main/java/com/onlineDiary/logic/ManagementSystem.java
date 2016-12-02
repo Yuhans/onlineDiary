@@ -66,7 +66,7 @@ public class ManagementSystem {
     }
 
     public void addStudent(Student s){
-        new StudentDAO(con).addStudent(s.getClassId(), s.getName(), s.getSurname(),s.getPatronymic());
+        new StudentDAO(con).addStudent(s);
     }
 
 }
