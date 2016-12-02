@@ -1,18 +1,19 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
+import com.onlineDiary.logic.account.AccountService;
 import com.onlineDiary.logic.beans.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
 public class AuthPageServlet extends HttpServlet {
     private ManagementSystem managementSystem = new ManagementSystem();
+    private AccountService accountService = AccountService.getInstance();
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -30,9 +31,7 @@ public class AuthPageServlet extends HttpServlet {
                         req.setAttribute("errorMessage", "Invalid user or password");
                         req.getRequestDispatcher("/AuthPage.jsp").forward(req, resp);
                     } else if (user.getPassword().equals(req.getParameter("password").trim())) {
-                        HttpSession session = req.getSession();
-                        session.setAttribute("user", login);
-                        session.setAttribute("role",user.getRole() );
+                        accountService.addSession(req.getSession().getId(), user);
                         resp.sendRedirect("/main");
                         return;
                     } else {
