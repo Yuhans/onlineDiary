@@ -31,7 +31,7 @@ public class StudentDAO {
     }
 
     public void addStudent(Student s) {
-        String query = "INSERT INTO students (surname, name, patronymic, class_id) VALUE " +
+        String query = "INSERT INTO students (surname, name, patronymic, class_id) VALUES " +
                 "(" + "\"" + s.getSurname() + "\""+"," + "\"" + s.getName() +"\"" + "," + "\"" + s.getPatronymic() +"\""+ "," +
                 "\"" + s.getClassId() + "\"" +")";
         executor.execUpdate(query);

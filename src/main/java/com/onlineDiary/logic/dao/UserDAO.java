@@ -23,7 +23,7 @@ public class UserDAO {
 
     public void insertUser(User user) {
         String query = "INSERT INTO users (login, password, role) " +
-                "VALUE (" + "\"" + user.getLogin() + "\",\"" + user.getPassword() + "\",\"" + user.getRole() + "\")";
+                "VALUES (" + "\"" + user.getLogin() + "\",\"" + user.getPassword() + "\",\"" + user.getRole() + "\")";
         executor.execUpdate(query);
     }
 

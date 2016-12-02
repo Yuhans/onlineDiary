@@ -45,20 +45,10 @@
         <select id="stClass" name="stClass" onchange="this.form.submit()">
             <option value="" disabled selected>Select class</option>
             <c:forEach var="stclass" items="${classes}">
-                <c:choose>
-                    <c:when test="${stclass.classId==form.classId}">
-                        <option value="${stclass.classId}" selected>
-                            <c:out value="${stclass.studyYear}"/>
-                            <c:out value="${stclass.letter}"/>
-                        </option>
-                    </c:when>
-                    <c:otherwise>
-                        <option value="${stclass.classId}">
-                            <c:out value="${stclass.studyYear}"/>
-                            <c:out value="${stclass.letter}"/>
-                        </option>
-                    </c:otherwise>
-                </c:choose>
+                <option value="${stclass.classId}" ${stclass.classId==form.classId ? 'selected' : ''}>
+                    <c:out value="${stclass.studyYear}"/>
+                    <c:out value="${stclass.letter}"/>
+                </option>
             </c:forEach>
         </select>
         <br/>
