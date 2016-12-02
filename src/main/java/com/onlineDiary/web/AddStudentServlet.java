@@ -24,6 +24,7 @@ public class AddStudentServlet extends HttpServlet {
             response.sendRedirect("/auth");
         }
     }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
             request.setAttribute("classes", dao.getClasses());
@@ -39,24 +40,41 @@ public class AddStudentServlet extends HttpServlet {
 
     private void addStudent(HttpServletRequest request) throws ServletException {
         request.setAttribute("classes", dao.getClasses());
+        if (request.getParameter("OkB") != null) {
+            Student newStudent = prepareStudent(request);
+            if (newStudent == null) {
+                request.setAttribute("submitDone", "no");
+            } else {
+                dao.addStudent(newStudent);
+                request.setAttribute("submitDone", "yes");
+            }
+        }
+    }
+
+    private Student prepareStudent(HttpServletRequest request) {
+        String name = request.getParameter("name");
+        String surname = request.getParameter("surname");
+        String patronymic = request.getParameter("patronymic");
+        int classId = getClassId(request);
+        if (areParametersCorrect(name, surname, patronymic, classId)) {
+             return new Student(name, surname, patronymic, classId, 0);
+        } else {
+            return null;
+        }
+    }
+
+    private boolean areParametersCorrect(String name, String surname, String patronymic, int classId) {
+        return !((name == null || name.isEmpty())
+                || (surname == null || surname.isEmpty())
+                || (patronymic == null || patronymic.isEmpty())
+                || classId == 0);
+    }
+
+    private int getClassId(HttpServletRequest request) {
         int classId = 0;
         if (request.getParameter("stClass") != null) {
             classId = Integer.parseInt(request.getParameter("stClass"));
         }
-        if (request.getParameter("OkB") != null) {
-            String tmp = request.getParameter("name");
-            String tmp2 = request.getParameter("surname");
-            String tmp3 = request.getParameter("patronymic");
-            if (tmp == null || tmp2 == null || tmp3 == null || classId == 0) {
-                request.setAttribute("submitDone", "no");
-            } else {
-                String name = request.getParameter("name");
-                String surname = request.getParameter("surname");
-                String patronymic = request.getParameter("patronymic");
-                Student s = new Student(name, surname, patronymic, classId, 0);
-                dao.addStudent(s);
-                request.setAttribute("submitDone", "yes");
-            }
-        }
+        return classId;
     }
 }
