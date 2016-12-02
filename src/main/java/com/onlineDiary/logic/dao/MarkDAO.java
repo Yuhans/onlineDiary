@@ -33,7 +33,7 @@ public class MarkDAO {
 
     public void addMark(int studId, int subjId, Date date, int mark) {
         String query = "INSERT INTO marks (id_teacher, id_subject, id_student, date, mark)" +
-                " VALUE (1," + subjId + "," + studId + "," + "\"" + date + "\"," + mark + ")";
+                " VALUES (1," + subjId + "," + studId + "," + "\"" + date + "\"," + mark + ")";
         executor.execUpdate(query);
     }
 }

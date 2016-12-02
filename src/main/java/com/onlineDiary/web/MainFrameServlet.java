@@ -57,14 +57,10 @@ public class MainFrameServlet extends HttpServlet {
 
     private void setStudentsAndSubjectsByClass(HttpServletRequest request) {
         request.setAttribute("classes", dao.getClasses());
-        SClass schoolClass = new SClass();
-        int classId = 0;
-        if (request.getParameter("stClass") != null) {
-            classId = Integer.parseInt(request.getParameter("stClass"));
-            request.setAttribute("students", dao.getStudentsByClass(classId));
-            schoolClass = dao.getClasses().get(classId - 1);
-            request.setAttribute("subjects", dao.getSubjects(schoolClass.getStudyYear()));
-        }
+        int classId = getClassId(request);
+        request.setAttribute("students", dao.getStudentsByClass(classId));
+        SClass schoolClass = dao.getClasses().get(classId - 1);
+        request.setAttribute("subjects", dao.getSubjects(schoolClass.getStudyYear()));
         schoolClass.setClassId(classId);
         form.setClassId(schoolClass.getClassId());
         request.setAttribute("form", form);
@@ -73,5 +69,13 @@ public class MainFrameServlet extends HttpServlet {
     private void setClasses(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("classes", dao.getClasses());
         request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
+    }
+
+    private int getClassId(HttpServletRequest request) {
+        int classId = 1;
+        if (request.getParameter("stClass") != null) {
+            classId = Integer.parseInt(request.getParameter("stClass"));
+        }
+        return classId;
     }
 }
