@@ -37,13 +37,9 @@ public class ManagementSystem {
         return (new UserDAO(con).getUser(login));
     }
 
-    public boolean checkLogin(String login) {
-        return (new UserDAO(con).isLoginExist(login));
-    }
+    public boolean checkLogin(String login) { return (new UserDAO(con).isLoginExist(login)); }
 
-    public void addUser(User user) {
-        new UserDAO(con).insertUser(user);
-    }
+    public void addUser(User user) { new UserDAO(con).insertUser(user); }
 
     public List<Mark> getMarks(int studId, int subjId) {
         return (new MarkDAO(con).getMarksBySubject(studId, subjId));
@@ -61,12 +57,8 @@ public class ManagementSystem {
         return (new SClassDAO(con).getAllClasses());
     }
 
-    public void addMark(int studId, int subjId, Date date, int mark) {
-        new MarkDAO(con).addMark(studId, subjId, date, mark);
-    }
+    public void addMark(int studId, int subjId, Date date, int mark) { new MarkDAO(con).addMark(studId, subjId, date, mark); }
 
-    public void addStudent(Student s){
-        new StudentDAO(con).addStudent(s);
-    }
+    public void addStudent(Student s){ new StudentDAO(con).addStudent(s); }
 
 }
