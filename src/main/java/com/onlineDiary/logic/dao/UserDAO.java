@@ -4,7 +4,6 @@ import com.onlineDiary.logic.beans.User;
 import com.onlineDiary.logic.executor.Executor;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 
 public class UserDAO {
     private Executor executor;
@@ -29,7 +28,6 @@ public class UserDAO {
 
     public boolean isLoginExist(String login) {
         String query = "SELECT login FROM users WHERE login = " + "\"" + login + "\"";
-        return !executor.execQuery(query, ResultSet::wasNull);
+        return executor.execQuery(query, resultSet -> !resultSet.next());
     }
-
 }

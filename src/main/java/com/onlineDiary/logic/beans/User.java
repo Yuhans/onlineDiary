@@ -1,7 +1,5 @@
 package com.onlineDiary.logic.beans;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,6 +9,7 @@ public class User implements Comparable{
     private String login;
     private String password;
     private int role;
+
     public User() {
 
     }
@@ -19,12 +18,6 @@ public class User implements Comparable{
         this.login = login;
         this.password = password;
         this.role = role;
-    }
-
-    public User(ResultSet rs) throws SQLException {
-        setLogin(rs.getString(1));
-        setPassword(rs.getString(2));
-        setRole(rs.getInt(3));
     }
 
     public static boolean isLoginCorrect(String login) {
