@@ -1,5 +1,6 @@
 package com.onlineDiary.logic.dao;
 
+import com.onlineDiary.logic.Roles;
 import com.onlineDiary.logic.beans.User;
 import com.onlineDiary.logic.executor.Executor;
 
@@ -17,7 +18,14 @@ public class UserDAO {
         String query = "SELECT login, password, role FROM users WHERE login = " + "\"" + login + "\"";
         return executor.execQuery(query, resultSet -> {
             resultSet.next();
-            return new User(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(3));
+            int role = resultSet.getInt(3);
+            Roles thisUserRole;
+            if (role == 0) {
+                thisUserRole = Roles.TEACHER;
+            } else {
+                thisUserRole = Roles.STUDENT;
+            }
+            return new User(resultSet.getString(1), resultSet.getString(2), thisUserRole);
         });
     }
 
