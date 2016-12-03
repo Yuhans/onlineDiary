@@ -8,7 +8,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 
 public class UserDAO {
+
     private Executor executor;
+
+    private static final int TEACHER = 0;
+    private static final int STUDENT = 1;
 
     public UserDAO(Connection connection) {
         executor = new Executor(connection);
@@ -19,7 +23,6 @@ public class UserDAO {
         return executor.execQuery(query, resultSet -> {
             resultSet.next();
             int role = resultSet.getInt(3);
-            final int TEACHER = 0;
             Roles thisUserRole;
             if (role == TEACHER) {
                 thisUserRole = Roles.TEACHER;
@@ -33,9 +36,9 @@ public class UserDAO {
     public void insertUser(User user) {
         int userRoleInDB;
         if (user.getRole() == Roles.TEACHER) {
-            userRoleInDB = 0;
+            userRoleInDB = TEACHER;
         } else {
-            userRoleInDB = 1;
+            userRoleInDB = STUDENT;
         }
         String query = "INSERT INTO users (login, password, role) " +
                 "VALUES (" + "\"" + user.getLogin() + "\",\"" + user.getPassword() + "\",\"" + userRoleInDB + "\")";
