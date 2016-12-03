@@ -49,7 +49,7 @@
 <div class="Frame">
     <img class="img" src="img/icon-diary.png" alt="icon-diary">
     <c:choose>
-        <c:when test="${role == 0}">
+        <c:when test="${role=='TEACHER'}">
             <ul>
                 <li><a href="<c:url value="/main"/>">Home</a></li>
                 <li><a href="<c:url value="/addmark"/>">Add mark</a></li>

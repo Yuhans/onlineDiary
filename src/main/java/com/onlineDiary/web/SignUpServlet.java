@@ -1,6 +1,7 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
+import com.onlineDiary.logic.Roles;
 import com.onlineDiary.logic.beans.User;
 import org.apache.log4j.Logger;
 
@@ -99,7 +100,7 @@ public class SignUpServlet extends HttpServlet {
         User user = new User();
         user.setLogin(req.getParameter("login").trim());
         user.setPassword(req.getParameter("password").trim());
-        user.setRole(1);
+        user.setRole(Roles.STUDENT);
         return user;
     }
 

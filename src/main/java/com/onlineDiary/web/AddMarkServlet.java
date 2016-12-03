@@ -1,6 +1,7 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
+import com.onlineDiary.logic.Roles;
 import com.onlineDiary.logic.account.AccountService;
 import com.onlineDiary.logic.beans.SClass;
 import com.onlineDiary.web.forms.MainFrameForm;
@@ -20,7 +21,7 @@ public class AddMarkServlet extends HttpServlet {
     private MainFrameForm form = new MainFrameForm();
 
     private static final Logger LOGGER = Logger.getLogger(AddMarkServlet.class);
-    private static final int TEACHER = 0;
+    private static final Roles TEACHER = Roles.TEACHER;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {

@@ -1,5 +1,7 @@
 package com.onlineDiary.logic.beans;
 
+import com.onlineDiary.logic.Roles;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,13 +10,13 @@ public class User implements Comparable{
 
     private String login;
     private String password;
-    private int role;
+    private Roles role;
 
     public User() {
 
     }
 
-    public User (String login, String password, int role) {
+    public User (String login, String password, Roles role) {
         this.login = login;
         this.password = password;
         this.role = role;
@@ -48,9 +50,9 @@ public class User implements Comparable{
         this.password = password;
     }
 
-    public int getRole() { return role; }
+    public Roles getRole() { return role; }
 
-    public void setRole(int role) {
+    public void setRole(Roles role) {
         this.role = role;
     }
 

@@ -7,9 +7,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.File;
 
-/**
- * Created by Рамиль on 03.12.2016.
- */
 public class ContextListener implements ServletContextListener {
 
     @Override
