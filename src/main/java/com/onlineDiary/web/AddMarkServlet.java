@@ -18,13 +18,19 @@ public class AddMarkServlet extends HttpServlet {
     private ManagementSystem dao = new ManagementSystem();
     private AccountService accountService = AccountService.getInstance();
     private MainFrameForm form = new MainFrameForm();
+
     private static final Logger LOGGER = Logger.getLogger(AddMarkServlet.class);
+    private static final int TEACHER = 0;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
-            setStudentsAndSubjectsByClass(request);
-            addMark(request);
-            request.getRequestDispatcher("AddMark.jsp").forward(request, response);
+            if (isTeacher(request)) {
+                setStudentsAndSubjectsByClass(request);
+                addMark(request);
+                request.getRequestDispatcher("AddMark.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("/main");
+            }
         } else {
             response.sendRedirect("/auth");
         }
@@ -32,8 +38,12 @@ public class AddMarkServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
-            request.setAttribute("classes", dao.getClasses());
-            request.getRequestDispatcher("AddMark.jsp").forward(request, response);
+            if (isTeacher(request)) {
+                request.setAttribute("classes", dao.getClasses());
+                request.getRequestDispatcher("AddMark.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("/main");
+            }
         } else {
             response.sendRedirect("/auth");
         }
@@ -41,6 +51,10 @@ public class AddMarkServlet extends HttpServlet {
 
     private boolean isAuthorized(HttpServletRequest request) {
         return accountService.getUserBySessionId(request.getSession().getId()) != null;
+    }
+
+    private boolean isTeacher(HttpServletRequest request) {
+        return accountService.getUserBySessionId(request.getSession().getId()).getRole() == TEACHER;
     }
 
     private void setStudentsAndSubjectsByClass(HttpServletRequest request) {

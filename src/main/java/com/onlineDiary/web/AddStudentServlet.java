@@ -16,13 +16,19 @@ public class AddStudentServlet extends HttpServlet {
 
     private ManagementSystem dao = new ManagementSystem();
     private AccountService accountService = AccountService.getInstance();
+
     private static final Logger LOGGER = Logger.getLogger(AddStudentServlet.class);
+    private static final int TEACHER = 0;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         if (isAuthorized(request)) {
-            addStudent(request);
-            request.getRequestDispatcher("AddStudent.jsp").forward(request, response);
+            if (isTeacher(request)) {
+                addStudent(request);
+                request.getRequestDispatcher("AddStudent.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("/main");
+            }
         } else {
             response.sendRedirect("/auth");
         }
@@ -30,8 +36,12 @@ public class AddStudentServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
-            request.setAttribute("classes", dao.getClasses());
-            request.getRequestDispatcher("AddStudent.jsp").forward(request, response);
+            if (isTeacher(request)) {
+                request.setAttribute("classes", dao.getClasses());
+                request.getRequestDispatcher("AddStudent.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("/main");
+            }
         } else {
             response.sendRedirect("/auth");
         }
@@ -39,6 +49,10 @@ public class AddStudentServlet extends HttpServlet {
 
     private boolean isAuthorized(HttpServletRequest request) {
         return accountService.getUserBySessionId(request.getSession().getId()) != null;
+    }
+
+    private boolean isTeacher(HttpServletRequest request) {
+        return accountService.getUserBySessionId(request.getSession().getId()).getRole() == TEACHER;
     }
 
     private void addStudent(HttpServletRequest request) throws ServletException {

@@ -48,14 +48,23 @@
 <body>
 <div class="Frame">
     <img class="img" src="img/icon-diary.png" alt="icon-diary">
-    <ul>
-        <li><a href="/main">Home</a></li>
-        <li><a href="/addmark">Add mark</a></li>
-        <li><a href="/addstudent">Add Student</a></li>
-        <li style="float:right"><a href="/logout">Log out</a></li>
-    </ul>
+    <c:choose>
+        <c:when test="${role == 0}">
+            <ul>
+                <li><a href="<c:url value="/main"/>">Home</a></li>
+                <li><a href="<c:url value="/addmark"/>">Add mark</a></li>
+                <li><a href="<c:url value="/addstudent"/>">Add Student</a></li>
+                <li style="float:right"><a href="<c:url value="/logout"/>">Log out</a></li>
+            </ul>
+        </c:when>
+        <c:otherwise>
+            <ul>
+                <li><a href="<c:url value="/main"/>">Home</a></li>
+                <li style="float:right"><a href="<c:url value="/logout"/>">Log out</a></li>
+            </ul>
+        </c:otherwise>
+    </c:choose>
     <form action="<c:url value="/main"/>" method="POST">
-
         <select id="stClass" name="stClass" onchange="this.form.submit()">
             <option value="" disabled selected>Select class</option>
             <c:forEach var="stclass" items="${classes}">

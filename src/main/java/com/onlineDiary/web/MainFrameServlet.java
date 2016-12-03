@@ -13,12 +13,21 @@ import java.io.IOException;
 
 
 public class MainFrameServlet extends HttpServlet {
+
     private ManagementSystem dao = new ManagementSystem();
     private MainFrameForm form = new MainFrameForm();
     private AccountService accountService = AccountService.getInstance();
 
+    private static final int TEACHER = 0;
+    private static final int STUDENT = 1;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
+            if (isTeacher(request)) {
+                request.setAttribute("role", TEACHER);
+            } else {
+                request.setAttribute("role", STUDENT);
+            }
             setMainForm(request, response);
         } else {
             response.sendRedirect("/auth");
@@ -27,6 +36,12 @@ public class MainFrameServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
+            if (isTeacher(request)) {
+                request.setAttribute("role", TEACHER);
+            }
+            else {
+                request.setAttribute("role", STUDENT);
+            }
             setClasses(request, response);
         } else {
             response.sendRedirect("/auth");
@@ -35,6 +50,10 @@ public class MainFrameServlet extends HttpServlet {
 
     private boolean isAuthorized(HttpServletRequest request) {
         return accountService.getUserBySessionId(request.getSession().getId()) != null;
+    }
+
+    private boolean isTeacher(HttpServletRequest request) {
+        return accountService.getUserBySessionId(request.getSession().getId()).getRole() == TEACHER;
     }
 
     private void setMainForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
