@@ -25,9 +25,9 @@ public class MainFrameServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
             if (isTeacher(request)) {
-                request.setAttribute("role", 0);
+                request.setAttribute("role", TEACHER);
             } else {
-                request.setAttribute("role", 1);
+                request.setAttribute("role", STUDENT);
             }
             setMainForm(request, response);
         } else {
@@ -38,10 +38,10 @@ public class MainFrameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
             if (isTeacher(request)) {
-                request.setAttribute("role", 0);
+                request.setAttribute("role", TEACHER);
             }
             else {
-                request.setAttribute("role", 1);
+                request.setAttribute("role", STUDENT);
             }
             setClasses(request, response);
         } else {
