@@ -4,6 +4,7 @@ import com.onlineDiary.logic.ManagementSystem;
 import com.onlineDiary.logic.account.AccountService;
 import com.onlineDiary.logic.beans.SClass;
 import com.onlineDiary.web.forms.MainFrameForm;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +18,7 @@ public class AddMarkServlet extends HttpServlet {
     private ManagementSystem dao = new ManagementSystem();
     private AccountService accountService = AccountService.getInstance();
     private MainFrameForm form = new MainFrameForm();
-
+    private static final Logger LOGGER = Logger.getLogger(AddMarkServlet.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
@@ -60,12 +61,14 @@ public class AddMarkServlet extends HttpServlet {
             String tmp2 = request.getParameter("subjId");
             if (tmp == null && tmp2 == null) {
                 request.setAttribute("submitDone", "no");
+                LOGGER.error("Student ID or Subject ID not found");
             } else {
                 int studId = Integer.parseInt(request.getParameter("studentId"));
                 int subjId = Integer.parseInt(request.getParameter("subjId"));
                 Date date = Date.valueOf(request.getParameter("date"));
                 int mark = Integer.parseInt(request.getParameter("mark"));
                 dao.addMark(studId, subjId, date, mark);
+                LOGGER.info("Mark has been successfully added to student " + studId + ".");
                 request.setAttribute("submitDone", "yes");
             }
         }

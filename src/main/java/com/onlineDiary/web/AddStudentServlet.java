@@ -3,17 +3,20 @@ package com.onlineDiary.web;
 import com.onlineDiary.logic.ManagementSystem;
 import com.onlineDiary.logic.account.AccountService;
 import com.onlineDiary.logic.beans.Student;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
 
 public class AddStudentServlet extends HttpServlet {
 
     private ManagementSystem dao = new ManagementSystem();
     private AccountService accountService = AccountService.getInstance();
+    private static final Logger LOGGER = Logger.getLogger(AddStudentServlet.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -43,9 +46,11 @@ public class AddStudentServlet extends HttpServlet {
         if (request.getParameter("OkB") != null) {
             Student newStudent = prepareStudent(request);
             if (newStudent == null) {
+                LOGGER.error("Student hasn't been added.");
                 request.setAttribute("submitDone", "no");
             } else {
                 dao.addStudent(newStudent);
+                LOGGER.info("Student " + newStudent.getName() + " has been successfully added.");
                 request.setAttribute("submitDone", "yes");
             }
         }

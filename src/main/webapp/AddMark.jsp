@@ -75,11 +75,9 @@
         <br/>
         <br/>
         <br/>
-        <label for="mark">Mark</label>
-        <input type="text" name="mark" id="mark" value="5">
+        <input type="text" name="mark" id="mark" value="Mark">
         <br/>
-        <label for="date">Date</label>
-        <input type="date" name="date" id="date" value="2016-11-13">
+        <input type="date" name="date" id="date" value="Date">
         <br/>
         <button type="submit" value="OK" name="OkB" class="okButton"><span>OK</span></button>
         <c:if test="${submitDone == 'yes'}">

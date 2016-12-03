@@ -2,6 +2,7 @@ package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
 import com.onlineDiary.logic.beans.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class SignUpServlet extends HttpServlet {
+
     private ManagementSystem dao = new ManagementSystem();
+    private static final Logger LOGGER = Logger.getLogger(SignUpServlet.class);
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
@@ -51,6 +54,7 @@ public class SignUpServlet extends HttpServlet {
         if (isLoginAndPasswordCorrect(request)) {
             signUpUser(request, response);
         } else {
+            LOGGER.error("Incorrect filling");
             request.setAttribute("errorMessage", "Incorrect filling");
             request.getRequestDispatcher("/SignUpPage.jsp").forward(request, response);
         }
@@ -62,6 +66,7 @@ public class SignUpServlet extends HttpServlet {
 
     private void signUpUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isUserAlreadyExist(request)) {
+            LOGGER.error("User with login \"" + request.getParameter("login").trim() + "\" already exists");
             request.setAttribute("errorMessage", "User with this login already exists");
             request.getRequestDispatcher("/SignUpPage.jsp").forward(request, response);
         } else {
@@ -76,8 +81,10 @@ public class SignUpServlet extends HttpServlet {
     private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("password").trim().equals(request.getParameter("confPassword").trim())) {
             addUser(request);
+            LOGGER.info("User " + request.getParameter("login").trim() + " has signed up.");
             response.sendRedirect("/auth");
         } else {
+            LOGGER.error("Passwords don't match.");
             request.setAttribute("errorMessage", "Passwords don't match");
             request.getRequestDispatcher("/SignUpPage.jsp").forward(request, response);
         }

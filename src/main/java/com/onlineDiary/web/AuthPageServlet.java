@@ -3,6 +3,7 @@ package com.onlineDiary.web;
 import com.onlineDiary.logic.ManagementSystem;
 import com.onlineDiary.logic.account.AccountService;
 import com.onlineDiary.logic.beans.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,8 +13,10 @@ import java.io.IOException;
 
 
 public class AuthPageServlet extends HttpServlet {
+
     private ManagementSystem managementSystem = new ManagementSystem();
     private AccountService accountService = AccountService.getInstance();
+    private static final Logger LOGGER = Logger.getLogger(AuthPageServlet.class);
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
@@ -58,6 +61,7 @@ public class AuthPageServlet extends HttpServlet {
             if (user == null || !user.getPassword().equals(password)) {
                 doWithBadRequest(request, response);
             } else {
+                LOGGER.info("User " + login + " has signed in.");
                 accountService.addSession(request.getSession().getId(), user);
                 response.sendRedirect("/main");
             }
@@ -71,7 +75,8 @@ public class AuthPageServlet extends HttpServlet {
     }
 
     private void doWithBadRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("errorMessage", "Invalid user or password");
+        LOGGER.error("Username or password is incorrect");
+        request.setAttribute("errorMessage", "Invalid user or password.");
         request.getRequestDispatcher("/AuthPage.jsp").forward(request, response);
     }
 }

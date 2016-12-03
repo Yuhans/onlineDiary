@@ -41,37 +41,24 @@
         </li>
     </ul>
     <form action="<c:url value="/addstudent"/>" method="POST">
-        <select id="stClass" name="stClass" >
+        <select id="stClass" name="stClass">
             <option value="" disabled selected>Select class</option>
             <c:forEach var="stclass" items="${classes}">
-                <c:choose>
-                    <c:when test="${stclass.classId==form.classId}">
-                        <option value="${stclass.classId}" selected>
-                            <c:out value="${stclass.studyYear}"/>
-                            <c:out value="${stclass.letter}"/>
-                        </option>
-                    </c:when>
-                    <c:otherwise>
-                        <option value="${stclass.classId}">
-                            <c:out value="${stclass.studyYear}"/>
-                            <c:out value="${stclass.letter}"/>
-                        </option>
-                    </c:otherwise>
-                </c:choose>
+                <option value="${stclass.classId}" ${stclass.classId==form.classId ? 'selected' : ''}>
+                    <c:out value="${stclass.studyYear}"/>
+                    <c:out value="${stclass.letter}"/>
+                </option>
             </c:forEach>
         </select>
         <br/>
         <br/>
         <br/>
         <br/>
-        <label for="surname">Surname</label>
-        <input type="text" name="surname" id="surname" value="Петров">
+        <input type="text" name="surname" id="surname" value="Surname">
         <br/>
-        <label for="name">Name</label>
-        <input type="text" name="name" id="name" value="Петр">
+        <input type="text" name="name" id="name" value="Name">
         <br/>
-        <label for="patronymic">Patronymic</label>
-        <input type="text" name="patronymic" id="patronymic" value="Петрович">
+        <input type="text" name="patronymic" id="patronymic" value="Patronymic">
         <br/>
         <button type="submit" value="OK" name="OkB" class="okButton"><span>OK</span></button>
         <c:if test="${submitDone == 'yes'}">
