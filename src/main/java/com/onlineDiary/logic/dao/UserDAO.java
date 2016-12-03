@@ -19,8 +19,9 @@ public class UserDAO {
         return executor.execQuery(query, resultSet -> {
             resultSet.next();
             int role = resultSet.getInt(3);
+            final int TEACHER = 0;
             Roles thisUserRole;
-            if (role == 0) {
+            if (role == TEACHER) {
                 thisUserRole = Roles.TEACHER;
             } else {
                 thisUserRole = Roles.STUDENT;
@@ -30,8 +31,14 @@ public class UserDAO {
     }
 
     public void insertUser(User user) {
+        int userRoleInDB;
+        if (user.getRole() == Roles.TEACHER) {
+            userRoleInDB = 0;
+        } else {
+            userRoleInDB = 1;
+        }
         String query = "INSERT INTO users (login, password, role) " +
-                "VALUES (" + "\"" + user.getLogin() + "\",\"" + user.getPassword() + "\",\"" + user.getRole() + "\")";
+                "VALUES (" + "\"" + user.getLogin() + "\",\"" + user.getPassword() + "\",\"" + userRoleInDB + "\")";
         executor.execUpdate(query);
     }
 
