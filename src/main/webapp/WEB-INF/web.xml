@@ -58,17 +58,6 @@
         <url-pattern>/addstudent</url-pattern>
     </servlet-mapping>
 
-    <display-name>Log4j</display-name>
-    <context-param>
-        <param-name>log4j-config-location</param-name>
-        <param-value>/resources</param-value>
-    </context-param>
-
-    <listener>
-        <listener-class>com.onlineDiary.web.ContextListener</listener-class>
-    </listener>
-
-
     <resource-ref>
         <description>DB Connection</description>
         <res-ref-name>jdbc/Diary</res-ref-name>
