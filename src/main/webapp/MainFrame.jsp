@@ -8,18 +8,6 @@
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link href="/css/defaultStyle.css" rel="stylesheet" type="text/css">
     <style>
-        .Frame {
-            width: 950px;
-            height: 600px;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            border-radius: 8px;
-            background-color: #EBEBEA;
-            padding: 0;
-        }
 
         .okButton {
             display: inline-block;

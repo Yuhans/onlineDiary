@@ -1,7 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<html>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="text" />
+
+<html lang="${language}">
 <head>
     <title>Online diary</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
@@ -100,6 +105,24 @@
             bottom: -10px;
         }
 
+        .signUpButton {
+            display: inline-block;
+            border-radius: 10px;
+            background-color: #4580DE;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 10px;
+            padding: 8px;
+            width: 60px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+            position: relative;
+            right: -88px;
+            bottom: -10px;
+        }
+
         .signUpButton:hover {
             background-color: #3D6CB8
         }
@@ -117,19 +140,52 @@
             padding: 10px;
         }
 
+        .selectLang {
+            width: 26%;
+            position: relative;
+            right: -167px;
+            margin: 2px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4580DE;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .selectLang:hover {
+            background-color: #3D6CB8
+        }
+
     </style>
 </head>
 
 <body>
 <div class="Frame">
 <form action="<c:url value="/auth"/>" method="POST">
-    <input type="text" name="login" placeholder="Login" class="loginInput" value="${user.login}"/>
-    <input type="password" name="password" placeholder="Password" class="passwordInput" value="${user.password}"/>
+    <select id="language" name="language" class="selectLang" onchange="submit()">
+        <c:choose>
+            <c:when test="${language=='en'}">
+                <option value="en" selected>English</option>
+                <option value="ru">Russian</option>
+            </c:when>
+            <c:otherwise>
+                <option value="en">English</option>
+                <option value="ru" selected>Russian</option>
+            </c:otherwise>
+        </c:choose>
+    </select>
+    <fmt:message key="login.label.username" var="loginTextValue"/>
+    <input type="text" name="login" placeholder="${loginTextValue}" class="loginInput"/>
+    <fmt:message key="login.label.password" var="passwordTextValue"/>
+    <input type="password" name="password" placeholder="${passwordTextValue}" class="passwordInput"/>
     <c:if test="${not empty errorMessage}">
         <p class="errText"><c:out value="${errorMessage}"/></p>
     </c:if>
-   <button type="submit" value="Login" name="Login" class="loginButton"><span>Login</span></button>
-    <button type="submit" value="Sign up" name="Sign up" class="signUpButton"><span>Sign up</span></button>
+    <fmt:message key="login.button.login" var="loginButtonValue"/>
+   <button type="submit" value="Login" name="Login" class="loginButton"><span>${loginButtonValue}</span></button>
+    <fmt:message key="login.button.signup" var="signUpButtonValue"/>
+    <button type="submit" value="Sign up" name="Sign up" class="signUpButton"><span>${signUpButtonValue}</span></button>
 </form>
 </div>
 </body>

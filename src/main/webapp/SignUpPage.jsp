@@ -80,15 +80,15 @@
 <body>
 <div class="Frame">
 <form action="<c:url value="/signup"/>" method="POST">
-    <input type="text" name="login" placeholder="Login" class="loginInput" value="${user.login}"/>
+    <input type="text" name="login" placeholder="Login" class="loginInput"/>
     <c:if test="${errorMessage == 'Incorrect filling'}">
         <p class="errText">Login should be at least 3 characters long.</p>  <%--a-z0-9_---%>
     </c:if>
-    <input type="password" name="password" placeholder="Password" class="passwordInput" value="${user.password}"/>
+    <input type="password" name="password" placeholder="Password" class="passwordInput"/>
     <c:if test="${errorMessage == 'Incorrect filling'}">
         <p class="errText">Password should be at least 6 characters long.</p>
     </c:if>
-    <input type="password" name="confPassword" placeholder="Confirm password" class="passwordInput" value="${user.password}"/>
+    <input type="password" name="confPassword" placeholder="Confirm password" class="passwordInput"/>
     <c:if test="${errorMessage != 'Incorrect filling'}">
         <c:if test="${not empty errorMessage}">
             <p class="errText"><c:out value="${errorMessage}"/></p>
