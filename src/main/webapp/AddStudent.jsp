@@ -12,7 +12,7 @@
 <fmt:message key="selectclass" var="selectclass"/>
 <fmt:message key="selectsubject" var="selectsubj"/>
 <fmt:message key="selectstudent" var="selectstud"/>
-<fmt:message key="submitsuccess" var="success"/>
+<fmt:message key="submitstudsucces" var="success"/>
 <fmt:message key="submitfail" var="fail"/>
 <fmt:message key="surname_i18n" var="surname_i18n"/>
 <fmt:message key="name_i18n" var="name_i18n"/>
