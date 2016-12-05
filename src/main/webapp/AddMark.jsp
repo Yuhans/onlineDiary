@@ -1,7 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<html>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="text" />
+<fmt:message key="mainpage" var="mainpage"/>
+<fmt:message key="addmark" var="addmark"/>
+<fmt:message key="addstudent" var="addstudent"/>
+<fmt:message key="logout" var="logout"/>
+<fmt:message key="selectclass" var="selectclass"/>
+<fmt:message key="selectsubject" var="selectsubj"/>
+<fmt:message key="selectstudent" var="selectstud"/>
+<fmt:message key="entermark" var="entermark"/>
+<fmt:message key="date" var="date"/>
+<fmt:message key="submitsuccess" var="success"/>
+<fmt:message key="submitfail" var="fail"/>
+
+<html lang="${language}">
 <head>
     <title>Add mark</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
@@ -35,15 +51,15 @@
 <div class="Frame">
     <img class="img" src="img/icon-diary.png" alt="icon-diary">
     <ul>
-        <li><a href="/main">Home</a></li>
-        <li><a href="/addmark">Add mark</a></li>
-        <li><a href="/addstudent">Add Student</a></li>
-        <li style="float:right"><a href="/logout">Log out</a></li>
+        <li><a href="/main">${mainpage}</a></li>
+        <li><a href="/addmark">${addmark}</a></li>
+        <li><a href="/addstudent">${addstudent}</a></li>
+        <li style="float:right"><a href="/logout">${logout}</a></li>
         </li>
     </ul>
     <form action="<c:url value="/addmark"/>" method="POST">
         <select id="stClass" name="stClass" onchange="this.form.submit()">
-            <option value="" disabled selected>Select class</option>
+            <option value="" disabled selected>${selectclass}</option>
             <c:forEach var="stclass" items="${classes}">
                 <option value="${stclass.classId}" ${stclass.classId==form.classId ? 'selected' : ''}>
                     <c:out value="${stclass.studyYear}"/>
@@ -53,7 +69,7 @@
         </select>
         <br/>
         <select id="studentId" name="studentId">
-            <option value="" disabled selected>Select student</option>
+            <option value="" disabled selected>${selectstud}</option>
             <c:forEach var="student" items="${students}">
                 <option value="${student.studentId}">
                     <c:out value="${student.surname}"/>
@@ -64,7 +80,7 @@
         </select>
         <br/>
         <select id="subjId" name="subjId">
-            <option value="" disabled selected>Select subject</option>
+            <option value="" disabled selected>${selectsubj}</option>
             <c:forEach var="subject" items="${subjects}">
                 <option value="${subject.subjId}">
                     <c:out value="${subject.subjName}"/>
@@ -75,17 +91,17 @@
         <br/>
         <br/>
         <br/>
-        <input type="text" name="mark" id="mark" value="Mark">
+        <input type="text" name="mark" id="mark" value="${entermark}">
         <br/>
-        <input type="date" name="date" id="date" value="Date">
+        <input type="date" name="date" id="date" value="${date}">
         <br/>
         <button type="submit" value="OK" name="OkB" class="okButton"><span>OK</span></button>
         <c:if test="${submitDone == 'yes'}">
-            <script>alert("Mark was added!");
+            <script>alert("${success}");
             </script>
         </c:if>
         <c:if test="${submitDone == 'no'}">
-            <script>alert("Fill all fields!");
+            <script>alert("${fail}");
             </script>
         </c:if>
 
