@@ -61,4 +61,5 @@ public class ManagementSystem {
 
     public void addStudent(Student s){ new StudentDAO(con).addStudent(s); }
 
+    public List<Message> getMessages(String login,String receiver){return (new MessageDao(con).getMessages(login, receiver)); }
 }
