@@ -14,8 +14,8 @@
 <fmt:message key="selectstudent" var="selectstud"/>
 <fmt:message key="entermark" var="entermark"/>
 <fmt:message key="date" var="date"/>
-
-
+<fmt:message key="submitsuccess" var="success"/>
+<fmt:message key="submitfail" var="fail"/>
 
 <html lang="${language}">
 <head>
@@ -97,11 +97,11 @@
         <br/>
         <button type="submit" value="OK" name="OkB" class="okButton"><span>OK</span></button>
         <c:if test="${submitDone == 'yes'}">
-            <script>alert("Mark was added!");
+            <script>alert("${success}");
             </script>
         </c:if>
         <c:if test="${submitDone == 'no'}">
-            <script>alert("Fill all fields!");
+            <script>alert("${fail}");
             </script>
         </c:if>
 
