@@ -13,6 +13,7 @@
 <fmt:message key="logout" var="logout"/>
 <fmt:message key="chat" var="chat"/>
 <fmt:message key="selectclass" var="selectclass"/>
+<fmt:message key="selectuser" var="selectuser"/>
 <fmt:message key="selectsubject" var="selectsubj"/>
 <fmt:message key="selectstudent" var="selectstud"/>
 <fmt:message key="mark" var="mark"/>
@@ -55,6 +56,19 @@
                 <br>${mess.text}
             </c:forEach>
 
+        </form>
+    </div>
+
+    <div class="Receiver">
+        <form action="<c:url value="/chat"/>" method="POST">
+            <select id="receiver" name="receiver" onchange="this.form.submit()">
+                <option value="" disabled selected>${selectuser}</option>
+                <c:forEach var="user" items="${users}">
+                    <option value="${user.login}" ${user.login==form.selUser ? 'selected' : ''}>
+                        <c:out value="${user.getLogin}"/>
+                    </option>
+                </c:forEach>
+            </select>
         </form>
     </div>
 </div>

@@ -1,11 +1,14 @@
 package com.onlineDiary.logic.dao;
 
 import com.onlineDiary.logic.Roles;
+import com.onlineDiary.logic.beans.Student;
 import com.onlineDiary.logic.beans.User;
 import com.onlineDiary.logic.executor.Executor;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
 
@@ -48,5 +51,18 @@ public class UserDAO {
     public boolean isLoginExist(String login) {
         String query = "SELECT login FROM users WHERE login = " + "\"" + login + "\"";
         return executor.execQuery(query, ResultSet::next);
+    }
+
+    public List<User> getUsersWithoutName(String name){
+        String query = "SELECT login FROM users WHere login!='"+name +"';";
+        return executor.execQuery(query, resultSet -> {
+            List<User> users = new ArrayList<>();
+            String pass="";
+            while (resultSet.next()) {
+                String login = resultSet.getString(1);
+                users.add(new User(login, pass, Roles.STUDENT));
+            }
+            return users;
+        });
     }
 }
