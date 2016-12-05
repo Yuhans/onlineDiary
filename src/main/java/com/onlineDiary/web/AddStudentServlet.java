@@ -1,11 +1,5 @@
 package com.onlineDiary.web;
 
-import com.onlineDiary.logic.ManagementSystem;
-import com.onlineDiary.logic.Roles;
-import com.onlineDiary.logic.account.AccountService;
-import com.onlineDiary.logic.beans.Student;
-import org.apache.log4j.Logger;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,17 +8,11 @@ import java.io.IOException;
 
 public class AddStudentServlet extends HttpServlet {
 
-    private ManagementSystem dao = new ManagementSystem();
-    private AccountService accountService = AccountService.getInstance();
-
-    private static final Logger LOGGER = Logger.getLogger(AddStudentServlet.class);
-    private static final Roles TEACHER = Roles.TEACHER;
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        if (isAuthorized(request)) {
-            if (isTeacher(request)) {
-                addStudent(request);
+        if (RequestHandler.isAuthorized(request)) {
+            if (RequestHandler.isTeacher(request)) {
+                RequestHandler.addStudent(request);
                 request.getRequestDispatcher("AddStudent.jsp").forward(request, response);
             } else {
                 response.sendRedirect("/main");
@@ -35,9 +23,9 @@ public class AddStudentServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (isAuthorized(request)) {
-            if (isTeacher(request)) {
-                request.setAttribute("classes", dao.getClasses());
+        if (RequestHandler.isAuthorized(request)) {
+            if (RequestHandler.isTeacher(request)) {
+                RequestHandler.setClasses(request);
                 request.getRequestDispatcher("AddStudent.jsp").forward(request, response);
             } else {
                 response.sendRedirect("/main");
@@ -45,55 +33,5 @@ public class AddStudentServlet extends HttpServlet {
         } else {
             response.sendRedirect("/auth");
         }
-    }
-
-    private boolean isAuthorized(HttpServletRequest request) {
-        return accountService.getUserBySessionId(request.getSession().getId()) != null;
-    }
-
-    private boolean isTeacher(HttpServletRequest request) {
-        return accountService.getUserBySessionId(request.getSession().getId()).getRole() == TEACHER;
-    }
-
-    private void addStudent(HttpServletRequest request) throws ServletException {
-        request.setAttribute("classes", dao.getClasses());
-        if (request.getParameter("OkB") != null) {
-            Student newStudent = prepareStudent(request);
-            if (newStudent == null) {
-                LOGGER.error("Student hasn't been added.");
-                request.setAttribute("submitDone", "no");
-            } else {
-                dao.addStudent(newStudent);
-                LOGGER.info("Student " + newStudent.getName() + " has been successfully added.");
-                request.setAttribute("submitDone", "yes");
-            }
-        }
-    }
-
-    private Student prepareStudent(HttpServletRequest request) {
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
-        String patronymic = request.getParameter("patronymic");
-        int classId = getClassId(request);
-        if (areParametersCorrect(name, surname, patronymic, classId)) {
-             return new Student(name, surname, patronymic, classId, 0);
-        } else {
-            return null;
-        }
-    }
-
-    private boolean areParametersCorrect(String name, String surname, String patronymic, int classId) {
-        return !((name == null || name.isEmpty())
-                || (surname == null || surname.isEmpty())
-                || (patronymic == null || patronymic.isEmpty())
-                || classId == 0);
-    }
-
-    private int getClassId(HttpServletRequest request) {
-        int classId = 0;
-        if (request.getParameter("stClass") != null) {
-            classId = Integer.parseInt(request.getParameter("stClass"));
-        }
-        return classId;
     }
 }
