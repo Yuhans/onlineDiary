@@ -1,7 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<html>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="text" />
+<fmt:message key="mainpage" var="mainpage"/>
+<fmt:message key="addmark" var="addmark"/>
+<fmt:message key="addstudent" var="addstudent"/>
+<fmt:message key="logout" var="logout"/>
+<fmt:message key="selectclass" var="selectclass"/>
+<fmt:message key="selectsubject" var="selectsubj"/>
+<fmt:message key="selectstudent" var="selectstud"/>
+<fmt:message key="mark" var="mark"/>
+<fmt:message key="date" var="date"/>
+<fmt:message key="subject" var="showSubject"/>
+
+
+<html lang="${language}">
 <head>
     <title>Main Frame</title>
 
@@ -36,25 +52,27 @@
 <body>
 <div class="Frame">
     <img class="img" src="img/icon-diary.png" alt="icon-diary">
+
+
     <c:choose>
         <c:when test="${role=='TEACHER'}">
             <ul>
-                <li><a href="<c:url value="/main"/>">Home</a></li>
-                <li><a href="<c:url value="/addmark"/>">Add mark</a></li>
-                <li><a href="<c:url value="/addstudent"/>">Add Student</a></li>
-                <li style="float:right"><a href="<c:url value="/logout"/>">Log out</a></li>
+                <li><a href="<c:url value="/main"/>">${mainpage}</a></li>
+                <li><a href="<c:url value="/addmark"/>">${addmark}</a></li>
+                <li><a href="<c:url value="/addstudent"/>">${addstudent}</a></li>
+                <li style="float:right"><a href="<c:url value="/logout"/>">${logout}</a></li>
             </ul>
         </c:when>
         <c:otherwise>
             <ul>
-                <li><a href="<c:url value="/main"/>">Home</a></li>
-                <li style="float:right"><a href="<c:url value="/logout"/>">Log out</a></li>
+                <li><a href="<c:url value="/main"/>">${mainpage}</a></li>
+                <li style="float:right"><a href="<c:url value="/logout"/>">${logout}</a></li>
             </ul>
         </c:otherwise>
     </c:choose>
     <form action="<c:url value="/main"/>" method="POST">
         <select id="stClass" name="stClass" onchange="this.form.submit()">
-            <option value="" disabled selected>Select class</option>
+            <option value="" disabled selected>${selectclass}</option>
             <c:forEach var="stclass" items="${classes}">
                 <option value="${stclass.classId}" ${stclass.classId==form.classId ? 'selected' : ''}>
                     <c:out value="${stclass.studyYear}"/>
@@ -64,7 +82,7 @@
         </select>
         <br/>
         <select id="studentId" name="studentId">
-            <option value="" disabled selected>Select student</option>
+            <option value="" disabled selected>${selectstud}</option>
             <c:forEach var="student" items="${students}">
                 <option value="${student.studentId}" ${student.studentId == form.selStudentId ? 'selected' : ''}>
                     <c:out value="${student.surname}"/>
@@ -75,7 +93,7 @@
         </select>
         <br/>
         <select id="subjId" name="subjId">
-            <option value="" disabled selected>Select subject</option>
+            <option value="" disabled selected>${selectsubj}</option>
             <c:forEach var="subject" items="${subjects}">
                 <option value="${subject.subjId}" ${subject.subjId == form.selSubjId ? 'selected' : ''}>
                     <c:out value="${subject.subjName}"/>
@@ -91,9 +109,9 @@
         <br/>
         <table>
             <tr>
-                <th>Subject</th>
-                <th>Date</th>
-                <th>Mark</th>
+                <th>${showSubject}</th>
+                <th>${date}</th>
+                <th>${mark}</th>
             </tr>
             <c:forEach items="${marks}" var="mark">
                 <tr>
