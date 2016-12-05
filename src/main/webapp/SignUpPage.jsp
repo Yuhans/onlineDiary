@@ -1,7 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<html>
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
+       scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="text"/>
+
+<html lang="${language}">
 <head>
     <title>Online diary sign up</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
@@ -39,7 +46,6 @@
             background: white url("img/icon-password.png") no-repeat 4px 4px;
         }
 
-
         .Button {
             display: inline-block;
             border-radius: 10px;
@@ -57,6 +63,7 @@
             right: -100px;
             bottom: -10px;
         }
+
         .Button:hover {
             background-color: #3D6CB8
         }
@@ -79,24 +86,34 @@
 
 <body>
 <div class="Frame">
-<form action="<c:url value="/signup"/>" method="POST">
-    <input type="text" name="login" placeholder="Login" class="loginInput"/>
-    <c:if test="${errorMessage == 'Incorrect filling'}">
-        <p class="errText">Login should be at least 3 characters long.</p>  <%--a-z0-9_---%>
-    </c:if>
-    <input type="password" name="password" placeholder="Password" class="passwordInput"/>
-    <c:if test="${errorMessage == 'Incorrect filling'}">
-        <p class="errText">Password should be at least 6 characters long.</p>
-    </c:if>
-    <input type="password" name="confPassword" placeholder="Confirm password" class="passwordInput"/>
-    <c:if test="${errorMessage != 'Incorrect filling'}">
-        <c:if test="${not empty errorMessage}">
-            <p class="errText"><c:out value="${errorMessage}"/></p>
+    <form action="<c:url value="/signup"/>" method="POST">
+        <fmt:message key="login.label.username" var="loginTextValue"/>
+        <input type="text" name="login" placeholder="${loginTextValue}" class="loginInput"/>
+        <c:if test="${errorMessage == 'Incorrect filling'}">
+            <fmt:message key="login.message.inclogin" var="incLoginMess"/>
+            <p class="errText">${incLoginMess}</p>
         </c:if>
-    </c:if>
-    <button type="submit" value="Register" name="Register" class="Button"><span>Register</span></button>
-    <button type="submit" value="Cancel" name="Cancel" class="Button"><span>Cancel</span></button>
-</form>
+        <fmt:message key="login.label.password" var="passwordTextValue"/>
+        <input type="password" name="password" placeholder="${passwordTextValue}" class="passwordInput"/>
+        <c:if test="${errorMessage == 'Incorrect filling'}">
+            <fmt:message key="login.message.incpass" var="incPassMess"/>
+            <p class="errText">${incPassMess}</p>
+        </c:if>
+        <fmt:message key="login.label.confpassword" var="confPasswordTextValue"/>
+        <input type="password" name="confPassword" placeholder="${confPasswordTextValue}" class="passwordInput"/>
+        <c:if test="${errorMessage == 'Passwords dont match'}">
+            <fmt:message key="login.message.passnotmatch" var="passMatchMess"/>
+            <p class="errText"><c:out value="${passMatchMess}"/></p>
+        </c:if>
+        <c:if test="${errorMessage == 'User with this login already exists'}">
+            <fmt:message key="login.message.userexists" var="userExMess"/>
+            <p class="errText"><c:out value="${userExMess}"/></p>
+        </c:if>
+        <fmt:message key="login.button.signup" var="signupButton"/>
+        <button type="submit" value="Register" name="Register" class="Button"><span>${signupButton}</span></button>
+        <fmt:message key="login.button.cancel" var="cancelButton"/>
+        <button type="submit" value="Cancel" name="Cancel" class="Button"><span>${cancelButton}</span></button>
+    </form>
 </div>
 </body>
 </html>

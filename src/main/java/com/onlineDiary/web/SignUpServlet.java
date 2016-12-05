@@ -86,7 +86,7 @@ public class SignUpServlet extends HttpServlet {
             response.sendRedirect("/auth");
         } else {
             LOGGER.error("Passwords don't match.");
-            request.setAttribute("errorMessage", "Passwords don't match");
+            request.setAttribute("errorMessage", "Passwords dont match");
             request.getRequestDispatcher("/SignUpPage.jsp").forward(request, response);
         }
     }

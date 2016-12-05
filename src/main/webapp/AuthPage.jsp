@@ -180,7 +180,8 @@
     <fmt:message key="login.label.password" var="passwordTextValue"/>
     <input type="password" name="password" placeholder="${passwordTextValue}" class="passwordInput"/>
     <c:if test="${not empty errorMessage}">
-        <p class="errText"><c:out value="${errorMessage}"/></p>
+        <fmt:message key="login.message.invlogpass" var="invLogPassMess"/>
+        <p class="errText"><c:out value="${invLogPassMess}"/></p>
     </c:if>
     <fmt:message key="login.button.login" var="loginButtonValue"/>
    <button type="submit" value="Login" name="Login" class="loginButton"><span>${loginButtonValue}</span></button>
