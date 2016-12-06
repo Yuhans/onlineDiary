@@ -25,7 +25,10 @@
     pointer-events: none;
 }
 
-
+.textBefore{
+    top: 50%;
+    margin: 5px;
+}
 
 select {
     width: 30%;

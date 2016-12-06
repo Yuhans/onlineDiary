@@ -62,6 +62,8 @@ public class ChatServlet extends HttpServlet {
             String rec = request.getParameter("receiver");
             LOGGER.info("Receiver is " + rec);
             setUsers(request, rec);
+            //String selectuser = rec;
+            request.setAttribute("selectedUser", rec);
         }
 
     }

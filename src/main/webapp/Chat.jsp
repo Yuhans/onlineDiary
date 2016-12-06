@@ -12,7 +12,7 @@
 <fmt:message key="addstudent" var="addstudent"/>
 <fmt:message key="logout" var="logout"/>
 <fmt:message key="chat" var="chat"/>
-<fmt:message key="receiverName" var="receiverName"/>
+<fmt:message key="receivername" var="receivername"/>
 <fmt:message key="selectclass" var="selectclass"/>
 <fmt:message key="selectuser" var="selectuser"/>
 <fmt:message key="selectsubject" var="selectsubj"/>
@@ -29,9 +29,10 @@
     <link href="/css/defaultStyle.css" rel="stylesheet" type="text/css">
     <style>
         select {
+            top: 15%;
             width: 25%;
         }
-        </style>
+    </style>
 </head>
 <body>
 <div class="Frame">
@@ -56,7 +57,6 @@
         </c:otherwise>
     </c:choose>
     <div class="TextArea" id='fake_textarea' contenteditable>
-        <label>${receiverName}</label>
         <form action="<c:url value="/chat"/>" method="POST">
             <c:forEach items="${messages}" var="mess">
                 <br><b>${mess.date}</b>
@@ -67,14 +67,24 @@
 
     <div class="Receiver">
         <form action="<c:url value="/chat"/>" method="POST">
+            <br>
+            <br>
+            <br>
+            <div class="textBefore">
+                <c:out value="${receivername}"/>
+            </div>
+            <br>
             <select id="receiver" name="receiver" onchange="this.form.submit()">
-                <option value="" disabled selected>${selectuser}</option>
+                <option selected="selected">${selectedUser}</option>
                 <c:forEach var="user" items="${users}">
-                    <option value="${user.login}" ${user.login==selectedUser ? 'selected' : ''}>
-                        <c:out value="${user.login}"/>
-                    </option>
+                    <c:if test="${selectedUser != user.login}">
+                        <option value="${user.login}" ${user.login==selectedUser ? 'selected' : ''}>
+                            <c:out value="${user.login}"/>
+                        </option>
+                    </c:if>
                 </c:forEach>
             </select>
+
         </form>
     </div>
 </div>
