@@ -25,6 +25,7 @@ public class ChatServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
             setUsers(request, login);
+            request.setAttribute("sender", login);
             request.getRequestDispatcher("Chat.jsp").forward(request, response);
         } else {
             response.sendRedirect("/auth");
@@ -53,7 +54,6 @@ public class ChatServlet extends HttpServlet {
         request.setAttribute("messages", dao.getMessages(login, receiver));
         form.setUsers(dao.getUsersWithoutName(login));
         request.setAttribute("form", form);
-        //request.setAttribute("selectedUser", receiver);
         request.setAttribute("users", dao.getUsersWithoutName(login));
     }
 

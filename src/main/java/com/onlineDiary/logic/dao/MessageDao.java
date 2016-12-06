@@ -17,7 +17,7 @@ public class MessageDao {
     }
 
     public List<Message> getMessages(String login, String receiver){
-        String query = "SELECT text, date FROM messages where (sender='"+login
+        String query = "SELECT text, date, receiver, sender FROM messages where (sender='"+login
                 +"' and receiver='"+receiver+"') or (sender='"+
                 receiver+"' and receiver='"+
                 login + "') ;";
@@ -26,7 +26,10 @@ public class MessageDao {
             while (resultSet.next()) {
                 String text = resultSet.getString(1);
                 Timestamp date = resultSet.getTimestamp(2);
-                messages.add(new Message(login, receiver, text, date));
+                String rec= resultSet.getString(3);
+                String send= resultSet.getString(4);
+
+                messages.add(new Message(send, rec, text, date));
             }
             return messages;
         });

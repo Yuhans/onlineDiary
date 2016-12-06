@@ -95,6 +95,15 @@
             height: 50%;
             margin: 0px;
         }
+
+        .blueText {
+            color: blue;
+        }
+
+        .blackText {
+            color: black;
+        }
+
     </style>
 </head>
 <body>
@@ -150,7 +159,15 @@
             <form action="<c:url value="/chat"/>" method="POST">
                 <c:forEach items="${messages}" var="mess">
                     <br><b>${mess.date}</b>
-                    <br>${mess.text}
+                    <br>${mess.sender} to  ${mess.receiver}
+                    <c:choose>
+                        <c:when test="${sender eq mess.sender}">
+                            <span class="blackText">${mess.text}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="blueText">${mess.text}</span>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
             </form>
         </div>
