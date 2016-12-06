@@ -156,7 +156,6 @@
     <div class="Messages">
 
         <div class="TextArea">
-            <form action="<c:url value="/chat"/>" method="POST">
                 <c:forEach items="${messages}" var="mess">
                     <br><b>${mess.date}</b>
                     <br>${mess.sender} to  ${mess.receiver}
@@ -169,12 +168,10 @@
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
-            </form>
         </div>
 
         <div class="MessageArea">
             <textarea name="newMessage" cols="40" rows="5"></textarea>
-
         </div>
 
         <div>
