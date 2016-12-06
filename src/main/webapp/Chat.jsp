@@ -28,6 +28,63 @@
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link href="/css/defaultStyle.css" rel="stylesheet" type="text/css">
     <style>
+        .Messages {
+            top: 10%;
+            left: 29%;
+            right: 19%;
+            height: 85%;
+            position: absolute;
+            border-radius: 8px;
+        }
+
+        .TextArea {
+            background-color: #F8F8F7;
+            width: 100%;
+            height: 70%;
+            position: absolute;
+            border-radius: 8px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            pointer-events: none;
+        }
+
+        .MessageArea {
+            position: absolute;
+            left: 0%;
+            bottom: 0%;
+            height: 25%;
+            width: 80%;
+        }
+
+        .textBefore {
+            top: 50%;
+            margin: 5px;
+        }
+
+        .SendBtn {
+            position: absolute;
+            right: 0%;
+            top: 75%;
+            width: 15%;
+            height: 40px;
+
+            border-radius: 8px;
+            background-color: #4580DE;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 10px;
+            padding: 5px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+
+        }
+
+        .SendBtn:hover {
+            background-color: #3D6CB8
+        }
+
         select {
             top: 15%;
             width: 25%;
@@ -35,8 +92,7 @@
 
         input[type="text"] {
             width: 100%;
-            top:2%;
-            height: 95%;
+            height: 50%;
             margin: 0px;
         }
     </style>
@@ -93,14 +149,20 @@
         <div class="TextArea">
             <form action="<c:url value="/chat"/>" method="POST">
                 <c:forEach items="${messages}" var="mess">
-                <br><b>${mess.date}</b>
-                <br>${mess.text}
+                    <br><b>${mess.date}</b>
+                    <br>${mess.text}
                 </c:forEach>
             </form>
         </div>
 
         <div class="MessageArea">
             <input type="text" name="mark" id="mark" value="${entermark}">
+        </div>
+
+        <div>
+            <button type="submit" value="OK" name="subjOk" class="SendBtn">
+                <span>OK</span>
+            </button>
         </div>
 
 

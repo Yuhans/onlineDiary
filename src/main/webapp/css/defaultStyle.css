@@ -12,40 +12,8 @@
     padding: 0;
 }
 
-.Messages{
-    top: 10%;
-    left: 29%;
-    right: 19%;
-    height: 85%;
-    position: absolute;
-    background-color: #1c106e;
-    border-radius: 8px;
-}
-
-.TextArea {
-    background-color: #F8F8F7;
-    width: 100%;
-    height: 70%;
-    position: absolute;
-    border-radius: 8px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    pointer-events: none;
-}
-.MessageArea{
-    background-color: #0f0606;
-    position: absolute;
-    left: 0%;
-    bottom: 0%;
-    height: 30%;
-    width: 80%;
-}
 
 
-.textBefore{
-    top: 50%;
-    margin: 5px;
-}
 
 select {
     width: 30%;
