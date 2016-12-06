@@ -32,6 +32,13 @@
             top: 15%;
             width: 25%;
         }
+
+        input[type="text"] {
+            width: 100%;
+            top:2%;
+            height: 95%;
+            margin: 0px;
+        }
     </style>
 </head>
 <body>
@@ -56,14 +63,7 @@
             </ul>
         </c:otherwise>
     </c:choose>
-    <div class="TextArea" id='fake_textarea' contenteditable>
-        <form action="<c:url value="/chat"/>" method="POST">
-            <c:forEach items="${messages}" var="mess">
-                <br><b>${mess.date}</b>
-                <br>${mess.text}
-            </c:forEach>
-        </form>
-    </div>
+
 
     <div class="Receiver">
         <form action="<c:url value="/chat"/>" method="POST">
@@ -84,8 +84,26 @@
                     </c:if>
                 </c:forEach>
             </select>
-
         </form>
+    </div>
+
+
+    <div class="Messages">
+
+        <div class="TextArea">
+            <form action="<c:url value="/chat"/>" method="POST">
+                <c:forEach items="${messages}" var="mess">
+                <br><b>${mess.date}</b>
+                <br>${mess.text}
+                </c:forEach>
+            </form>
+        </div>
+
+        <div class="MessageArea">
+            <input type="text" name="mark" id="mark" value="${entermark}">
+        </div>
+
+
     </div>
 </div>
 </body>

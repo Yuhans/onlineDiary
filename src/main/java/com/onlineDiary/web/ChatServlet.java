@@ -60,7 +60,6 @@ public class ChatServlet extends HttpServlet {
     private void getReceiver(HttpServletRequest request) {
         if (request.getParameter("receiver") != null) {
             String rec = request.getParameter("receiver");
-            LOGGER.info("Receiver is " + rec);
             setUsers(request, rec);
             //String selectuser = rec;
             request.setAttribute("selectedUser", rec);
