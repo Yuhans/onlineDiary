@@ -9,6 +9,7 @@
 <fmt:message key="addmark" var="addmark"/>
 <fmt:message key="addstudent" var="addstudent"/>
 <fmt:message key="logout" var="logout"/>
+<fmt:message key="chat" var="chat"/>
 <fmt:message key="selectclass" var="selectclass"/>
 <fmt:message key="selectsubject" var="selectsubj"/>
 <fmt:message key="selectstudent" var="selectstud"/>
@@ -54,6 +55,7 @@
         <li><a href="/main">${mainpage}</a></li>
         <li><a href="/addmark">${addmark}</a></li>
         <li><a href="/addstudent">${addstudent}</a></li>
+        <li><a href="/chat">${chat}</a></li>
         <li style="float:right"><a href="/logout">${logout}</a></li>
         </li>
     </ul>

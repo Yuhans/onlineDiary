@@ -64,4 +64,6 @@ public class ManagementSystem {
     public List<Message> getMessages(String login,String receiver){return (new MessageDao(con).getMessages(login, receiver)); }
 
     public List<User> getUsersWithoutName(String name){return (new UserDAO(con).getUsersWithoutName(name)); }
+
+    public void addMessage(String sender, String receiver, String text) {new MessageDao(con).addMessage(sender,receiver,text);}
 }

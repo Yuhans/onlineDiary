@@ -12,18 +12,8 @@
     padding: 0;
 }
 
-.TextArea {
-    background-color: #F8F8F7;
-    top: 10%;
-    left: 30%;
-    width: 40%;
-    height: 60%;
-    position: fixed;
-    border-radius: 8px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    pointer-events: none;
-}
+
+
 
 select {
     width: 30%;
@@ -126,3 +116,5 @@ label {
     display: block;
     left: 5px;
 }
+
+

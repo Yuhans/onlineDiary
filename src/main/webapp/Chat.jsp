@@ -12,6 +12,7 @@
 <fmt:message key="addstudent" var="addstudent"/>
 <fmt:message key="logout" var="logout"/>
 <fmt:message key="chat" var="chat"/>
+<fmt:message key="receivername" var="receivername"/>
 <fmt:message key="selectclass" var="selectclass"/>
 <fmt:message key="selectuser" var="selectuser"/>
 <fmt:message key="selectsubject" var="selectsubj"/>
@@ -26,6 +27,84 @@
     <title>Chat</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link href="/css/defaultStyle.css" rel="stylesheet" type="text/css">
+    <style>
+        .Messages {
+            top: 10%;
+            left: 29%;
+            right: 19%;
+            height: 85%;
+            position: absolute;
+            border-radius: 8px;
+        }
+
+        .TextArea {
+            background-color: #F8F8F7;
+            width: 100%;
+            height: 70%;
+            position: absolute;
+            border-radius: 8px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            pointer-events: none;
+        }
+
+        .MessageArea {
+            position: absolute;
+            left: 0%;
+            bottom: 0%;
+            height: 25%;
+            width: 80%;
+        }
+
+        .textBefore {
+            top: 50%;
+            margin: 5px;
+        }
+
+        .SendBtn {
+            position: absolute;
+            right: 0%;
+            top: 75%;
+            width: 15%;
+            height: 40px;
+
+            border-radius: 8px;
+            background-color: #4580DE;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 10px;
+            padding: 5px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+
+        }
+
+        .SendBtn:hover {
+            background-color: #3D6CB8
+        }
+
+        select {
+            top: 15%;
+            width: 25%;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            height: 50%;
+            margin: 0px;
+        }
+
+        .blueText {
+            color: blue;
+        }
+
+        .blackText {
+            color: black;
+        }
+
+    </style>
 </head>
 <body>
 <div class="Frame">
@@ -49,27 +128,61 @@
             </ul>
         </c:otherwise>
     </c:choose>
-    <div class="TextArea" id='fake_textarea' contenteditable>
-        <form action="<c:url value="/chat"/>" method="POST">
-            <c:forEach items="${messages}" var="mess">
-                <br><b>${mess.date}</b>
-                <br>${mess.text}
-            </c:forEach>
 
-        </form>
-    </div>
 
     <div class="Receiver">
         <form action="<c:url value="/chat"/>" method="POST">
+            <br>
+            <br>
+            <br>
+            <div class="textBefore">
+                <c:out value="${receivername}"/>
+            </div>
+            <br>
             <select id="receiver" name="receiver" onchange="this.form.submit()">
-                <option value="" disabled selected>${selectuser}</option>
+                <option selected="selected">${selectedUser}</option>
                 <c:forEach var="user" items="${users}">
-                    <option value="${user.login}" ${user.login==form.selUser ? 'selected' : ''}>
-                        <c:out value="${user.getLogin}"/>
-                    </option>
+                    <c:if test="${selectedUser != user.login}">
+                        <option value="${user.login}" ${user.login==selectedUser ? 'selected' : ''}>
+                            <c:out value="${user.login}"/>
+                        </option>
+                    </c:if>
                 </c:forEach>
             </select>
         </form>
+    </div>
+
+
+    <div class="Messages">
+
+        <div class="TextArea">
+                <c:forEach items="${messages}" var="mess">
+                    <br><b>${mess.date}</b>
+                    <br>${mess.sender} to  ${mess.receiver}
+                    <c:choose>
+                        <c:when test="${sender == mess.sender}">
+                            <span class="blackText">${mess.text}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="blueText">${mess.text}</span>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+        </div>
+
+        <div class="MessageArea">
+            <textarea name="newMessage" cols="40" rows="5"></textarea>
+        </div>
+
+        <div>
+            <form action="<c:url value="/chat"/>" method="POST">
+            <button type="submit" value="OK" name="messOk" class="SendBtn">
+                <span>OK</span>
+            </button>
+            </form>
+        </div>
+
+
     </div>
 </div>
 </body>
