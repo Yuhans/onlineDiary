@@ -161,7 +161,7 @@
                     <br><b>${mess.date}</b>
                     <br>${mess.sender} to  ${mess.receiver}
                     <c:choose>
-                        <c:when test="${sender eq mess.sender}">
+                        <c:when test="${sender == mess.sender}">
                             <span class="blackText">${mess.text}</span>
                         </c:when>
                         <c:otherwise>
