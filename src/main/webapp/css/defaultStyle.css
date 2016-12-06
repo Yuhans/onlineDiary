@@ -25,6 +25,8 @@
     pointer-events: none;
 }
 
+
+
 select {
     width: 30%;
     position: relative;
@@ -126,3 +128,4 @@ label {
     display: block;
     left: 5px;
 }
+

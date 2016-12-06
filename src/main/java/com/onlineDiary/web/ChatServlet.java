@@ -18,24 +18,14 @@ public class ChatServlet extends HttpServlet {
     private ManagementSystem dao = new ManagementSystem();
     private AccountService accountService = AccountService.getInstance();
     private ChatForm form = new ChatForm();
+    String login = "bellka";
 
     private static final Logger LOGGER = Logger.getLogger(AddMarkServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
-            String login="bellka";
-            String receiver="asd";
-            request.setAttribute("messages", dao.getMessages(login, receiver));
-            form.setUsers(dao.getUsersWithoutName(login));
-            request.setAttribute("form", form);
-            request.setAttribute("users", dao.getUsersWithoutName(login));
+            setUsers(request, login);
             request.getRequestDispatcher("Chat.jsp").forward(request, response);
-//            if (isTeacher(request)) {
-//
-//                request.getRequestDispatcher("Chat.jsp").forward(request, response);
-//            } else {
-//                response.sendRedirect("/main");
-//            }
         } else {
             response.sendRedirect("/auth");
         }
@@ -43,7 +33,8 @@ public class ChatServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
-
+            getReceiver(request);
+            request.getRequestDispatcher("Chat.jsp").forward(request, response);
 
         } else {
             response.sendRedirect("/auth");
@@ -56,5 +47,22 @@ public class ChatServlet extends HttpServlet {
 
     private boolean isTeacher(HttpServletRequest request) {
         return accountService.getUserBySessionId(request.getSession().getId()).getRole() == TEACHER;
+    }
+
+    private void setUsers(HttpServletRequest request, String receiver) {
+        request.setAttribute("messages", dao.getMessages(login, receiver));
+        form.setUsers(dao.getUsersWithoutName(login));
+        request.setAttribute("form", form);
+        //request.setAttribute("selectedUser", receiver);
+        request.setAttribute("users", dao.getUsersWithoutName(login));
+    }
+
+    private void getReceiver(HttpServletRequest request) {
+        if (request.getParameter("receiver") != null) {
+            String rec = request.getParameter("receiver");
+            LOGGER.info("Receiver is " + rec);
+            setUsers(request, rec);
+        }
+
     }
 }

@@ -12,6 +12,7 @@
 <fmt:message key="addstudent" var="addstudent"/>
 <fmt:message key="logout" var="logout"/>
 <fmt:message key="chat" var="chat"/>
+<fmt:message key="receiverName" var="receiverName"/>
 <fmt:message key="selectclass" var="selectclass"/>
 <fmt:message key="selectuser" var="selectuser"/>
 <fmt:message key="selectsubject" var="selectsubj"/>
@@ -26,6 +27,11 @@
     <title>Chat</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link href="/css/defaultStyle.css" rel="stylesheet" type="text/css">
+    <style>
+        select {
+            width: 25%;
+        }
+        </style>
 </head>
 <body>
 <div class="Frame">
@@ -50,12 +56,12 @@
         </c:otherwise>
     </c:choose>
     <div class="TextArea" id='fake_textarea' contenteditable>
+        <label>${receiverName}</label>
         <form action="<c:url value="/chat"/>" method="POST">
             <c:forEach items="${messages}" var="mess">
                 <br><b>${mess.date}</b>
                 <br>${mess.text}
             </c:forEach>
-
         </form>
     </div>
 
@@ -64,8 +70,8 @@
             <select id="receiver" name="receiver" onchange="this.form.submit()">
                 <option value="" disabled selected>${selectuser}</option>
                 <c:forEach var="user" items="${users}">
-                    <option value="${user.login}" ${user.login==form.selUser ? 'selected' : ''}>
-                        <c:out value="${user.getLogin}"/>
+                    <option value="${user.login}" ${user.login==selectedUser ? 'selected' : ''}>
+                        <c:out value="${user.login}"/>
                     </option>
                 </c:forEach>
             </select>
