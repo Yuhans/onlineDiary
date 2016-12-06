@@ -173,13 +173,16 @@
         </div>
 
         <div class="MessageArea">
-            <input type="text" name="mark" id="mark" value="${entermark}">
+            <textarea name="newMessage" cols="40" rows="5"></textarea>
+
         </div>
 
         <div>
-            <button type="submit" value="OK" name="subjOk" class="SendBtn">
+            <form action="<c:url value="/chat"/>" method="POST">
+            <button type="submit" value="OK" name="messOk" class="SendBtn">
                 <span>OK</span>
             </button>
+            </form>
         </div>
 
 

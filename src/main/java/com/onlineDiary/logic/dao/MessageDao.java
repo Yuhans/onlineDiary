@@ -34,4 +34,13 @@ public class MessageDao {
             return messages;
         });
     }
+
+    public void addMessage(String sender, String receiver, String text){
+        String query = "INSERT INTO messages (sender, receiver, text, date) VALUES ('"+
+                sender+ "', '"
+                +receiver +
+                "', '" + text + "',"
+                +" CURRENT_TIMESTAMP());";
+        executor.execUpdate(query);
+    }
 }

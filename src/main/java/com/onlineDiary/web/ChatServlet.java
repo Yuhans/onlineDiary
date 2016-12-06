@@ -34,13 +34,27 @@ public class ChatServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isAuthorized(request)) {
-            getReceiver(request);
+            sendMessage(request);
+            setReceiver(request);
+
             request.getRequestDispatcher("Chat.jsp").forward(request, response);
 
         } else {
             response.sendRedirect("/auth");
         }
     }
+
+    private void sendMessage(HttpServletRequest request) {
+        if ((request.getParameter("messOk") != null)
+                & (request.getParameter("newMessage") != null)) {
+            String text = request.getParameter("newMessage");
+            String rec = request.getParameter("receiver");
+            dao.addMessage(login,rec,text);
+            setUsers(request,rec);
+
+        }
+    }
+
 
     private boolean isAuthorized(HttpServletRequest request) {
         return accountService.getUserBySessionId(request.getSession().getId()) != null;
@@ -57,7 +71,7 @@ public class ChatServlet extends HttpServlet {
         request.setAttribute("users", dao.getUsersWithoutName(login));
     }
 
-    private void getReceiver(HttpServletRequest request) {
+    private void setReceiver(HttpServletRequest request) {
         if (request.getParameter("receiver") != null) {
             String rec = request.getParameter("receiver");
             setUsers(request, rec);
