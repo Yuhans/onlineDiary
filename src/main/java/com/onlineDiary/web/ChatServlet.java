@@ -53,7 +53,6 @@ public class ChatServlet extends HttpServlet {
     }
 
     private void sendMessage(HttpServletRequest request) {
-        LOGGER.info("try sending message");
         if ((request.getParameter("messOk") != null)
                 & (request.getParameter("newMessage") != null)) {
             String text = request.getParameter("newMessage");
@@ -84,16 +83,15 @@ public class ChatServlet extends HttpServlet {
         if (request.getParameter("receiver") != null) {
             String rec = request.getParameter("receiver");
             setUsers(request, rec);
-            //String selectuser = rec;
             request.setAttribute("selectedUser", rec);
         }
 
     }
 
     private void setChatForm(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+        sendMessage(request);
         setUsers(request, login);
         setReceiver(request);
-        sendMessage(request);
 
         request.getRequestDispatcher("Chat.jsp").forward(request, response);
 
