@@ -35,6 +35,7 @@
             height: 85%;
             position: absolute;
             border-radius: 8px;
+            overflow: hidden;
         }
 
         .TextArea {
@@ -45,7 +46,7 @@
             border-radius: 8px;
             overflow: auto;
             overflow-x:hidden;
-            pointer-events: none;
+
         }
 
         .MessageArea {
