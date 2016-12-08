@@ -17,21 +17,17 @@ import static com.onlineDiary.logic.Roles.TEACHER;
 
 public class ChatServlet extends HttpServlet {
     private ManagementSystem dao = new ManagementSystem();
-    private AccountService accountService = AccountService.getInstance();
     private ChatForm form = new ChatForm();
-    String login;
-    String receiver;
+    private String login;
+    private String receiver;
 
     private static final Logger LOGGER = Logger.getLogger(AddMarkServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (isAuthorized(request)) {
-            if (isTeacher(request)) {
-                request.setAttribute("role", TEACHER);
-            } else {
-                request.setAttribute("role", STUDENT);
-            }
+        if (RequestHandler.isAuthorized(request)) {
+            RequestHandler.setRole(request);
             setUsers(request);
+            login = RequestHandler.getLogin(request);
             request.setAttribute("sender", login);
             request.getRequestDispatcher("Chat.jsp").forward(request, response);
         } else {
@@ -41,12 +37,8 @@ public class ChatServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        if (isAuthorized(request)) {
-            if (isTeacher(request)) {
-                request.setAttribute("role", TEACHER);
-            } else {
-                request.setAttribute("role", STUDENT);
-            }
+        if (RequestHandler.isAuthorized(request)) {
+            RequestHandler.setRole(request);
             setChatForm(request, response);
 
         } else {
@@ -61,16 +53,6 @@ public class ChatServlet extends HttpServlet {
             dao.addMessage(login, receiver, text);
             LOGGER.info("Message from " + login + " to " + receiver + " was sent!");
         }
-    }
-
-
-    private boolean isAuthorized(HttpServletRequest request) {
-        login = accountService.getUserBySessionId(request.getSession().getId()).getLogin();
-        return accountService.getUserBySessionId(request.getSession().getId()) != null;
-    }
-
-    private boolean isTeacher(HttpServletRequest request) {
-        return accountService.getUserBySessionId(request.getSession().getId()).getRole() == TEACHER;
     }
 
     private void setUsers(HttpServletRequest request) {

@@ -117,6 +117,10 @@ public class RequestHandler {
         }
     }
 
+    public static String getLogin(HttpServletRequest request) {
+       return accountService.getUserBySessionId(request.getSession().getId()).getLogin();
+    }
+
     public static boolean isTeacher(HttpServletRequest request) {
         return accountService.getUserBySessionId(request.getSession().getId()).getRole() == Roles.TEACHER;
     }

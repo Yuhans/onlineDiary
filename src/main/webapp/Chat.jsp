@@ -87,8 +87,9 @@
         }
 
         select {
-            top: 15%;
-            width: 25%;
+            position: relative;
+            bottom: -5px;
+            width: 27%;
         }
 
         input[type="text"] {
@@ -131,7 +132,7 @@
     </c:choose>
 
 
-    <div class="Receiver">
+    <div>
         <form action="<c:url value="/chat"/>" method="POST">
             <br>
             <br>
@@ -139,7 +140,6 @@
             <div class="textBefore">
                 <c:out value="${receivername}"/>
             </div>
-            <br>
             <select id="receiver" name="receiver" onchange="this.form.submit()">
                 <option selected="selected">${selectedUser}</option>
                 <c:forEach var="user" items="${users}">
