@@ -19,7 +19,8 @@ public class ChatServlet extends HttpServlet {
     private ManagementSystem dao = new ManagementSystem();
     private AccountService accountService = AccountService.getInstance();
     private ChatForm form = new ChatForm();
-    String login ;
+    String login;
+    String receiver;
 
     private static final Logger LOGGER = Logger.getLogger(AddMarkServlet.class);
 
@@ -30,7 +31,7 @@ public class ChatServlet extends HttpServlet {
             } else {
                 request.setAttribute("role", STUDENT);
             }
-            setUsers(request, login);
+            setUsers(request);
             request.setAttribute("sender", login);
             request.getRequestDispatcher("Chat.jsp").forward(request, response);
         } else {
@@ -39,6 +40,7 @@ public class ChatServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         if (isAuthorized(request)) {
             if (isTeacher(request)) {
                 request.setAttribute("role", TEACHER);
@@ -56,9 +58,8 @@ public class ChatServlet extends HttpServlet {
         if ((request.getParameter("messOk") != null)
                 & (request.getParameter("newMessage") != null)) {
             String text = request.getParameter("newMessage");
-            String rec = request.getParameter("receiver");
-            dao.addMessage(login,rec,text);
-            LOGGER.info("Message from "+login+" to "+rec+" was sent!");
+            dao.addMessage(login, receiver, text);
+            LOGGER.info("Message from " + login + " to " + receiver + " was sent!");
         }
     }
 
@@ -72,7 +73,7 @@ public class ChatServlet extends HttpServlet {
         return accountService.getUserBySessionId(request.getSession().getId()).getRole() == TEACHER;
     }
 
-    private void setUsers(HttpServletRequest request, String receiver) {
+    private void setUsers(HttpServletRequest request) {
         request.setAttribute("messages", dao.getMessages(login, receiver));
         form.setUsers(dao.getUsersWithoutName(login));
         request.setAttribute("form", form);
@@ -81,16 +82,16 @@ public class ChatServlet extends HttpServlet {
 
     private void setReceiver(HttpServletRequest request) {
         if (request.getParameter("receiver") != null) {
-            String rec = request.getParameter("receiver");
-            setUsers(request, rec);
-            request.setAttribute("selectedUser", rec);
+            receiver = request.getParameter("receiver");
         }
+        request.setAttribute("selectedUser", receiver);
+        setUsers(request);
 
     }
 
-    private void setChatForm(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+    private void setChatForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         sendMessage(request);
-        setUsers(request, login);
+        //setUsers(request);
         setReceiver(request);
 
         request.getRequestDispatcher("Chat.jsp").forward(request, response);

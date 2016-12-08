@@ -1,5 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="language"
@@ -43,8 +43,8 @@
             height: 70%;
             position: absolute;
             border-radius: 8px;
-            overflow-y: scroll;
-            overflow-x: hidden;
+            overflow: auto;
+            overflow-x:hidden;
             pointer-events: none;
         }
 
@@ -156,32 +156,31 @@
     <div class="Messages">
 
         <div class="TextArea">
-                <c:forEach items="${messages}" var="mess">
-                    <br><b>${mess.date}</b>
-                    <br>${mess.sender} to  ${mess.receiver}
-                    <c:choose>
-                        <c:when test="${sender == mess.sender}">
-                            <span class="blackText">${mess.text}</span>
-                        </c:when>
-                        <c:otherwise>
-                            <span class="blueText">${mess.text}</span>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
+            <c:forEach items="${messages}" var="mess">
+                <br><b>${mess.date}</b>
+                <br>${mess.sender} to  ${mess.receiver}
+                <c:choose>
+                    <c:when test="${sender == mess.sender}">
+                        <span class="blackText">${mess.text}</span>
+                    </c:when>
+                    <c:otherwise>
+                        <span class="blueText">${mess.text}</span>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
         </div>
 
-        <div class="MessageArea">
-            <textarea name="newMessage" cols="40" rows="5"></textarea>
-        </div>
+        <form action="<c:url value="/chat"/>" method="POST">
+            <div class="MessageArea">
+                <textarea name="newMessage" cols="40" rows="5"></textarea>
+            </div>
 
-        <div>
-            <form action="<c:url value="/chat"/>" method="POST">
-            <button type="submit" value="OK" name="messOk" class="SendBtn">
-                <span>OK</span>
-            </button>
-            </form>
-        </div>
-
+            <div>
+                <button type="submit" value="OK" name="messOk" class="SendBtn">
+                    <span>OK</span>
+                </button>
+            </div>
+        </form>
 
     </div>
 </div>
