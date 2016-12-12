@@ -140,7 +140,7 @@
             <div class="textBefore">
                 <c:out value="${receivername}"/>
             </div>
-            <select id="receiver" name="receiver" onchange="this.form.submit()">
+            <select id="receiver" name="receiver" onchange="submit()">
                 <option selected="selected">${selectedUser}</option>
                 <c:forEach var="user" items="${users}">
                     <c:if test="${selectedUser != user.login}">
