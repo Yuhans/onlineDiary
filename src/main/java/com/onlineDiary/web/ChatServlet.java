@@ -26,8 +26,8 @@ public class ChatServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (RequestHandler.isAuthorized(request)) {
             RequestHandler.setRole(request);
-            setUsers(request);
             login = RequestHandler.getLogin(request);
+            setUsers(request);
             request.setAttribute("sender", login);
             request.getRequestDispatcher("Chat.jsp").forward(request, response);
         } else {
