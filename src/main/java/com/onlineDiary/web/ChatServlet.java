@@ -73,9 +73,7 @@ public class ChatServlet extends HttpServlet {
 
     private void setChatForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         sendMessage(request);
-        //setUsers(request);
         setReceiver(request);
-
         request.getRequestDispatcher("Chat.jsp").forward(request, response);
 
     }
