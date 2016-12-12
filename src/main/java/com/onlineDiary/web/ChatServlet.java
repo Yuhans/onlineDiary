@@ -1,9 +1,6 @@
 package com.onlineDiary.web;
 
 import com.onlineDiary.logic.ManagementSystem;
-import com.onlineDiary.logic.account.AccountService;
-import com.onlineDiary.web.forms.ChatForm;
-import com.onlineDiary.web.forms.MainFrameForm;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -12,12 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.onlineDiary.logic.Roles.STUDENT;
-import static com.onlineDiary.logic.Roles.TEACHER;
-
 public class ChatServlet extends HttpServlet {
     private ManagementSystem dao = new ManagementSystem();
-    private ChatForm form = new ChatForm();
     private String login;
     private String receiver;
 
@@ -57,8 +50,6 @@ public class ChatServlet extends HttpServlet {
 
     private void setUsers(HttpServletRequest request) {
         request.setAttribute("messages", dao.getMessages(login, receiver));
-        form.setUsers(dao.getUsersWithoutName(login));
-        request.setAttribute("form", form);
         request.setAttribute("users", dao.getUsersWithoutName(login));
     }
 
