@@ -33,7 +33,6 @@ public class ChatServlet extends HttpServlet {
         if (RequestHandler.isAuthorized(request)) {
             RequestHandler.setRole(request);
             setChatForm(request, response);
-
         } else {
             response.sendRedirect("/auth");
         }
@@ -50,7 +49,7 @@ public class ChatServlet extends HttpServlet {
 
     private void setUsers(HttpServletRequest request) {
         request.setAttribute("messages", dbService.getMessages(login, receiver));
-        request.setAttribute("users", dbService.getUsersWithoutName(login));
+        request.setAttribute("receivers", dbService.getReceivers(login));
     }
 
     private void setReceiver(HttpServletRequest request) {

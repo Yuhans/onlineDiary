@@ -63,7 +63,7 @@ public class DBService {
 
     public List<Message> getMessages(String login,String receiver){return (new MessageDAO(con).getMessages(login, receiver)); }
 
-    public List<User> getUsersWithoutName(String name){return (new UserDAO(con).getUsersWithoutName(name)); }
+    public List<User> getReceivers(String name){return (new UserDAO(con).getAllUsersWithoutThisLogin(name)); }
 
     public void addMessage(String sender, String receiver, String text) {new MessageDAO(con).addMessage(sender,receiver,text);}
 }

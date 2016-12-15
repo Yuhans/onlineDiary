@@ -1,7 +1,6 @@
 package com.onlineDiary.logic.dao;
 
 import com.onlineDiary.logic.Roles;
-import com.onlineDiary.logic.beans.Student;
 import com.onlineDiary.logic.beans.User;
 import com.onlineDiary.logic.executor.Executor;
 
@@ -53,7 +52,7 @@ public class UserDAO {
         return executor.execQuery(query, ResultSet::next);
     }
 
-    public List<User> getUsersWithoutName(String name){
+    public List<User> getAllUsersWithoutThisLogin(String name){
         String query = "SELECT login FROM users WHere login!='"+name +"';";
         return executor.execQuery(query, resultSet -> {
             List<User> users = new ArrayList<>();

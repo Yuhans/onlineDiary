@@ -24,8 +24,7 @@ public class RequestHandler {
         request.setAttribute("students", dbService.getStudentsByClass(classId));
         SClass schoolClass = dbService.getClasses().get(classId - 1);
         request.setAttribute("subjects", dbService.getSubjects(schoolClass.getStudyYear()));
-        schoolClass.setClassId(classId);
-        request.setAttribute("selectedClass", schoolClass.getClassId());
+        request.setAttribute("selectedClass", classId);
     }
 
     public static void addMark(HttpServletRequest request) {
