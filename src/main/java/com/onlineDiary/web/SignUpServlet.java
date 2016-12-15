@@ -1,6 +1,6 @@
 package com.onlineDiary.web;
 
-import com.onlineDiary.logic.ManagementSystem;
+import com.onlineDiary.logic.DBService;
 import com.onlineDiary.logic.Roles;
 import com.onlineDiary.logic.beans.User;
 import org.apache.log4j.Logger;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class SignUpServlet extends HttpServlet {
 
-    private ManagementSystem dao = new ManagementSystem();
+    private DBService dbService = new DBService();
     private static final Logger LOGGER = Logger.getLogger(SignUpServlet.class);
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -76,7 +76,7 @@ public class SignUpServlet extends HttpServlet {
     }
 
     private boolean isUserAlreadyExist(HttpServletRequest request) {
-        return dao.checkLogin(request.getParameter("login").trim());
+        return dbService.checkLogin(request.getParameter("login").trim());
     }
 
     private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -93,7 +93,7 @@ public class SignUpServlet extends HttpServlet {
 
     private void addUser(HttpServletRequest req) {
         User user = prepareUser(req);
-        dao.addUser(user);
+        dbService.addUser(user);
     }
 
     private User prepareUser(HttpServletRequest req) {

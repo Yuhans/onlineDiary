@@ -60,10 +60,10 @@
         </li>
     </ul>
     <form action="<c:url value="/addmark"/>" method="POST">
-        <select id="stClass" name="stClass" onchange="this.form.submit()">
+        <select id="stClass" name="stClass" onchange="submit()">
             <option value="" disabled selected>${selectclass}</option>
             <c:forEach var="stclass" items="${classes}">
-                <option value="${stclass.classId}" ${stclass.classId==form.classId ? 'selected' : ''}>
+                <option value="${stclass.classId}" ${stclass.classId==selectedClass ? 'selected' : ''}>
                     <c:out value="${stclass.studyYear}"/>
                     <c:out value="${stclass.letter}"/>
                 </option>

@@ -1,18 +1,18 @@
 package com.onlineDiary.logic.dao;
 
-import com.onlineDiary.logic.beans.Mark;
 import com.onlineDiary.logic.beans.Message;
 import com.onlineDiary.logic.executor.Executor;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageDao {
+public class MessageDAO {
+
     private Executor executor;
-    public MessageDao(Connection connection) {
+
+    public MessageDAO(Connection connection) {
         executor = new Executor(connection);
     }
 

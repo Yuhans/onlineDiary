@@ -74,10 +74,10 @@
         </c:otherwise>
     </c:choose>
     <form action="<c:url value="/main"/>" method="POST">
-        <select id="stClass" name="stClass" onchange="this.form.submit()">
-            <option value="" disabled selected>${selectclass}</option>
+        <select id="stClass" name="stClass" onchange="submit()">
+            <option disabled selected>${selectclass}</option>
             <c:forEach var="stclass" items="${classes}">
-                <option value="${stclass.classId}" ${stclass.classId==form.classId ? 'selected' : ''}>
+                <option value="${stclass.classId}" ${stclass.classId==selectedClass ? 'selected' : ''}>
                     <c:out value="${stclass.studyYear}"/>
                     <c:out value="${stclass.letter}"/>
                 </option>
@@ -87,7 +87,7 @@
         <select id="studentId" name="studentId">
             <option value="" disabled selected>${selectstud}</option>
             <c:forEach var="student" items="${students}">
-                <option value="${student.studentId}" ${student.studentId == form.selStudentId ? 'selected' : ''}>
+                <option value="${student.studentId}" ${student.studentId == studId ? 'selected' : ''}>
                     <c:out value="${student.surname}"/>
                     <c:out value="${student.name}"/>
                     <c:out value="${student.patronymic}"/>
@@ -98,7 +98,7 @@
         <select id="subjId" name="subjId">
             <option value="" disabled selected>${selectsubj}</option>
             <c:forEach var="subject" items="${subjects}">
-                <option value="${subject.subjId}" ${subject.subjId == form.selSubjId ? 'selected' : ''}>
+                <option value="${subject.subjId}" ${subject.subjId == subjId ? 'selected' : ''}>
                     <c:out value="${subject.subjName}"/>
                 </option>
 
