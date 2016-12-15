@@ -5,7 +5,6 @@ import com.onlineDiary.logic.Roles;
 import com.onlineDiary.logic.account.AccountService;
 import com.onlineDiary.logic.beans.SClass;
 import com.onlineDiary.logic.beans.Student;
-import com.onlineDiary.web.forms.MainFrameForm;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -19,15 +18,14 @@ public class RequestHandler {
     private static final AccountService accountService = AccountService.getInstance();
 
 
-    public static void setStudentsAndSubjectsByClass(HttpServletRequest request, MainFrameForm form) {
+    public static void setStudentsAndSubjectsByClass(HttpServletRequest request) {
         request.setAttribute("classes", dao.getClasses());
         int classId = getClassId(request);
         request.setAttribute("students", dao.getStudentsByClass(classId));
         SClass schoolClass = dao.getClasses().get(classId - 1);
         request.setAttribute("subjects", dao.getSubjects(schoolClass.getStudyYear()));
         schoolClass.setClassId(classId);
-        form.setClassId(schoolClass.getClassId());
-        request.setAttribute("form", form);
+        request.setAttribute("selectedClass", schoolClass.getClassId());
     }
 
     public static void addMark(HttpServletRequest request) {
@@ -96,15 +94,13 @@ public class RequestHandler {
         request.setAttribute("classes", dao.getClasses());
     }
 
-    public static void setMarks(HttpServletRequest request, MainFrameForm form) {
+    public static void setMarks(HttpServletRequest request) {
         if ((request.getParameter("studentId") != null) & (request.getParameter("subjId") != null)) {
             int studId = Integer.parseInt(request.getParameter("studentId"));
             int subjId = Integer.parseInt(request.getParameter("subjId"));
-            form.setMarks(dao.getMarks(studId, subjId));
-            form.setSelStudentId(studId);
-            form.setSelSubjId(subjId);
-            request.setAttribute("marks", form.getMarks());
-            request.setAttribute("form", form);
+            request.setAttribute("marks", dao.getMarks(studId, subjId));
+            request.setAttribute("studId", studId);
+            request.setAttribute("subjId", subjId);
         }
     }
 

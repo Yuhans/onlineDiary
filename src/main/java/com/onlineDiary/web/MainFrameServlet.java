@@ -1,7 +1,5 @@
 package com.onlineDiary.web;
 
-import com.onlineDiary.web.forms.MainFrameForm;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +8,6 @@ import java.io.IOException;
 
 
 public class MainFrameServlet extends HttpServlet {
-
-    private MainFrameForm form = new MainFrameForm();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (RequestHandler.isAuthorized(request)) {
@@ -33,8 +29,8 @@ public class MainFrameServlet extends HttpServlet {
     }
 
     private void setMainForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestHandler.setStudentsAndSubjectsByClass(request, form);
-        RequestHandler.setMarks(request, form);
+        RequestHandler.setStudentsAndSubjectsByClass(request);
+        RequestHandler.setMarks(request);
         request.getRequestDispatcher("MainFrame.jsp").forward(request, response);
     }
 }

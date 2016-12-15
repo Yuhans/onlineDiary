@@ -59,14 +59,11 @@ public class ChatServlet extends HttpServlet {
         }
         request.setAttribute("selectedUser", receiver);
         setUsers(request);
-
     }
 
     private void setChatForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         sendMessage(request);
         setReceiver(request);
         request.getRequestDispatcher("Chat.jsp").forward(request, response);
-
     }
-
 }
