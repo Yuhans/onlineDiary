@@ -47,7 +47,6 @@ public class RequestHandler {
     }
 
     public static void addStudent(HttpServletRequest request) {
-        request.setAttribute("classes", dbService.getClasses());
         if (request.getParameter("OkB") != null) {
             Student newStudent = prepareStudent(request);
             if (newStudent == null) {
