@@ -13,10 +13,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-public class ManagementSystem {
+public class DBService {
     private Connection con;
 
-    public ManagementSystem() {
+    public DBService() {
         con = getConnection();
     }
 
@@ -61,9 +61,9 @@ public class ManagementSystem {
 
     public void addStudent(Student s){ new StudentDAO(con).addStudent(s); }
 
-    public List<Message> getMessages(String login,String receiver){return (new MessageDao(con).getMessages(login, receiver)); }
+    public List<Message> getMessages(String login,String receiver){return (new MessageDAO(con).getMessages(login, receiver)); }
 
     public List<User> getUsersWithoutName(String name){return (new UserDAO(con).getUsersWithoutName(name)); }
 
-    public void addMessage(String sender, String receiver, String text) {new MessageDao(con).addMessage(sender,receiver,text);}
+    public void addMessage(String sender, String receiver, String text) {new MessageDAO(con).addMessage(sender,receiver,text);}
 }

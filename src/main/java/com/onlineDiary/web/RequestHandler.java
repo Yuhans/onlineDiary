@@ -1,6 +1,6 @@
 package com.onlineDiary.web;
 
-import com.onlineDiary.logic.ManagementSystem;
+import com.onlineDiary.logic.DBService;
 import com.onlineDiary.logic.Roles;
 import com.onlineDiary.logic.account.AccountService;
 import com.onlineDiary.logic.beans.SClass;
@@ -13,35 +13,34 @@ import java.io.IOException;
 import java.sql.Date;
 
 public class RequestHandler {
-    private static ManagementSystem dao = new ManagementSystem();
+    private static DBService dbService = new DBService();
     private static final Logger LOGGER = Logger.getLogger(RequestHandler.class);
     private static final AccountService accountService = AccountService.getInstance();
 
 
     public static void setStudentsAndSubjectsByClass(HttpServletRequest request) {
-        request.setAttribute("classes", dao.getClasses());
+        request.setAttribute("classes", dbService.getClasses());
         int classId = getClassId(request);
-        request.setAttribute("students", dao.getStudentsByClass(classId));
-        SClass schoolClass = dao.getClasses().get(classId - 1);
-        request.setAttribute("subjects", dao.getSubjects(schoolClass.getStudyYear()));
+        request.setAttribute("students", dbService.getStudentsByClass(classId));
+        SClass schoolClass = dbService.getClasses().get(classId - 1);
+        request.setAttribute("subjects", dbService.getSubjects(schoolClass.getStudyYear()));
         schoolClass.setClassId(classId);
         request.setAttribute("selectedClass", schoolClass.getClassId());
     }
 
     public static void addMark(HttpServletRequest request) {
-        request.setAttribute("submitDone", null);
         if (request.getParameter("OkB") != null) {
-            String tmp = request.getParameter("studentId");
-            String tmp2 = request.getParameter("subjId");
-            if (tmp == null && tmp2 == null) {
+            String studentId = request.getParameter("studentId");
+            String subjectId = request.getParameter("subjId");
+            if (studentId == null || subjectId == null) {
                 request.setAttribute("submitDone", "no");
                 LOGGER.error("Student ID or Subject ID not found");
             } else {
-                int studId = Integer.parseInt(request.getParameter("studentId"));
-                int subjId = Integer.parseInt(request.getParameter("subjId"));
+                int studId = Integer.parseInt(studentId);
+                int subjId = Integer.parseInt(subjectId);
                 Date date = Date.valueOf(request.getParameter("date"));
                 int mark = Integer.parseInt(request.getParameter("mark"));
-                dao.addMark(studId, subjId, date, mark);
+                dbService.addMark(studId, subjId, date, mark);
                 LOGGER.info("Mark has been successfully added to student " + studId + ".");
                 request.setAttribute("submitDone", "yes");
             }
@@ -49,14 +48,14 @@ public class RequestHandler {
     }
 
     public static void addStudent(HttpServletRequest request) {
-        request.setAttribute("classes", dao.getClasses());
+        request.setAttribute("classes", dbService.getClasses());
         if (request.getParameter("OkB") != null) {
             Student newStudent = prepareStudent(request);
             if (newStudent == null) {
                 LOGGER.error("Student hasn't been added.");
                 request.setAttribute("submitDone", "no");
             } else {
-                dao.addStudent(newStudent);
+                dbService.addStudent(newStudent);
                 LOGGER.info("Student " + newStudent.getName() + " has been successfully added.");
                 request.setAttribute("submitDone", "yes");
             }
@@ -91,14 +90,14 @@ public class RequestHandler {
     }
 
     public static void setClasses(HttpServletRequest request) throws ServletException, IOException {
-        request.setAttribute("classes", dao.getClasses());
+        request.setAttribute("classes", dbService.getClasses());
     }
 
     public static void setMarks(HttpServletRequest request) {
         if ((request.getParameter("studentId") != null) & (request.getParameter("subjId") != null)) {
             int studId = Integer.parseInt(request.getParameter("studentId"));
             int subjId = Integer.parseInt(request.getParameter("subjId"));
-            request.setAttribute("marks", dao.getMarks(studId, subjId));
+            request.setAttribute("marks", dbService.getMarks(studId, subjId));
             request.setAttribute("studId", studId);
             request.setAttribute("subjId", subjId);
         }

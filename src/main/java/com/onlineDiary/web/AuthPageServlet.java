@@ -1,6 +1,6 @@
 package com.onlineDiary.web;
 
-import com.onlineDiary.logic.ManagementSystem;
+import com.onlineDiary.logic.DBService;
 import com.onlineDiary.logic.account.AccountService;
 import com.onlineDiary.logic.beans.User;
 import org.apache.log4j.Logger;
@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class AuthPageServlet extends HttpServlet {
 
-    private ManagementSystem managementSystem = new ManagementSystem();
+    private DBService dbService = new DBService();
     private AccountService accountService = AccountService.getInstance();
     private static final Logger LOGGER = Logger.getLogger(AuthPageServlet.class);
 
@@ -57,7 +57,7 @@ public class AuthPageServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password").trim();
         if (isRequestCorrect(login, password)) {
-            User user = managementSystem.getUserByLogin(login);
+            User user = dbService.getUserByLogin(login);
             if (user == null || !user.getPassword().equals(password)) {
                 doWithBadRequest(request, response);
             } else {

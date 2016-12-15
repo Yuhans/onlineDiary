@@ -4,10 +4,10 @@ import java.sql.Timestamp;
 
 public class Message {
 
-    String sender;
-    String receiver;
-    String text;
-    Timestamp date;
+    private String sender;
+    private String receiver;
+    private String text;
+    private Timestamp date;
 
     public Message(String sender, String receiver, String text, Timestamp date) {
         this.sender = sender;

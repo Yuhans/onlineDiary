@@ -65,7 +65,7 @@
         <select id="stClass" name="stClass">
             <option value="" disabled selected>${selectclass}</option>
             <c:forEach var="stclass" items="${classes}">
-                <option value="${stclass.classId}" ${stclass.classId==form.classId ? 'selected' : ''}>
+                <option value="${stclass.classId}" ${stclass.classId==selectedClass ? 'selected' : ''}>
                     <c:out value="${stclass.studyYear}"/>
                     <c:out value="${stclass.letter}"/>
                 </option>
